@@ -4,9 +4,12 @@ export interface IUser extends Document{
   name:string;
   email:string;
   password:string;
+  photoUrl:String;
+  description:String;
   resetOtp?:string;
   otpExpires?:Date;
   isotpVerified:boolean;
+  
 }
 
 const userSchema=new mongoose.Schema<IUser>(
@@ -19,6 +22,14 @@ const userSchema=new mongoose.Schema<IUser>(
     password:String,
     resetOtp:{
       type:String
+    },
+    photoUrl:{
+      type:String,
+      default:"",
+    },
+    description:{
+      type:String,
+      default:"",
     },
     otpExpires:{
       type:Date

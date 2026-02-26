@@ -3,7 +3,7 @@ import User,{IUser} from "../models/User";
 import bcrypt from "bcryptjs";
 import generateToken from "../config/token";
 import sendMail from "../config/sendMail";
-
+import uploadOnCloudinary from "../config/cloudinary";
 //signup---------------------------------------
 export const signup=async(req:Request,res:Response)=>{
   try{
@@ -45,6 +45,13 @@ export const login=async(req:Request,res:Response)=>{
     res.json({
       success:true,
       token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        photoUrl: user.photoUrl,
+        description: user.description,
+      },
     });
   }catch(error){
     res.status(500).json({message:"Server error"});
@@ -122,4 +129,45 @@ export const resetpassword=async(req:Request,res:Response)=>{
    }catch(error){
       return res.status(404).json({message:"Reset password error"});
    }
+};
+
+//updateProfile-------------------------------------------
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+   const userId = (req as any).user._id;
+
+    const { description, name } = req.body;
+
+    const updateData: any = {};
+
+    if (name) updateData.name = name;
+    if (description) updateData.description = description;
+
+    if (req.file) {
+      const uploadedUrl = await uploadOnCloudinary(req.file.path);
+
+      if (uploadedUrl) {
+        updateData.photoUrl = uploadedUrl; // ✅ fixed
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+  user: updatedUser,
+   });
+
+  } catch (error: any) {
+    return res.status(500).json({
+      message: `updateProfile error: ${error.message}`,
+    });
+  }
 };

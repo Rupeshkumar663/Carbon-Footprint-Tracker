@@ -1,25 +1,23 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
+const transporter=nodemailer.createTransport({
+  service:"Gmail",
   port: 465,
-  secure: true,
-  auth: {
-    user: process.env.USER_EMAIL,
-    pass: process.env.USER_PASSWORD,
+  secure:true,
+  auth:{
+    user:process.env.USER_EMAIL,
+    pass:process.env.USER_PASSWORD,
   },
 });
 
-const sendMail = async (to: string, otp: string): Promise<void> => {
+const sendMail=async(to: string, otp: string):Promise<void>=>{
   await transporter.sendMail({
     from: process.env.USER_EMAIL,
-    to: to,
-    subject: "Reset your password",
-    html: `<p>your OTP for Password Reset is <b>${otp}</b>.It expires in 5 minutes.</p>`,
+    to:to,
+    subject:"Reset your password",
+    html:`<p>your OTP for Password Reset is <b>${otp}</b>.It expires in 5 minutes.</p>`,
   });
 };
-
 export default sendMail;

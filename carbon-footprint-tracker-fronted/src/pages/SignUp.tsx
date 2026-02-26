@@ -159,19 +159,13 @@ function SignUp() {
             onClick={handleSignup}
             disabled={loading}
           >
-            {loading ? (
-              <ClipLoader size={25} color="white" />
-            ) : (
-              "SignUp"
-            )}
-          </button>
-
+            {loading ?(<ClipLoader size={25} color="white"/>):("SignUp")}
+           </button>
+           
           {/* DIVIDER */}
           <div className="w-[80%] flex items-center gap-2">
             <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
-            <div className="w-[50%] text-[#6f6f6f] text-center">
-              Or continue
-            </div>
+            <div className="w-[50%] text-[#6f6f6f] text-center"> Or continue</div>
             <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
           </div>
 
@@ -181,27 +175,19 @@ function SignUp() {
             onClick={googleSignUp}
           >
             <img src={google} className="w-[25px]" alt="google" />
-            <span className="text-[18px] text-gray-500 ml-2">
-              Google
-            </span>
+            <span className="text-[18px] text-gray-500 ml-2">Google</span>
           </div>
 
           <div className="text-[#6f6f6f]">
             already have an account{" "}
             <span
-              className="underline text-[black] cursor-pointer"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </span>
+              className="underline text-[black] cursor-pointer" onClick={()=>navigate("/login")}>Login</span>
           </div>
         </div>
 
         {/* RIGHT SIDE */}
         <div className="w-[50%] h-[100] rounded-r-2xl bg-black md:flex items-center justify-center hidden">
-          <span className="text-5xl text-white">
-            Carbon Tracker
-          </span>
+          <span className="text-5xl text-white">Carbon Tracker</span>
         </div>
       </form>
     </div>

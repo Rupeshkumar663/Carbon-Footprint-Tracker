@@ -11,38 +11,40 @@ import { setUserData } from "../redux/authSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
-
 function Login() {
   const [show, setShow] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [email,setEmail] = useState<string>("");
+  const [password,setPassword] = useState<string>("");
+  const [loading,setLoading] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+  const navigate=useNavigate();
+  const dispatch=useDispatch<AppDispatch>();
+  const handleLogin=async(e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-
     if (!email || !password) {
       toast.error("Email and password are required");
       return;
     }
-
     setLoading(true);
-
     try {
       const result = await axios.post(
         `${serverUrl}/api/auth/login`,
         { email, password },
-        { withCredentials: true }
+        { withCredentials:true}
       );
 
-      dispatch(setUserData(result.data));
+        dispatch(
+       setUserData({
+      token: result.data.token,
+      user: result.data.user,
+       })
+    );
       toast.success("Login successfully");
       navigate("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
+       
+  
+    } catch (error:unknown) {
+      if (axios.isAxiosError(error)){
         toast.error(
           error.response?.data?.message || "Login failed"
         );
@@ -53,8 +55,7 @@ function Login() {
       setLoading(false);
     }
   };
-
-  const googleLogin = async () => {
+  const googleLogin=async()=>{
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response.user;
@@ -69,7 +70,17 @@ function Login() {
         { withCredentials: true }
       );
 
-      dispatch(setUserData(result.data));
+     dispatch(
+  setUserData({
+    token: result.data.token,
+    user: result.data.user,
+  })
+);dispatch(
+  setUserData({
+    token: result.data.token,
+    user: result.data.user,
+  })
+);
       toast.success("Login successfully");
       navigate("/");
     } catch (error: unknown) {

@@ -1,12 +1,12 @@
 import express from"express";
-import {signup,login,sendotp,verifyotp,resetpassword} from "../controllers/auth.controller";
-
+import protect from "../middleware/AuthMiddleware";
+import {signup,login,sendotp,verifyotp,resetpassword, updateProfile} from "../controllers/auth.controller";
+import upload from "../middleware/multer";
 const router=express.Router();
-
 router.post("/signup",signup);
 router.post("/login",login);
 router.post("/sendotp",sendotp);
 router.post("/verifiedotp",verifyotp);
 router.post("/resetpassword",resetpassword);
-
+router.post("/updateprofile",protect ,upload.single("photoUrl"),updateProfile);
 export default router;
