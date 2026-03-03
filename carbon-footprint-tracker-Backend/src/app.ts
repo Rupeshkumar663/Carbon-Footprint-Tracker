@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
-import routeRoutes from "./routes/carbonRoutes"
+import carbonRoutes from "./routes/carbonRoutes"
 const app=express();
 
 app.use(
@@ -12,6 +12,6 @@ app.use(
 );
 app.use(express.json());
 app.use("/api/auth",authRoutes);
-app.use("/api/routes", routeRoutes);
+app.use("/api/carbon",carbonRoutes);
 
 export default app;

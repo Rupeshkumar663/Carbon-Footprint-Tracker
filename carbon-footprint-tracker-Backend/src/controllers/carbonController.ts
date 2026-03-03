@@ -1,130 +1,128 @@
 import { Request, Response } from "express";
-import Route from "../models/Route";
-import {calculateCarbonEmission,} from "../utils/carbonFormula";
-import {calculateGreenScore,isEcoFriendly,} from "../utils/greenScore";
+import Carbon from "../models/carbon.model";
+import { calculateRouteMetrics } from "../services/carbonService";
 
 
-//Create Route-------------------------------------------
-
-export const createRoute=async(req:Request,res:Response)=>{
-  try{
-    const {userId,startLocation,endLocation,distance,duration,transportType,}=req.body;
-
-    const carbon=calculateCarbonEmission(transportType,distance);
-    const greenScore = calculateGreenScore(carbon);
-
-    const route=await Route.create({userId,startLocation,endLocation,distance,duration,transportType,carbonEmission: carbon,greenScore,isEcoFriendly: isEcoFriendly(greenScore),});
-
-    return res.status(201).json({success:true,message:"Route created successfully",data:route,});
-   } catch(error:any){
-    return res.status(500).json({success:false,message:error.message,});
-   }
-};
-
-//Get AllRoutes------------------------------------------- 
-
-export const getAllRoutes=async(req:Request,res:Response)=>{
-  try{
-    const{page=1,limit=10,transportType}=req.query;
-    const query:any={};
-    if(transportType){
-      query.transportType=transportType;
+//CREATE CARBON---------------------------------
+export const createCarbon=async(req:Request,res:Response)=>{
+  try {
+    const {vehicleId,distance,startLocation,endLocation,duration,}=req.body;
+    if(!vehicleId){
+      return res.status(400).json("Vehicle is required");
     }
 
-    const routes=await Route.find(query)
-      .skip((Number(page)-1)*Number(limit))
-      .limit(Number(limit))
-      .sort({createdAt:-1 });
-
-    const total=await Route.countDocuments(query);
-
-    return res.status(200).json({success:true,total,page:Number(page),pages: Math.ceil(total / Number(limit)),data: routes,});
-  } catch (error:any){
-    return res.status(500).json({success:false,message:error.message,});
-   }
-};
-
-
-//Get SingleRoute-------------------------------------------
-export const getRouteById=async(req:Request,res:Response)=>{
-  try{
-    const route=await Route.findById(req.params.id);
-    if(!route){
-      return res.status(404).json({success:false,message:"Route not found",});
+    if(!Number.isFinite(distance) || distance<=0){
+      return res.status(400).json("Valid distance is required");
     }
 
-    return res.status(200).json({success:true,data:route,});
-  } catch(error:any){
-    return res.status(500).json({success:false,message:error.message,});
-  }
-};
-
-
-// Update Route-------------------------------------------
-
-export const updateRoute=async(req:Request,res:Response)=>{
-  try{
-    const route=await Route.findById(req.params.id);
-    if(!route){
-      return res.status(404).json({success:false,message:"Route not found",});
+    if (!startLocation) {
+      return res.status(400).json("Start location required");
+    }
+    if(!endLocation) {
+      return res.status(400).json("End location required");
     }
 
-    const {distance,transportType,startLocation,endLocation,duration,}=req.body;
+    const metrics=await calculateRouteMetrics(vehicleId,distance);
 
-    if(distance && transportType){
-      const carbon=calculateCarbonEmission(transportType,distance);
-      const greenScore=calculateGreenScore(carbon);
-
-      route.carbonEmission=carbon;
-      route.greenScore=greenScore;
-      route.isEcoFriendly=isEcoFriendly(greenScore);
-    }
-
-    route.startLocation=startLocation??route.startLocation;
-    route.endLocation=endLocation??route.endLocation;
-    route.distance=distance??route.distance;
-    route.duration=duration??route.duration;
-    route.transportType=transportType??route.transportType;
-    await route.save();
-    return res.status(200).json({success:true,message:"Route updated successfully",data:route,});
-  } catch(error:any){
-    return res.status(500).json({success:false,message:error.message,});
-  }
-};
-
-//Delete Route-------------------------------------
-
-export const deleteRoute=async(req:Request,res:Response)=>{
-  try{
-    const route=await Route.findByIdAndDelete(req.params.id);
-    if(!route){
-      return res.status(404).json({success:false,message:"Route not found",});
-    }
-
-    return res.status(200).json({success:true,message:"Route deleted successfully",});
-  } catch(error:any){
-    return res.status(500).json({success:false,message:error.message,});
-  }
-};
-
-//getUserAnalytic----------------------------------
-export const getUserAnalytic=async(req:Request,res:Response)=>{
-  try{
-    const {userId}=req.params;
-    if(!userId){
-      return res.status(400).json({success:false,message:"User ID is required",});
-    }
-    const analytics=await Route.aggregate([{$match:{userId}},{$group:{_id: null,totalRoutes: {$sum:1},totalEmission:{$sum:"$carbonEmission"},averageGreenScore:{$avg:"$greenScore"},},},]);
-
-    if(analytics.length===0){
-      return res.status(200).json({success:true,totalRoutes:0,totalEmission:0,averageGreenScore:0,});
-    }
-    const data=analytics[0];
-    return res.status(200).json({success:true,totalRoutes:data.totalRoutes,
-      totalEmission:Number(data.totalEmission.toFixed(2)),
-      averageGreenScore: Number(data.averageGreenScore.toFixed(2)),
+    const carbon=await Carbon.create({
+      userId:req.user?._id,
+      vehicle:vehicleId,
+      startLocation,
+      endLocation,
+      distance,
+      duration,
+      ...metrics,
     });
+    return res.status(201).json(`Carbon record created successfully ${carbon}`   
+    );
+
   } catch(error:any){
-    return res.status(500).json({success:false,message:error.message,});
+    return res.status(500).json(`carbon creation failed ${error}`);
+  }
+};
+
+
+// GET ALL CARBON RECORDS------------------------------------
+
+export const getAllCarbons=async(req:Request,res:Response)=>{
+  try {
+    const page=Number(req.query.page) || 1;
+    const limit=Number(req.query.limit) || 10;
+    const query:any={};
+    if(req.user?.id){
+      query.userId=req.user.id;
+    }
+    const carbons=await Carbon.find(query)
+      .populate("vehicle")
+      .sort({createdAt:-1})
+      .skip((page-1)*limit)
+      .limit(limit);
+
+    const total=await Carbon.countDocuments(query);
+    return res.status(200).json({total,page,pages:Math.ceil(total/limit),data:carbons});
+
+  } catch(error:any){
+    return res.status(500).json({message: error.message,});
+  }
+};
+
+
+//GET SINGLE CARBON------------------------------------------
+
+export const getCarbonById=async (req:Request,res:Response)=>{
+  try {
+    const carbon=await Carbon.findById(req.params.id).populate("vehicle");
+    if(!carbon){
+      return res.status(404).json("Record not found");
+    }
+    return res.status(200).json({data:carbon});
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+  // UPDATE CARBON-----------------------------------------
+
+export const updateCarbon=async(req:Request,res:Response)=>{
+  try {
+    const carbon=await Carbon.findById(req.params.id);
+    if(!carbon){
+      return res.status(404).json("Record not found");
+    }
+    const {vehicleId,distance,startLocation,endLocation,duration}=req.body;
+    if(vehicleId || distance){
+      const metrics = await calculateRouteMetrics(vehicleId || carbon.vehicle.toString(),distance ?? carbon.distance);
+
+      carbon.carbonEmission=metrics.carbonEmission;
+      carbon.greenScore=metrics.greenScore;
+      carbon.isEcoFriendly=metrics.isEcoFriendly;
+    }
+
+    carbon.vehicle=vehicleId ?? carbon.vehicle;
+    carbon.distance=distance ?? carbon.distance;
+    carbon.startLocation=startLocation ?? carbon.startLocation;
+    carbon.endLocation=endLocation ?? carbon.endLocation;
+    carbon.duration=duration ?? carbon.duration;
+    await carbon.save();
+    return res.status(200).json( "Carbon record updated successfully");
+  } catch(error:any){
+      return res.status(500).json({message: error.message,});
+  }
+};
+
+// DELETE CARBON------------------------------------------
+export const deleteCarbon=async(req:Request,res:Response)=>{
+  try{
+    const carbon=await Carbon.findByIdAndDelete(req.params.id);
+    if(!carbon){
+      return res.status(404).json("Record not found");
+    }
+    return res.status(200).json("Carbon record deleted successfully");
+  } catch (error:any){
+    return res.status(500).json({message: error.message,});
   }
 };
