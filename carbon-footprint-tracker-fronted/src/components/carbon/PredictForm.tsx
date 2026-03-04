@@ -1,125 +1,190 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState, AppDispatch } from "../../redux/store";
-import { createCarbonRecord } from "../../redux/carbonSlice";
-import { fetchVehicles } from "../../redux/vehicleSlice";
+import { useState } from "react";
+import api from "../../api/axios";
+
+
+interface CarbonResult {
+  carbonEmission: number;
+  greenScore: number;
+  isEcoFriendly: boolean;
+}
 
 export default function PredictionForm() {
-  const dispatch = useDispatch<AppDispatch>();
 
-  const vehicles = useSelector(
-    (state: RootState) => state.vehicle.list
-  );
+  const [vehicleName,setVehicleName]=useState("");
+  const [fuelType,setFuelType]=useState("petrol");
 
-  const vehicleStatus = useSelector(
-    (state: RootState) => state.vehicle.status
-  );
+  const [mileage,setMileage]=useState<number>(0);
+  const [energyConsumption,setEnergyConsumption]=useState<number>(0);
 
-  const carbonStatus = useSelector(
-    (state: RootState) => state.carbon.status
-  );
+  const [distance,setDistance]=useState<number>(0);
 
-  const [vehicleId, setVehicleId] = useState("");
-  const [distance, setDistance] = useState("");
-  const [error, setError] = useState("");
-  
+  const [startLocation,setStartLocation]=useState("");
+  const [endLocation,setEndLocation]=useState("");
 
-  useEffect(() => {
-    dispatch(fetchVehicles());
-  }, [dispatch]);
+  const [loading,setLoading]=useState(false);
+  const [result,setResult]=useState<CarbonResult | null>(null);
+  const [error,setError]=useState("");
 
-  const handleSubmit = () => {
-    if (!vehicleId) {
-      setError("Please select a vehicle");
+  const handleSubmit=async()=>{
+
+    if(!vehicleName){
+      setError("Vehicle name required");
       return;
     }
 
-    if (!distance || Number(distance) <= 0) {
-      setError("Enter valid distance greater than 0");
+    if(distance<=0){
+      setError("Distance must be greater than 0");
       return;
     }
 
     setError("");
 
-    dispatch(
-      createCarbonRecord({
-        vehicleId,
-        distance: Number(distance),
-        startLocation: "Delhi",
-        endLocation: "Noida",
-      })
-    );
-  };
+    try{
 
+      setLoading(true);
 
+      const response=await api.post(
+       "/carbon/predict",
+        {
+          vehicleName,
+          fuelType,
+          mileage,
+          energyConsumption,
+          distance,
+          startLocation,
+          endLocation
+        }
+      )
+
+      setResult(response.data.data)
+
+    }catch(err:any){
+      setError("Prediction failed")
+    }finally{
+      setLoading(false)
+    }
+
+  }
 
   return (
-    <div className="space-y-8">
 
-      {/* Distance Input */}
-      <div>
-        <label className="block text-sm text-slate-400 mb-2">
-          Distance (km)
-        </label>
+    <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-xl space-y-6">
+
+      <h2 className="text-2xl font-bold text-white">
+        Carbon Prediction
+      </h2>
+
+      {/* Vehicle Name */}
+
+      <input
+        placeholder="Vehicle Name"
+        className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+        onChange={(e)=>setVehicleName(e.target.value)}
+      />
+
+      {/* Fuel Type */}
+
+      <select
+        className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+        onChange={(e)=>setFuelType(e.target.value)}
+      >
+
+        <option value="petrol">Petrol</option>
+        <option value="diesel">Diesel</option>
+        <option value="electric">Electric</option>
+
+      </select>
+
+      {/* Mileage */}
+
+      {fuelType!=="electric" && (
+
         <input
           type="number"
-          value={distance}
-          onChange={(e) => setDistance(e.target.value)}
-          placeholder="Enter distance"
-          className="w-full p-4 rounded-xl bg-slate-800 border border-slate-700 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/30 outline-none transition"
+          placeholder="Mileage (km/l)"
+          className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+          onChange={(e)=>setMileage(Number(e.target.value))}
         />
-      </div>
-      
-      {/* Vehicle Selection */}
-      <div>
-        <label className="block text-sm text-slate-400 mb-3">
-          Select Vehicle
-        </label>
 
-        {vehicleStatus === "loading" ? (
-          <p className="text-slate-400">Loading vehicles...</p>
-        ) : (
-          <div className="grid grid-cols-2 gap-4">
-            {vehicles.map((vehicle: any) => (
-              <div
-                key={vehicle._id}
-                onClick={() => setVehicleId(vehicle._id)}
-                className={`cursor-pointer p-4 rounded-xl border transition ${
-                  vehicleId === vehicle._id
-                    ? "bg-emerald-500/10 border-emerald-400 text-emerald-400"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-emerald-400"
-                }`}
-              >
-                <p className="font-semibold">
-                  {vehicle.name}
-                </p>
-                <p className="text-xs opacity-60">
-                  {vehicle.fuelType}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      )}
 
-      {/* Error Message */}
+      {/* Energy consumption */}
+
+      {fuelType==="electric" && (
+
+        <input
+          type="number"
+          placeholder="Energy Consumption (kWh/km)"
+          className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+          onChange={(e)=>setEnergyConsumption(Number(e.target.value))}
+        />
+
+      )}
+
+      {/* Distance */}
+
+      <input
+        type="number"
+        placeholder="Distance (km)"
+        className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+        onChange={(e)=>setDistance(Number(e.target.value))}
+      />
+
+      {/* Locations */}
+
+      <input
+        placeholder="Start Location"
+        className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+        onChange={(e)=>setStartLocation(e.target.value)}
+      />
+
+      <input
+        placeholder="End Location"
+        className="w-full p-3 rounded-xl bg-slate-800 border border-slate-700"
+        onChange={(e)=>setEndLocation(e.target.value)}
+      />
+
+      {/* Error */}
+
       {error && (
-        <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-2 rounded-xl text-sm">
+        <p className="text-red-400 text-sm">
           {error}
-        </div>
+        </p>
       )}
 
       {/* Button */}
+
       <button
         onClick={handleSubmit}
-        disabled={carbonStatus === "loading"}
-        className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 font-semibold hover:opacity-90 transition disabled:opacity-60"
+        className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 py-3 rounded-xl font-semibold text-white"
       >
-        {carbonStatus === "loading"
-          ? "Calculating..."
-          : "Predict Carbon"}
+
+        {loading ? "Calculating..." : "Predict Carbon"}
+
       </button>
 
+      {/* Result */}
+
+      {result && (
+
+        <div className="mt-6 p-6 bg-slate-800 rounded-2xl">
+
+          <p className="text-white">
+            Emission: <b>{result.carbonEmission}</b> kg CO₂
+          </p>
+
+          <p className="text-white">
+            Green Score: <b>{result.greenScore}%</b>
+          </p>
+
+          <p className="text-emerald-400">
+            {result.isEcoFriendly ? "Eco Friendly 🌱" : "Not Eco Friendly"}
+          </p>
+
+        </div>
+
+      )}
+
     </div>
-  );
+  )
 }

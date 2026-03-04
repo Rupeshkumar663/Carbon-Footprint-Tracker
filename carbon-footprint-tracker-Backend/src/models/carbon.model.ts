@@ -1,7 +1,7 @@
 import mongoose,{Schema,Model} from "mongoose";
 import type { CarbonCalculationResult } from "../types/carbonType";
 export interface IRoute  extends CarbonCalculationResult {
-  userId?: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Schema.Types.ObjectId;
   vehicle: mongoose.Schema.Types.ObjectId;
   startLocation: string;
   endLocation: string;

@@ -3,7 +3,7 @@ import {createCarbon,getAllCarbons,getCarbonById,updateCarbon,deleteCarbon,} fro
 import authMiddleware from "../middleware/AuthMiddleware";
 
 const router=Router();
-router.post("/",authMiddleware,createCarbon);
+router.post("/predict",authMiddleware,createCarbon);
 router.get("/",authMiddleware,getAllCarbons);
 router.get("/:id", authMiddleware,getCarbonById);
 router.put("/:id", authMiddleware,updateCarbon);

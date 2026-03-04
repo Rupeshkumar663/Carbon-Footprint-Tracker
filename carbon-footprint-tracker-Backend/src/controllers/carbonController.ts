@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import Carbon from "../models/carbon.model";
-import { calculateRouteMetrics } from "../services/carbonService";
-
-
+import { getMLPrediction } from "../services/ml.service";
+import Vehicle from "../models/vehicle.model";
 //CREATE CARBON---------------------------------
 export const createCarbon=async(req:Request,res:Response)=>{
   try {
@@ -22,10 +21,16 @@ export const createCarbon=async(req:Request,res:Response)=>{
       return res.status(400).json("End location required");
     }
 
-    const metrics=await calculateRouteMetrics(vehicleId,distance);
+   const vehicle=await Vehicle.findById(vehicleId);
+if(!vehicle){
+  return res.status(404).json("Vehicle not found");
+}
+
+ const mlResult=await getMLPrediction(distance,vehicle.category);
+const metrics={carbonEmission:mlResult.carbonEmission,greenScore:Math.max(0,100-mlResult.carbonEmission*2),isEcoFriendly:mlResult.carbonEmission<2};
 
     const carbon=await Carbon.create({
-      userId:req.user?._id,
+      userId:(req as any).user?._id,
       vehicle:vehicleId,
       startLocation,
       endLocation,
@@ -33,7 +38,7 @@ export const createCarbon=async(req:Request,res:Response)=>{
       duration,
       ...metrics,
     });
-    return res.status(201).json(`Carbon record created successfully ${carbon}`);
+    return res.status(201).json({success:true,data:carbon});
 
   } catch(error:any){
     return res.status(500).json(`carbon creation failed ${error}`);
@@ -48,8 +53,8 @@ export const getAllCarbons=async(req:Request,res:Response)=>{
     const page=Number(req.query.page) || 1;
     const limit=Number(req.query.limit) || 10;
     const query:any={};
-    if(req.user?.id){
-      query.userId=req.user.id;
+    if((req as any).user?._id){
+      query.userId=(req as any).user.id;
     }
     const carbons=await Carbon.find(query)
       .populate("vehicle")
@@ -93,7 +98,12 @@ export const updateCarbon=async (req: Request, res: Response) => {
     const updatedDistance=distance ?? carbon.distance;
 
     if(vehicleId !== undefined || distance !== undefined){
-      const metrics=await calculateRouteMetrics(updatedVehicleId,updatedDistance);
+     const vehicle=await Vehicle.findById(updatedVehicleId);
+   if(!vehicle){
+      return res.status(404).json("Vehicle not found");
+   }
+   const mlResult=await getMLPrediction(updatedDistance,vehicle?.category);
+  const metrics={carbonEmission:mlResult.carbonEmission,greenScore:Math.max(0,100-mlResult.carbonEmission*2),isEcoFriendly:mlResult.carbonEmission<2};
 
       carbon.carbonEmission=metrics.carbonEmission;
       carbon.greenScore=metrics.greenScore;

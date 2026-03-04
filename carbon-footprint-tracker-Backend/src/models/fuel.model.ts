@@ -6,8 +6,6 @@ export interface IFuel extends mongoose.Document {
   co2PerUnit:number;              // kg CO2 per liter or kWh
   country:mongoose.Schema.Types.ObjectId;
   isActive:boolean;
-  createdAt:Date;
-  updatedAt:Date;
 }
 
 const fuelSchema=new Schema<IFuel>(
