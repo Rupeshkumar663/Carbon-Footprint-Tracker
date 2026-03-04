@@ -1,43 +1,40 @@
-/* ==============================
-   Transport Type
-============================== */
 
-export type TransportType =
-  | "car"
-  | "bike"
-  | "bus"
-  | "train"
-  | "walk"
-  | "cycle";
-
-
-/* ==============================
-   API Input Type
-============================== */
-
-export interface CarbonInput {
-  distance: number;
-  transportType: TransportType;
+export interface CarbonInput{
+  vehicleId:string;
+  distance:number;
+  startLocation:string;
+  endLocation:string;
+  duration?:number;
 }
-
-
-/* ==============================
-   API Response Type
-============================== */
-
-export interface CarbonResult {
-  carbonEmission: number;
-  greenScore: number;
-  isEcoFriendly: boolean;
+export interface CarbonResult{
+  _id:string;
+  carbonEmission:number;
+  greenScore:number;
+  isEcoFriendly:boolean;
+  vehicle:string;
+  distance:number;
+  startLocation:string;
+  endLocation:string;
+  duration?:number;
+  createdAt:string;
 }
-
-
-/* ==============================
-   Redux State Type
-============================== */
 
 export interface CarbonState {
-  status: "idle" | "loading" | "succeeded" | "failed";
-  result: CarbonResult | null;
-  error: string | null;
+  status:"idle" | "loading" | "succeeded" | "failed";
+  result:CarbonResult | null;
+  error:string | null;
+}
+
+export interface Vehicle {
+  _id:string;
+  name:string;
+  category:string;
+  fuelType:string;
+  emissionFactor?:number;
+}
+
+export interface VehicleState {
+  list:Vehicle[];
+  status:"idle" | "loading" | "succeeded" | "failed";
+  error:string | null;
 }

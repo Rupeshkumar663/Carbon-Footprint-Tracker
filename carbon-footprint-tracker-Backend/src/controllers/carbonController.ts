@@ -6,7 +6,7 @@ import { calculateRouteMetrics } from "../services/carbonService";
 //CREATE CARBON---------------------------------
 export const createCarbon=async(req:Request,res:Response)=>{
   try {
-    const {vehicleId,distance,startLocation,endLocation,duration,}=req.body;
+    const {vehicleId,distance,startLocation,endLocation,duration}=req.body;
     if(!vehicleId){
       return res.status(400).json("Vehicle is required");
     }
@@ -33,8 +33,7 @@ export const createCarbon=async(req:Request,res:Response)=>{
       duration,
       ...metrics,
     });
-    return res.status(201).json(`Carbon record created successfully ${carbon}`   
-    );
+    return res.status(201).json(`Carbon record created successfully ${carbon}`);
 
   } catch(error:any){
     return res.status(500).json(`carbon creation failed ${error}`);
@@ -69,51 +68,49 @@ export const getAllCarbons=async(req:Request,res:Response)=>{
 
 //GET SINGLE CARBON------------------------------------------
 
-export const getCarbonById=async (req:Request,res:Response)=>{
+export const getCarbonById=async(req:Request,res:Response)=>{
   try {
     const carbon=await Carbon.findById(req.params.id).populate("vehicle");
     if(!carbon){
       return res.status(404).json("Record not found");
     }
     return res.status(200).json({data:carbon});
-  } catch (error: any) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+  } catch (error:any){
+    return res.status(500).json({message:error.message});
   }
 };
 
-
-  // UPDATE CARBON-----------------------------------------
-
-export const updateCarbon=async(req:Request,res:Response)=>{
+// UPDATE CARBON-----------------------------------------
+export const updateCarbon=async (req: Request, res: Response) => {
   try {
     const carbon=await Carbon.findById(req.params.id);
     if(!carbon){
-      return res.status(404).json("Record not found");
+      return res.status(404).json({ message: "Record not found" });
     }
+
     const {vehicleId,distance,startLocation,endLocation,duration}=req.body;
-    if(vehicleId || distance){
-      const metrics = await calculateRouteMetrics(vehicleId || carbon.vehicle.toString(),distance ?? carbon.distance);
+    const updatedVehicleId=vehicleId ?? carbon.vehicle.toString();
+    const updatedDistance=distance ?? carbon.distance;
+
+    if(vehicleId !== undefined || distance !== undefined){
+      const metrics=await calculateRouteMetrics(updatedVehicleId,updatedDistance);
 
       carbon.carbonEmission=metrics.carbonEmission;
       carbon.greenScore=metrics.greenScore;
       carbon.isEcoFriendly=metrics.isEcoFriendly;
     }
 
-    carbon.vehicle=vehicleId ?? carbon.vehicle;
-    carbon.distance=distance ?? carbon.distance;
+    carbon.vehicle=updatedVehicleId;
+    carbon.distance=updatedDistance;
     carbon.startLocation=startLocation ?? carbon.startLocation;
     carbon.endLocation=endLocation ?? carbon.endLocation;
     carbon.duration=duration ?? carbon.duration;
     await carbon.save();
-    return res.status(200).json( "Carbon record updated successfully");
+    return res.status(200).json({message:"Carbon record updated successfully",data:carbon});
   } catch(error:any){
-      return res.status(500).json({message: error.message,});
+    return res.status(500).json({message:error.message});
   }
 };
-
 // DELETE CARBON------------------------------------------
 export const deleteCarbon=async(req:Request,res:Response)=>{
   try{
