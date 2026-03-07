@@ -1,17 +1,12 @@
 import axios from "axios";
 
-export const getMLPrediction = async (
-  distance: number,
-  vehicleCategory: string
-) => {
+export const predictCarbon = async(data:any)=>{
 
-  const res = await axios.post(
-    "http://localhost:8000/predict",
-    {
-      distance,
-      vehicleCategory
-    }
-  );
+ const response = await axios.post(
+  "http://127.0.0.1:8000/predict",
+  data
+ );
 
-  return res.data;
+ return response.data;
+
 };

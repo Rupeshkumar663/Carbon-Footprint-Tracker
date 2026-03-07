@@ -12,6 +12,8 @@ import EditProfile from "./pages/EditProfile";
 import { useSelector } from "react-redux";
 import type { RootState } from "../src/redux/store"
 import CarbonPredictPage from "./pages/CarbonPredictionPage";
+import InputPage from "./pages/Inputpage";
+
 export const serverUrl = "http://localhost:9000";
 const App=()=>{
  const userData = useSelector(
@@ -32,6 +34,7 @@ const App=()=>{
         <Route path="/profile" element={userData?(<Profile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/editprofile" element={userData?(<EditProfile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/carbonpredictionpage" element={userData?(<CarbonPredictPage/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/inputpage" element={userData?(<InputPage/>):(<Navigate to="/signup"/>)} /> 
       </Routes>
     </>
   );

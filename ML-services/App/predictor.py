@@ -1,22 +1,40 @@
-from .model_loader import model
+import joblib
+import os
 
-def predict_carbon(distance, vehicleCategory):
+# model ka correct path
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "carbon_model.pkl")
 
-    category_map = {
-        "road": 1,
-        "rail": 2,
-        "air": 3
-    }
+# load trained model
+model = joblib.load(MODEL_PATH)
 
-    transport = category_map.get(vehicleCategory, 1)
+def predict_carbon(
+distance,
+mileage,
+fuel_type,
+speed,
+traffic,
+temp,
+road_type,
+vehicle_age,
+vehicle_load,
+elevation,
+engine_cc
+):
 
-    prediction = model.predict([[distance, transport]])
+    data = [[
+        distance,
+        mileage,
+        fuel_type,
+        speed,
+        traffic,
+        temp,
+        road_type,
+        vehicle_age,
+        vehicle_load,
+        elevation,
+        engine_cc
+    ]]
 
-    carbon = round(float(prediction[0]), 2)
+    prediction = model.predict(data)
 
-    confidence = 0.90
-
-    return {
-        "carbonEmission": carbon,
-        "confidence": confidence
-    }
+    return float(prediction[0])
