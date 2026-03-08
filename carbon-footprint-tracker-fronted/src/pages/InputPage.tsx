@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Float, OrbitControls, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import api from "../api/axios";
+import axios from "../api/axios";
 import { serverUrl } from "../App";
 import { CarbonFormData } from "../types/carbonTypes";
 
@@ -40,13 +40,13 @@ const [form,setForm]=useState<CarbonFormData>({
 });
 
 const handleChange=(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
-  setForm({ ...form, [e.target.name]: e.target.value });
+  setForm({ ...form,[e.target.name]:e.target.value });
 };
 
 const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
   e.preventDefault();
   try {
-    const res=await api.post(`${serverUrl}/api/carbon`,form);
+    const res=await axios.post(`${serverUrl}/api/carbon`,form);
     console.log(res.data);
   } catch(error){
     console.error("server error",error);
