@@ -1,21 +1,18 @@
 import { Canvas } from "@react-three/fiber";
 import { Float, OrbitControls, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { serverUrl } from "../App";
-import { CarbonFormData } from "../types/carbonTypes";
-
-function FloatingOrb() {
+function FloatingOrb(){
   return (
     <>
       <Float speed={2} rotationIntensity={1} floatIntensity={2}>
         <mesh>
-          <sphereGeometry args={[1.5, 64, 64]} />
-          <meshStandardMaterial color="#22c55e" emissive="#22c55e" />
+          <sphereGeometry args={[1.5, 64, 64]}/>
+          <meshStandardMaterial color="#22c55e" emissive="#22c55e"/>
         </mesh>
       </Float>
-
       <Float speed={1.5} rotationIntensity={2} floatIntensity={3}>
         <mesh position={[3, 1, -2]}>
           <torusGeometry args={[0.7, 0.2, 32, 100]} />
@@ -26,118 +23,125 @@ function FloatingOrb() {
   );
 }
 
-export default function InputPage() {
+export default function InputPage(){
+  const navigate=useNavigate();
+  const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
+   e.preventDefault();
+   const formData=new FormData(e.currentTarget);
+    const payload={
+    start:String(formData.get("start") ?? ""),
+    end:String(formData.get("end") ?? ""),
+    vehicle_name:String(formData.get("vehicle_name") ?? ""),
+    mileage:Number(formData.get("mileage") ?? 0),
+    fuel_type:String(formData.get("fuel_type") ?? ""),
+    engine_cc:Number(formData.get("engine_cc") ?? 0),
+    vehicle_age:Number(formData.get("vehicle_age") ?? 0),
+    passengers:Number(formData.get("passengers") ?? 1)
+  };
+  
 
-const [form,setForm]=useState<CarbonFormData>({
-  start:"",
-  end:"",
-  vehicle_name:"",
-  mileage:"",
-  fuel_type:"",
-  engine_cc:"",
-  vehicle_age:"",
-  passengers:""
-});
-
-const handleChange=(e:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
-  setForm({ ...form,[e.target.name]:e.target.value });
-};
-
-const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
-  e.preventDefault();
   try {
-    const res=await axios.post(`${serverUrl}/api/carbon`,form);
-    console.log(res.data);
-  } catch(error){
-    console.error("server error",error);
+
+    const res = await axios.post(`${serverUrl}/api/carbon`, payload);
+
+    console.log("Result:", res.data);
+
+    navigate("/result", { state: res.data });
+
+  } catch (error: unknown) {
+
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("Unknown error", error);
+    }
+
   }
+
 };
 
 return (
 
 <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center relative">
-  <div className="absolute top-0 left-0 w-full h-full opacity-40">
-   <Canvas camera={{ position: [0, 0, 5] }}>
-     <ambientLight intensity={0.7} />
-     <directionalLight position={[2, 5, 2]} />
-     <Stars radius={60} depth={50} count={2000} factor={4} />
-     <FloatingOrb />
-     <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4} />
-  </Canvas>
- </div>
+
+<div className="absolute top-0 left-0 w-full h-full opacity-40">
+
+<Canvas
+ dpr={[1,1.5]}
+ camera={{ position:[0,0,5] }}
+ performance={{ min:0.5 }}
+>
+<ambientLight intensity={0.7}/>
+<directionalLight position={[2,5,2]}/>
+<Stars radius={60} depth={50} count={2000} factor={4}/>
+<FloatingOrb/>
+<OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4}/>
+</Canvas>
+
+</div>
 
 <motion.div
-initial={{ opacity: 0, y: 50 }}
-animate={{ opacity: 1, y: 0 }}
-transition={{ duration: 0.8 }}
-className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-10 w-full max-w-xl shadow-2xl">
-  <h1 className="text-3xl font-semibold mb-2 text-center">Plan Your Carbon Emission</h1>
-  <p className="text-gray-300 text-center mb-8">Let's calculate the most eco-friendly Journey</p>
+initial={{opacity:0,y:50}}
+animate={{opacity:1,y:0}}
+transition={{duration:0.8}}
+className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-10 w-full max-w-xl shadow-2xl"
+>
 
-  <form onSubmit={handleSubmit} className="space-y-4">
-   <input
-     name="start"
-     placeholder="Starting Location"
-     onChange={handleChange}
-     className="w-full p-3 rounded-lg bg-white/10 border border-white/20 focus:outline-none"
-   />
-   <input
-     name="end"
-     placeholder="Destination"
-     onChange={handleChange}
-     className="w-full p-3 rounded-lg bg-white/10 border border-white/20"
-  />
+<h1 className="text-3xl font-semibold mb-2 text-center">
+Plan Your Carbon Emission
+</h1>
 
-  <div className="grid grid-cols-2 gap-3">
+<p className="text-gray-300 text-center mb-8">
+Let's calculate the most eco-friendly Journey
+</p>
 
-   <input
-    name="vehicle_name"
-    placeholder="Vehicle Name"
-    onChange={handleChange}
-    className="p-3 rounded-lg bg-white/10 border border-white/20"
-  />
+<form onSubmit={handleSubmit} className="space-y-4">
 
-   <input
-    name="mileage"
-    placeholder="Mileage km/l"
-    onChange={handleChange}
-    className="p-3 rounded-lg bg-white/10 border border-white/20"
-   />
+<input name="start" placeholder="Starting Location"
+className="w-full p-3 rounded-lg bg-white/10 border border-white/20"/>
 
-   <select className="p-3 rounded-lg bg-white/10 border border-white/20" name="fuel_type" onChange={handleChange}>
-     <option>Fuel Type</option>
-     <option>Petrol</option>
-     <option>Diesel</option>
-     <option>Electric</option>
-   </select>
+<input name="end" placeholder="Destination"
+className="w-full p-3 rounded-lg bg-white/10 border border-white/20"/>
 
-   <input
-    name="engine_cc"
-    placeholder="Engine CC"
-    onChange={handleChange}
-    className="p-3 rounded-lg bg-white/10 border border-white/20"
-   />
+<div className="grid grid-cols-2 gap-3">
 
-   <input
-    name="vehicle_age"
-    placeholder="Vehicle Age"
-    onChange={handleChange}
-    className="p-3 rounded-lg bg-white/10 border border-white/20"
-   />
+<input name="vehicle_name" placeholder="Vehicle Name"
+className="p-3 rounded-lg bg-white/10 border border-white/20"/>
 
-   <input
-    name="passengers"
-    placeholder="Passengers"
-    onChange={handleChange}
-    className="p-3 rounded-lg bg-white/10 border border-white/20"
-   />
+<input name="mileage" placeholder="Mileage km/l"
+className="p-3 rounded-lg bg-white/10 border border-white/20"/>
 
-  </div>
+<select name="fuel_type"
+className="p-3 rounded-lg bg-white/10 border border-white/20">
+<option value="">Fuel Type</option>
+<option value="petrol">Petrol</option>
+<option value="diesel">Diesel</option>
+<option value="electric">Electric</option>
+<option value="cng">CNG</option>
+</select>
 
-   <button type="submit" className="w-full mt-5 bg-green-500 hover:bg-green-600 transition p-3 rounded-lg text-lg font-medium">Carbon Emission</button>
+<input name="engine_cc" placeholder="Engine CC"
+className="p-3 rounded-lg bg-white/10 border border-white/20"/>
 
-  </form>
-  </motion.div>
- </div>
- );
+<input name="vehicle_age" placeholder="Vehicle Age"
+className="p-3 rounded-lg bg-white/10 border border-white/20"/>
+
+<input name="passengers" placeholder="Passengers"
+className="p-3 rounded-lg bg-white/10 border border-white/20"/>
+
+</div>
+
+<button type="submit"
+className="w-full mt-5 bg-green-500 hover:bg-green-600 transition p-3 rounded-lg text-lg font-medium">
+Carbon Emission
+</button>
+
+</form>
+
+</motion.div>
+
+</div>
+
+);
+
 }

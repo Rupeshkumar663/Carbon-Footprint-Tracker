@@ -1,17 +1,10 @@
 from fastapi import FastAPI
-from schemas import CarbonRequest
-from predictor import predict_carbon
-
-app = FastAPI()
-
-@app.get("/")
-def home():
-    return {"message": "ML Service Running"}
-
+from App.schemas import CarbonInput
+from App.predictor import predict_carbon
+app=FastAPI()
 @app.post("/predict")
-def predict(data: CarbonRequest):
-
-    result = predict_carbon(
+def predict(data:CarbonInput):
+    carbon=predict_carbon(
         data.distance,
         data.mileage,
         data.fuel_type,
@@ -24,7 +17,4 @@ def predict(data: CarbonRequest):
         data.elevation_gain,
         data.engine_cc
     )
-
-    return {
-        "carbon_emission": result
-    }
+    return {"carbon_emission": carbon}

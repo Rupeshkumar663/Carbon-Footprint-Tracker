@@ -35,3 +35,27 @@ engine_cc:number
 emission:number
 green_score:number
 }
+
+export interface CarbonResult {
+ route:{
+  distance:number
+ }
+
+ carbon:{
+  carbonEmission:number
+  greenScore:number
+ }
+
+ vehicle:{
+  vehicle_name:string
+  mileage:number
+  fuel_type:string
+  passengers:number
+  engine_cc:number
+  vehicle_age:number
+ }
+
+ environment:{
+  temperature:number
+ }
+}

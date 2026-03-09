@@ -32,7 +32,7 @@ const App=()=>{
         <Route path="/profile" element={userData?(<Profile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/editprofile" element={userData?(<EditProfile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/inputpage" element={userData?(<InputPage/>):(<Navigate to="/signup"/>)} /> 
-        <Route path="/carbonemissionpage" element={userData?(<CarbonEmissionPage/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/result" element={userData?(<CarbonEmissionPage/>):(<Navigate to="/signup"/>)} /> 
 
       </Routes>
     </>

@@ -1,26 +1,57 @@
-import mongoose,{Schema,Model} from "mongoose"
-import {ICarbon} from "../types/carbonType"
+import mongoose from "mongoose";
 
-const carbonSchema:Schema<ICarbon>=new Schema({
+const carbonSchema = new mongoose.Schema({
 
+ // USER
  userId:{
   type:mongoose.Schema.Types.ObjectId,
-  ref:"User"
+  ref:"User",
+  required:true
  },
 
+ // VEHICLE INFO
  vehicle_name:{
   type:String,
+  required:true,
+  trim:true
+ },
+
+ fuel_type:{
+  type:String,
+  enum:["petrol","diesel","electric","cng"],
   required:true
  },
 
+ vehicle_age:{
+  type:Number,
+  default:0
+ },
+
+ engine_cc:{
+  type:Number
+ },
+
+ passengers:{
+  type:Number,
+  default:1
+ },
+
+ mileage:{
+  type:Number,
+  required:true
+ },
+
+ // ROUTE INFO
  startLocation:{
   type:String,
-  required:true
+  required:true,
+  trim:true
  },
 
  endLocation:{
   type:String,
-  required:true
+  required:true,
+  trim:true
  },
 
  distance:{
@@ -29,34 +60,47 @@ const carbonSchema:Schema<ICarbon>=new Schema({
  },
 
  duration:{
+  type:String
+ },
+
+ speed:{
+  type:Number
+ },
+
+ road_type:{
   type:String,
-  required:true
+  enum:["city","highway"]
  },
 
- passengers:{
-  type:Number,
-  default:1
+ elevation_gain:{
+  type:Number
  },
 
+ traffic_level:{
+  type:String,
+  enum:["Low","Medium","High"]
+ },
+
+ temperature:{
+  type:Number
+ },
+
+ // CARBON RESULT
  carbonEmission:{
   type:Number,
   required:true
  },
 
  greenScore:{
-  type:Number,
-  required:true,
-  min:0,
-  max:100
+  type:Number
  },
 
  isEcoFriendly:{
-  type:Boolean,
-  default:false
+  type:Boolean
  }
 
-},{timestamps:true})
+},{
+ timestamps:true
+})
 
-const Carbon:Model<ICarbon>=mongoose.model<ICarbon>("Carbon",carbonSchema)
-
-export default Carbon
+export default mongoose.model("Carbon",carbonSchema)

@@ -3,7 +3,7 @@ import type { InternalAxiosRequestConfig } from "axios";
 import { store } from "../redux/store";
 
 const api=axios.create({
-  baseURL:"http://localhost:9000/api",
+  baseURL: "http://localhost:9000",
   withCredentials: true,
 });
 
