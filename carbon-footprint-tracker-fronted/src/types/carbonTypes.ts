@@ -59,3 +59,8 @@ export interface CarbonResult {
   temperature:number
  }
 }
+
+export interface ChartData {
+  month: string
+  emission: number
+}

@@ -29,7 +29,6 @@ const EcoScore:React.FC<Props>=({score})=>{
           strokeDasharray={`${circumference}`}
           strokeDashoffset={progress}
         />
-
         {/* green progress */}
         <motion.path
           d="M20 100 A85 85 0 0 1 200 100"
