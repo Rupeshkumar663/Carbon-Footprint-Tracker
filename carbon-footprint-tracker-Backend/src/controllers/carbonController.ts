@@ -19,7 +19,10 @@ const roadMap:Record<string,number>={
 }
 //ROUTE CARBON CALCULATION------------------------------
  const calculateRouteCarbon=async(start:string,end:string,mileage:number,fuel_type:string,vehicle_age:number,engine_cc:number,passengers:number)=>{
-   const mapData=await getmapData(start,end)
+   const [mapData,temperature]=await Promise.all([
+    getmapData(start,end),
+    getWeatherInfo(start).catch(()=>25)
+   ])
    if(!mapData){
     throw new Error("Map data not available")
    }
@@ -31,7 +34,6 @@ const roadMap:Record<string,number>={
      traffic_level = 2
    if(mapData?.traffic_level==="High")
      traffic_level = 3
-   const temperature=await getWeatherInfo(start).catch(()=>25)
    const Data={
      distance,
      mileage,
@@ -82,8 +84,6 @@ const roadMap:Record<string,number>={
    }
  }
 
-
-
 //GET ALL----------------------------------------------
   export const getAllCarbons=async(req:Request,res:Response)=>{
     try{
@@ -98,12 +98,10 @@ const roadMap:Record<string,number>={
     }
  }
 
-
-
 //GET SINGLE----------------------------------------------
   export const getCarbonById=async(req:Request,res:Response)=>{
    try{
-     const carbon=await Carbon.findById(req.params.id)
+     const carbon=await Carbon.findById(req.params.id).lean()
      if(!carbon){
        return res.status(404).json({message:"Record not found"})
      }
@@ -148,3 +146,5 @@ const roadMap:Record<string,number>={
     res.status(500).json({message:error.message})
   }
  }
+
+

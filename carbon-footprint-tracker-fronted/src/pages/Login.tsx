@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { motion } from "framer-motion";
 import google from "../assets/google.jpg";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -11,208 +12,118 @@ import { setUserData } from "../redux/authSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
+
 function Login() {
-  const [show, setShow] = useState<boolean>(false);
-  const [email,setEmail] = useState<string>("");
-  const [password,setPassword] = useState<string>("");
-  const [loading,setLoading] = useState<boolean>(false);
-
-  const navigate=useNavigate();
-  const dispatch=useDispatch<AppDispatch>();
-  const handleLogin=async(e:FormEvent<HTMLFormElement>)=>{
-    e.preventDefault();
-    if (!email || !password) {
-      toast.error("Email and password are required");
-      return;
-    }
-    setLoading(true);
-    try {
-      const result = await axios.post(
-        `${serverUrl}/api/auth/login`,
-        { email, password },
-        { withCredentials:true}
-      );
-
-        dispatch(
-       setUserData({
-      token: result.data.token,
-      user: result.data.user,
-       })
-    );
-      toast.success("Login successfully");
-      navigate("/");
-       
-  
-    } catch (error:unknown) {
-      if (axios.isAxiosError(error)){
-        toast.error(
-          error.response?.data?.message || "Login failed"
-        );
-      } else {
-        toast.error("Login failed");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-  const googleLogin=async()=>{
-    try {
-      const response = await signInWithPopup(auth, provider);
-      const user = response.user;
-
-      const result = await axios.post(
-        `${serverUrl}/api/auth/googleauth`,
-        {
-          name: user.displayName,
-          email: user.email,
-          role: "",
-        },
-        { withCredentials: true }
-      );
-
-     dispatch(
-  setUserData({
-    token: result.data.token,
-    user: result.data.user,
-  })
-);dispatch(
-  setUserData({
-    token: result.data.token,
-    user: result.data.user,
-  })
-);
-      toast.success("Login successfully");
-      navigate("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data?.message || "Google login failed"
-        );
-      } else {
-        toast.error("Google login failed");
-      }
-    }
-  };
-
-  return (
-    <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
-      <form
-        className="w-[90%] md:w-200 h-150 bg-[white] shadow-xl rounded-2xl flex"
-        onSubmit={handleLogin}
-      >
-        {/* LEFT SIDE */}
-        <div className="md:w-[50%] h-full flex flex-col items-center justify-center gap-3">
-          <div>
-            <h1 className="font-semibold text-black text-2xl">
-              Welcome back
-            </h1>
-            <h2 className="text-[#999797] text-[18px]">
-              Login your account
-            </h2>
-          </div>
-
-          {/* EMAIL */}
-          <div className="flex flex-col gap-1 w-[80%] px-3">
-            <label htmlFor="email" className="font-semibold">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="border w-full h-[35px] border-[#e7e6e6] text-[15px] px-[20px]"
-              placeholder="Your Email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
-          </div>
-
-          {/* PASSWORD */}
-          <div className="flex flex-col gap-1 w-[80%] px-3 relative">
-            <label htmlFor="password" className="font-semibold">
-              Password
-            </label>
-            <input
-              id="password"
-              type={show ? "text" : "password"}
-              className="border w-full h-[35px] border-[#e7e6e6] text-[15px] p-[20px]"
-              placeholder="Your password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-
-            {!show ? (
-              <IoEyeOutline
-                className="absolute w-[20px] h-[20px] cursor-pointer right-[5%] bottom-[10%]"
-                onClick={() => setShow((prev) => !prev)}
-              />
-            ) : (
-              <IoEye
-                className="absolute w-[20px] h-[20px] cursor-pointer right-[5%] bottom-[10%]"
-                onClick={() => setShow((prev) => !prev)}
-              />
-            )}
-          </div>
-
-          {/* LOGIN BUTTON */}
-          <button
-            className="w-[80%] h-[40px] bg-black text-white flex items-center justify-center rounded-[5px]"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <ClipLoader size={25} color="white" />
-            ) : (
-              "Login"
-            )}
-          </button>
-
-          <span
-            className="text-[13px] cursor-pointer text-[#585757]"
-            onClick={() => navigate("/forgetpassword")}
-          >
-            Forget your password?
-          </span>
-
-          {/* DIVIDER */}
-          <div className="w-[80%] flex items-center gap-2">
-            <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
-            <div className="w-[50%] text-[#6f6f6f] text-center">
-              Or continue
-            </div>
-            <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
-          </div>
-
-          {/* GOOGLE LOGIN */}
-          <div
-            className="w-[80%] h-[40px] border border-black rounded-[5px] flex items-center justify-center cursor-pointer"
-            onClick={googleLogin}
-          >
-            <img src={google} className="w-[25px]" alt="google" />
-            <span className="text-[18px] text-gray-500 ml-2">
-              Google
-            </span>
-          </div>
-
-          <div className="text-[#6f6f6f]">
-            Create new account{" "}
-            <span
-              className="underline text-black cursor-pointer"
-              onClick={() => navigate("/signup")}
-            >
-              SignUp
-            </span>
-          </div>
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="w-[50%] rounded-r-2xl bg-black md:flex items-center justify-center hidden">
-          <span className="text-5xl text-white">
-            Carbon Tracker
-          </span>
-        </div>
-      </form>
-    </div>
-  );
+ const [show,setShow] = useState(false);
+ const [email,setEmail] = useState("");
+ const [password,setPassword] = useState("");
+ const [loading,setLoading] = useState(false);
+ const navigate = useNavigate();
+ const dispatch = useDispatch<AppDispatch>();
+ const handleLogin = async (e:FormEvent<HTMLFormElement>)=>{
+   e.preventDefault();
+   if(!email || !password){
+   toast.error("Email and password required");
+   return;
+ }
+  setLoading(true); 
+ try{
+ const result = await axios.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
+ dispatch(setUserData({token:result.data.token,user:result.data.user}));
+ toast.success("Login successful");
+ navigate("/");
 }
+catch(error:unknown){
+  if(axios.isAxiosError(error)){
+   toast.error(error.response?.data?.message || "Login failed");
+  }else{
+   toast.error("Login failed");
+  }
+ }
+ finally{
+  setLoading(false);
+ }
+};
 
+const googleLogin=async()=>{
+ try{
+  const response=await signInWithPopup(auth,provider);
+   const user=response.user;
+   const result = await axios.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email},{withCredentials:true});
+   dispatch(setUserData({token:result.data.token,user:result.data.user}));
+   toast.success("Login successfully");
+   navigate("/");
+  }
+  catch(error:unknown){
+   if(axios.isAxiosError(error)){
+    toast.error(error.response?.data?.message || "Google login failed");
+   }else{
+    toast.error("Google login failed");
+   }
+  }
+ };
+return (
+  <div className="w-screen h-screen flex items-center justify-center bg-gray-200">
+  <motion.div
+   initial={{opacity:0,scale:0.95}}
+   animate={{opacity:1,scale:1}}
+   transition={{duration:0.5}}
+   className="w-[900px] h-[560px] bg-white rounded-xl shadow-2xl flex overflow-hidden"
+  >
+ {/* LEFT SIDE */}
+  <form onSubmit={handleLogin} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4">
+  <h2 className="text-center text-xl font-semibold">Login to your account</h2>
+ {/* GOOGLE LOGIN */}
+  <div onClick={googleLogin} className="flex items-center justify-center gap-2 border border-gray-600 h-[40px] rounded-md cursor-pointer hover:bg-gray-900 transition">
+  <img src={google} className="w-[18px]" />
+  <span className="text-sm">Continue with Google</span>
+ </div>
+{/* EMAIL */} 
+ <div className="flex flex-col gap-1">
+   <label className="text-sm text-gray-400">Email Address</label>
+   <input type="email"
+     value={email}
+     onChange={(e)=>setEmail(e.target.value)}
+     placeholder="johndoe@gmail.com"
+     className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+   />
+ </div>
+{/* PASSWORD */}
+ <div className="flex flex-col gap-1 relative">
+  <label className="text-sm text-gray-400">Password</label>
+  <input
+   type={show?"text":"password"}
+   value={password}
+   onChange={(e)=>setPassword(e.target.value)}
+   className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+ />
+ {!show ? <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(true)}/>
+ :
+ <IoEye className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(false)}/>
+ }
+</div>
+<div className="flex justify-between text-xs text-gray-400">
+ <span className="cursor-pointer hover:text-white" onClick={()=>navigate("/forgetpassword")}> Forgot Password</span>
+</div>
+{/* LOGIN BUTTON */}
+<button
+ type="submit"
+ disabled={loading}
+ className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center"
+>
+ {loading ?<ClipLoader size={18} color="white"/> :"Login"}
+</button>
+<div className="text-center text-sm text-gray-400">Don't have an account?
+ <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/signup")}>Sign Up</span>
+</div>
+</form>
+
+{/* RIGHT SIDE */}
+  <div className="w-[50%] bg-gradient-to-b from-[#000428] via-[#004e92] to-[#ffffff] flex items-center justify-center">
+   <h1 className="text-4xl font-bold text-white">Carbon Tracker</h1>
+  </div>
+ </motion.div>
+</div>
+);
+}
 export default Login;

@@ -27,7 +27,7 @@ const App=()=>{
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} /> 
-        <Route path="/forgetpassword" element={userData?(<Forgetpassword/>):(<Navigate to="/signup"/>)} /> 
+         <Route path="/forgetpassword" element={<Forgetpassword />} />
         <Route path="/dashboard" element={userData?(<Dashboard/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/profile" element={userData?(<Profile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/editprofile" element={userData?(<EditProfile/>):(<Navigate to="/signup"/>)} /> 
