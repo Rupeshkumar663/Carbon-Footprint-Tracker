@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ChartData } from "../../types/carbonTypes";
+import { monthChartData } from "../../types/carbonTypes";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis} from "recharts";
 
-const data:ChartData[]=[
+const data:monthChartData[]=[
   { month:"Jan",emission:7},
   { month:"Feb",emission:9},
   { month:"Mar",emission:12},

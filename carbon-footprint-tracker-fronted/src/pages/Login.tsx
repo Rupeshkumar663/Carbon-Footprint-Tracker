@@ -14,13 +14,13 @@ import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
 
 function Login() {
- const [show,setShow] = useState(false);
- const [email,setEmail] = useState("");
- const [password,setPassword] = useState("");
- const [loading,setLoading] = useState(false);
- const navigate = useNavigate();
- const dispatch = useDispatch<AppDispatch>();
- const handleLogin = async (e:FormEvent<HTMLFormElement>)=>{
+ const [show,setShow]=useState(false);
+ const [email,setEmail]=useState("");
+ const [password,setPassword]=useState("");
+ const [loading,setLoading]=useState(false);
+ const navigate=useNavigate();
+ const dispatch=useDispatch<AppDispatch>();
+ const handleLogin=async (e:FormEvent<HTMLFormElement>)=>{
    e.preventDefault();
    if(!email || !password){
    toast.error("Email and password required");
@@ -28,7 +28,7 @@ function Login() {
  }
   setLoading(true); 
  try{
- const result = await axios.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
+ const result=await axios.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
  dispatch(setUserData({token:result.data.token,user:result.data.user}));
  toast.success("Login successful");
  navigate("/");
@@ -73,22 +73,22 @@ return (
  {/* LEFT SIDE */}
   <form onSubmit={handleLogin} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4">
   <h2 className="text-center text-xl font-semibold">Login to your account</h2>
- {/* GOOGLE LOGIN */}
+
   <div onClick={googleLogin} className="flex items-center justify-center gap-2 border border-gray-600 h-[40px] rounded-md cursor-pointer hover:bg-gray-900 transition">
   <img src={google} className="w-[18px]" />
   <span className="text-sm">Continue with Google</span>
  </div>
-{/* EMAIL */} 
+
  <div className="flex flex-col gap-1">
    <label className="text-sm text-gray-400">Email Address</label>
    <input type="email"
      value={email}
      onChange={(e)=>setEmail(e.target.value)}
-     placeholder="johndoe@gmail.com"
+     placeholder="Your Email"
      className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
    />
  </div>
-{/* PASSWORD */}
+
  <div className="flex flex-col gap-1 relative">
   <label className="text-sm text-gray-400">Password</label>
   <input
@@ -97,28 +97,28 @@ return (
    onChange={(e)=>setPassword(e.target.value)}
    className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
  />
- {!show ? <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(true)}/>
- :
- <IoEye className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(false)}/>
- }
-</div>
-<div className="flex justify-between text-xs text-gray-400">
- <span className="cursor-pointer hover:text-white" onClick={()=>navigate("/forgetpassword")}> Forgot Password</span>
-</div>
-{/* LOGIN BUTTON */}
-<button
- type="submit"
- disabled={loading}
- className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center"
->
- {loading ?<ClipLoader size={18} color="white"/> :"Login"}
-</button>
-<div className="text-center text-sm text-gray-400">Don't have an account?
- <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/signup")}>Sign Up</span>
-</div>
-</form>
+   {!show ? <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(true)}/>
+    :
+   <IoEye className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(false)}/>
+  }
+ </div>
+  <div className="flex justify-between text-xs text-gray-400">
+   <span className="cursor-pointer hover:text-white" onClick={()=>navigate("/forgetpassword")}> Forgot Password</span>
+  </div>
+  
+  <button
+   type="submit"
+   disabled={loading}
+   className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center"
+  >
+  {loading ?<ClipLoader size={18} color="white"/> :"Login"}
+   </button>
+  <div className="text-center text-sm text-gray-400">Don't have an account?
+  <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/signup")}>Sign Up</span>
+  </div>
+  </form>
 
-{/* RIGHT SIDE */}
+  {/* RIGHT SIDE */}
   <div className="w-[50%] bg-gradient-to-b from-[#000428] via-[#004e92] to-[#ffffff] flex items-center justify-center">
    <h1 className="text-4xl font-bold text-white">Carbon Tracker</h1>
   </div>

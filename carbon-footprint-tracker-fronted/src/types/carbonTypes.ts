@@ -60,7 +60,17 @@ export interface CarbonResult {
  }
 }
 
-export interface ChartData {
-  month: string
-  emission: number
+export interface monthChartData {
+  month:string
+  emission:number
+}
+
+export interface weekChartData {
+  week:string
+  emission:number
+}
+
+export interface HeatmapData {
+  day:string
+  emission:number[]
 }

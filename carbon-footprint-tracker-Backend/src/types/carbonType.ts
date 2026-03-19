@@ -36,3 +36,8 @@ export interface ICarbon extends CarbonCalculationResult{
  createdAt:Date
  updatedAt:Date
 }
+
+export interface DashboardCarbon extends Document {
+  carbon:number;
+  date:Date;
+}

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import { motion } from "framer-motion";
 import google from "../assets/google.jpg";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -13,185 +14,136 @@ import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
 
 function SignUp() {
-  const [show, setShow] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [show, setShow]=useState(false);
+  const [name, setName]=useState("");
+  const [email, setEmail]=useState("");
+  const [password, setPassword]=useState("");
+  const [loading, setLoading]=useState(false);
+  const navigate=useNavigate();
+  const dispatch=useDispatch<AppDispatch>();
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const handleSignup = async (): Promise<void> => {
-    if (!name || !email || !password) {
+  const handleSignup=async(e:FormEvent<HTMLFormElement>)=>{
+    e.preventDefault(); 
+    if(!name || !email || !password){
       toast.error("All fields are required");
       return;
     }
-
+    if(loading) 
+      return; 
     setLoading(true);
-
     try {
-      const result = await axios.post(
-        `${serverUrl}/api/auth/signup`,
-        { name, password, email },
-        { withCredentials: true }
-      );
-
-      dispatch(setUserData(result.data));
-      toast.success("Signup successfully");
+      const result=await axios.post(`${serverUrl}/api/auth/signup`,{name,email,password},{ withCredentials: true });
+      dispatch(setUserData({token:result.data.token,user:result.data.user}));
+      toast.success("Signup successful");
       navigate("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
+    } catch(error:unknown){
+      if(axios.isAxiosError(error)){
         toast.error(error.response?.data?.message || "Signup failed");
-      } else {
+      } else{
         toast.error("Signup failed");
       }
-    } finally {
+    } finally{
       setLoading(false);
     }
   };
 
-  const googleSignUp = async (): Promise<void> => {
-    try {
-      const response = await signInWithPopup(auth, provider);
-      const user = response.user;
+  const googleSignUp=async()=>{
+    try{
+      const response=await signInWithPopup(auth,provider);
+      const user=response.user;
+      const result=await axios.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email,},{ withCredentials: true });
 
-      const result = await axios.post(
-        `${serverUrl}/api/auth/googleauth`,
-        {
-          name: user.displayName,
-          email: user.email,
-        },
-        { withCredentials: true }
-      );
-
-      dispatch(setUserData(result.data));
-      toast.success("Signup successfully");
+      dispatch(setUserData({token:result.data.token,user:result.data.user,}));
+      toast.success("Signup successful");
       navigate("/");
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        toast.error(
-          error.response?.data?.message || "Google signup failed"
-        );
-      } else {
+    } catch(error:unknown){
+      if(axios.isAxiosError(error)){
+        toast.error(error.response?.data?.message || "Google signup failed");
+      } else{
         toast.error("Google signup failed");
       }
     }
   };
 
   return (
-    <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
-      <form
-        className="w-[90%] md:w-200 h-150 bg-[white] shadow-xl rounded-2xl flex"
-        onSubmit={(e) => e.preventDefault()}
+    <div className="w-screen h-screen flex items-center justify-center bg-gray-200">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-[900px] h-[560px] bg-white rounded-xl shadow-2xl flex overflow-hidden"
       >
         {/* LEFT SIDE */}
-        <div className="md:w-[50%] h-[100%] flex flex-col items-center justify-center gap-3">
-          <div>
-            <h1 className="font-semibold text-[black] text-2xl">
-              let's get started
-            </h1>
-            <h2 className="text-[#999797] text-[18px]">
-              Create your account
-            </h2>
+        <form onSubmit={handleSignup} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4"
+        >
+          <h1 className="font-semibold text-center text-2xl">let's get started</h1>
+          <h2 className="text-center text-xl font-semibold">Create your account</h2>
+   
+          <div onClick={googleSignUp} className="flex items-center justify-center gap-2 border border-gray-600 h-[40px] rounded-md cursor-pointer hover:bg-gray-900 transition"
+          >
+            <img src={google} className="w-[18px]" alt="google" />
+            <span className="text-sm">Continue with Google</span>
           </div>
 
-          {/* NAME */}
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3">
-            <label htmlFor="name" className="font-semibold">
-              Name
-            </label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-gray-400">Name</label>
             <input
-              id="name"
               type="text"
-              className="border w-[100%] h-[35px] border-[#e7e6e6] text-[15px] px-[20px]"
-              placeholder="Your name"
-              onChange={(e) => setName(e.target.value)}
               value={name}
+              onChange={(e)=>setName(e.target.value)}
+              placeholder="Your name"
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
             />
           </div>
 
-          {/* EMAIL */}
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3">
-            <label htmlFor="email" className="font-semibold">
-              Email
-            </label>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm text-gray-400">Email Address</label>
             <input
-              id="email"
               type="email"
-              className="border w-[100%] h-[35px] border-[#e7e6e6] text-[15px] px-[20px]"
-              placeholder="Your Email"
-              onChange={(e) => setEmail(e.target.value)}
               value={email}
+              onChange={(e)=>setEmail(e.target.value)}
+              placeholder="Your Email"
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
             />
           </div>
 
-          {/* PASSWORD */}
-          <div className="flex flex-col gap-1 w-[80%] items-start px-3 relative">
-            <label htmlFor="password" className="font-semibold">
-              Password
-            </label>
+          <div className="flex flex-col gap-1 relative">
+            <label className="text-sm text-gray-400">Password</label>
             <input
-              id="password"
               type={show ? "text" : "password"}
-              className="border w-[100%] h-[35px] border-[#e7e6e6] text-[15px] p-[20px]"
-              placeholder="Your password"
-              onChange={(e) => setPassword(e.target.value)}
               value={password}
+              onChange={(e)=>setPassword(e.target.value)}
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
             />
-
             {!show ? (
-              <IoEyeOutline
-                className="absolute w-[20px] h-[20px] cursor-pointer right-[5%] bottom-[10%]"
-                onClick={() => setShow((prev) => !prev)}
+              <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"
+                onClick={() => setShow(true)}
               />
             ) : (
               <IoEye
-                className="absolute w-[20px] h-[20px] cursor-pointer right-[5%] bottom-[10%]"
-                onClick={() => setShow((prev) => !prev)}
+                className="absolute right-3 top-[36px] cursor-pointer text-black"
+                onClick={()=>setShow(false)}
               />
             )}
           </div>
 
-          {/* BUTTON */}
-          <button
-            className="w-[80%] h-[40px] bg-black text-white flex items-center justify-center rounded-[5px]"
-            onClick={handleSignup}
-            disabled={loading}
+          <button type="submit" disabled={loading} className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-60"
           >
-            {loading ?(<ClipLoader size={25} color="white"/>):("SignUp")}
-           </button>
-           
-          {/* DIVIDER */}
-          <div className="w-[80%] flex items-center gap-2">
-            <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
-            <div className="w-[50%] text-[#6f6f6f] text-center"> Or continue</div>
-            <div className="w-[25%] h-[0.5px] bg-[#c4c4c4]" />
-          </div>
+            {loading ? (<ClipLoader size={18} color="white" />
+            ):("Sign Up")}
+          </button>
 
-          {/* GOOGLE */}
-          <div
-            className="w-[80%] h-[40px] border border-black rounded-[5px] flex items-center justify-center cursor-pointer"
-            onClick={googleSignUp}
-          >
-            <img src={google} className="w-[25px]" alt="google" />
-            <span className="text-[18px] text-gray-500 ml-2">Google</span>
+          <div className="text-center text-sm text-gray-400">
+            Already have an account?
+            <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/login")}>Login</span>
           </div>
+        </form>
 
-          <div className="text-[#6f6f6f]">
-            already have an account{" "}
-            <span
-              className="underline text-[black] cursor-pointer" onClick={()=>navigate("/login")}>Login</span>
-          </div>
+        <div className="w-[50%] bg-gradient-to-b from-[#000428] via-[#004e92] to-[#ffffff] flex items-center justify-center">
+         <h1 className="text-4xl font-bold text-white">Carbon Tracker</h1>
         </div>
-
-        {/* RIGHT SIDE */}
-        <div className="w-[50%] h-[100] rounded-r-2xl bg-black md:flex items-center justify-center hidden">
-          <span className="text-5xl text-white">Carbon Tracker</span>
-        </div>
-      </form>
+      </motion.div>
     </div>
   );
 }
-
 export default SignUp;

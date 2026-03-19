@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import carbonRoutes from "./routes/carbonRoutes"
+import dashboardCarbonRoutes from "./routes/dashboardcarbon.routes";
 const app=express();
 
 app.use(
@@ -13,6 +14,7 @@ app.use(
 app.use(express.json());
 app.use("/api/auth",authRoutes);
 app.use("/api/carbon",carbonRoutes);
+app.use("/api/dashboardcarbon",dashboardCarbonRoutes)
 
 
 export default app;
