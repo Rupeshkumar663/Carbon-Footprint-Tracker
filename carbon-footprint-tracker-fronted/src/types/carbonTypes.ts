@@ -70,7 +70,15 @@ export interface weekChartData {
   emission:number
 }
 
-export interface HeatmapData {
-  day:string
-  emission:number[]
-}
+export interface CarbonRecord{
+  createdAt:string;
+  carbonEmission:number;
+};
+
+export interface CarbonType{
+  _id:string;
+  startLocation:string;
+  endLocation:string;
+  carbonEmission:number;
+  createdAt:string;
+};

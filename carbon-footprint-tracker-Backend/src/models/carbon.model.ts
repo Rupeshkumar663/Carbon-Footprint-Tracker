@@ -1,106 +1,80 @@
 import mongoose from "mongoose";
-
-const carbonSchema = new mongoose.Schema({
-
- // USER
+const carbonSchema=new mongoose.Schema({
  userId:{
   type:mongoose.Schema.Types.ObjectId,
   ref:"User",
   required:true
  },
-
- // VEHICLE INFO
  vehicle_name:{
   type:String,
   required:true,
   trim:true
  },
-
  fuel_type:{
   type:String,
   enum:["petrol","diesel","electric","cng"],
   required:true
  },
-
  vehicle_age:{
   type:Number,
   default:0
  },
-
  engine_cc:{
   type:Number
  },
-
  passengers:{
   type:Number,
   default:1
  },
-
  mileage:{
   type:Number,
   required:true
  },
-
- // ROUTE INFO
  startLocation:{
   type:String,
   required:true,
   trim:true
  },
-
  endLocation:{
   type:String,
   required:true,
   trim:true
  },
-
  distance:{
   type:Number,
   required:true
  },
-
  duration:{
-  type:String
+  type:Number
  },
-
  speed:{
   type:Number
  },
-
  road_type:{
   type:String,
   enum:["city","highway"]
  },
-
  elevation_gain:{
   type:Number
  },
-
  traffic_level:{
   type:String,
   enum:["Low","Medium","High"]
  },
-
  temperature:{
   type:Number
  },
-
- // CARBON RESULT
  carbonEmission:{
   type:Number,
   required:true
  },
-
  greenScore:{
   type:Number
  },
-
  isEcoFriendly:{
   type:Boolean
  }
-
 },{
  timestamps:true
 })
-
 export default mongoose.model("Carbon",carbonSchema)

@@ -18,76 +18,99 @@ const roadMap:Record<string,number>={
  highway:1
 }
 //ROUTE CARBON CALCULATION------------------------------
- const calculateRouteCarbon=async(start:string,end:string,mileage:number,fuel_type:string,vehicle_age:number,engine_cc:number,passengers:number)=>{
-   const [mapData,temperature]=await Promise.all([
-    getmapData(start,end),
-    getWeatherInfo(start).catch(()=>25)
-   ])
-   if(!mapData){
-    throw new Error("Map data not available")
-   }
-   const distance=parseFloat((mapData?.distance ?? "0").toString().replace(/[^\d.]/g,""))
-   const speed=parseFloat((mapData?.speed ?? "0").toString().replace(/[^\d.]/g,""))
-   const elevation=parseFloat((mapData?.elevation ?? "0").toString().replace(/[^\d.]/g,""))
-   let traffic_level=1
-   if(mapData?.traffic_level==="Medium") 
-     traffic_level = 2
-   if(mapData?.traffic_level==="High")
-     traffic_level = 3
-   const Data={
-     distance,
-     mileage,
-     fuel_type:fuelMap[fuel_type] ?? 0,
-     speed,
-     traffic_level,
-     temperature,
-     road_type:roadMap[mapData?.road_type] ?? 0,
-     vehicle_age,
-     vehicle_load:passengers,
-     elevation_gain:elevation,
-     engine_cc
-   }
-   const mlResult=await predictCarbon(Data)
-   const metrics=calculateGreenMetrics(mlResult?.carbon_emission ?? 0)
-   return{mapData,distance,temperature,metrics}
- }
-
+const calculateRouteCarbon=async(start:string,end:string,mileage:number,fuel_type:string,vehicle_age:number,engine_cc:number,passengers:number)=>{
+  const [mapData, temperature]=await Promise.all([getmapData(start,end),getWeatherInfo(start).catch(()=>25)]);
+  if(!mapData|| !mapData.routes || mapData.routes.length===0){
+    throw new Error("Map data not available");
+  }
+  const routes=mapData.routes.slice(0,3);
+  const results=await Promise.all(routes.map(async(route:any)=>{
+      const distance=route.distance;
+      const speed=route.speed;
+      const elevation=route.elevation ?? 0;
+      let traffic_level=1;
+      if(route.traffic_level==="Medium") 
+        traffic_level=2;
+      if(route.traffic_level==="High") 
+        traffic_level=3;
+      const Data={
+        distance,
+        mileage,
+        fuel_type: fuelMap[fuel_type] ?? 0,
+        speed,
+        traffic_level,
+        temperature,
+        road_type: roadMap[route.road_type] ?? 0,
+        vehicle_age,
+        vehicle_load: passengers,
+        elevation_gain: elevation,
+        engine_cc
+      };
+      const mlResult=await predictCarbon(Data);
+      return {...route,carbon:mlResult?.carbon_emission ?? 0};
+    })
+  );
+  const bestRoute=results.reduce((a,b)=>a.carbon<b.carbon?a:b);
+  const fastestRoute=results.reduce((a,b)=>a.duration<b.duration?a:b);
+  const metrics=calculateGreenMetrics(bestRoute.carbon);
+  return {routes:results,bestRoute,fastestRoute,temperature,metrics,start:mapData.start,end:mapData.end};
+};
 //CREATE----------------------------------------------
-   export const createCarbon=async(req:Request,res:Response)=>{
-    try{
-      const{start,end,mileage,fuel_type,vehicle_age,engine_cc,passengers,vehicle_name}=req.body
+   export const createCarbon = async (req: Request, res: Response) => {
+  try {
+    const {start,end,mileage,fuel_type,vehicle_age,engine_cc,passengers,vehicle_name}=req.body;
     if(!start){
-      return res.status(400).json({message:"Start location required"})
+      return res.status(400).json({ message: "Start location required" });
     }
     if(!end){
-      return res.status(400).json({message:"End location required"})
+      return res.status(400).json({ message: "End location required" });
     }
-   const result=await calculateRouteCarbon(start,end,mileage,fuel_type,vehicle_age,engine_cc,passengers)
-   const carbon = await Carbon.create({
-     userId:(req as any).user?._id ?? null,
-     vehicle_name,
-     fuel_type,
-     mileage,
-     startLocation:start,
-     endLocation:end,
-     distance:result.distance,
-     duration:(result.mapData?.duration ?? "").toString(),
-     passengers,
-     carbonEmission:result.metrics.carbonEmission,
-     greenScore:result.metrics.greenScore,
-     isEcoFriendly:result.metrics.isEcoFriendly
-   })
-   res.status(201).json({route:result.mapData,vehicle:{vehicle_name,mileage,fuel_type,vehicle_age,engine_cc,passengers},environment:{temperature:result.temperature},carbon:result.metrics,saved:carbon})
-   }catch(error:unknown){
-     console.error(error)
-     res.status(500).json({message:"Carbon calculation failed"})
+    const result=await calculateRouteCarbon(start,end,mileage,fuel_type,vehicle_age,engine_cc,passengers);
+    const best=result.bestRoute;
+    const carbon=await Carbon.create({
+      userId:(req as any).user?._id ?? null,
+      vehicle_name,
+      fuel_type,
+      mileage,
+      startLocation:start,
+      endLocation:end,
+      distance:best.distance,         
+      duration:best.duration,         
+      passengers,
+      carbonEmission:result.metrics.carbonEmission,
+      greenScore:result.metrics.greenScore,
+      isEcoFriendly:result.metrics.isEcoFriendly
+    });
+   console.log(carbon)
+    res.status(201).json({
+      routes:result.routes,                 
+      bestRoute:result.bestRoute,           
+      fastestRoute:result.fastestRoute,     
+      start:result.start,  
+      end:result.end,       
+      vehicle:{
+        vehicle_name,
+        mileage,
+        fuel_type,
+        vehicle_age,
+        engine_cc,
+        passengers
+      },
+      environment:{
+        temperature:result.temperature
+      },
+      carbon:result.metrics,
+      saved:carbon
+    });
+   } catch(error:unknown){
+    console.error(error);
+    res.status(500).json({ message: "Carbon calculation failed" });
    }
- }
-
+};
 //GET ALL----------------------------------------------
   export const getAllCarbons=async(req:Request,res:Response)=>{
     try{
-      const carbons=await Carbon.find().sort({createdAt:-1}).lean()
+      const carbons=await Carbon.find({userId:(req as any).user._id}).populate("userId","name").sort({createdAt:-1}).lean()
      if(!carbons || carbons.length===0){
       return res.status(404).json({success:false,message:"No carbon records found",data:[]})
     }

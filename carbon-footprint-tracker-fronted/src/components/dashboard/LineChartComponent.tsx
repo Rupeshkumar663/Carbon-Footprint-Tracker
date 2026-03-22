@@ -1,23 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { monthChartData } from "../../types/carbonTypes";
+import { CarbonRecord, monthChartData } from "../../types/carbonTypes";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis} from "recharts";
-
-const data:monthChartData[]=[
-  { month:"Jan",emission:7},
-  { month:"Feb",emission:9},
-  { month:"Mar",emission:12},
-  { month:"Apr",emission:8},
-  { month:"May",emission:6},
-  { month:"Jun",emission:7},
-  { month:"Jul",emission:6},
-  { month:"Aug",emission:7},
-  { month:"Sep",emission:6},
-  { month:"Oct",emission:8},
-  { month:"Nov",emission:7},
-  { month:"Dec",emission:8}
-];
-
+import api from "../../api/axios";
+import { serverUrl } from "../../App";
 const CustomDot=(props:any)=>{
    const { cx,cy,height}=props;
   if(cx===undefined || cy===undefined) 
@@ -44,6 +30,38 @@ const CustomDot=(props:any)=>{
    );
  };
 const LineChartComponent:React.FC=()=>{
+  const [data,setData]=useState<monthChartData[]>([]);
+  useEffect(()=>{
+    const fetchData=async()=>{
+      try {
+        const result=await api.get(`${serverUrl}/api/carbon`);
+        const records:CarbonRecord[]=result.data?.data || [];
+        const months=[
+          "Jan","Feb","Mar","Apr","May","Jun",
+          "Jul","Aug","Sep","Oct","Nov","Dec"
+        ];
+        const monthlyMap:Record<string,number>={
+          Jan:0, Feb:0, Mar:0, Apr:0,
+          May:0, Jun:0, Jul:0, Aug:0,
+          Sep:0, Oct:0, Nov:0, Dec:0
+        };
+        records.forEach((item)=>{
+          const date=new Date(item.createdAt);
+          const month=months[date.getMonth()];
+          monthlyMap[month]+=item.carbonEmission || 0;
+        });
+        const finalData=months.map((m)=>({
+          month:m,
+          emission:Math.round(monthlyMap[m])
+        }));
+        setData(finalData);
+      } catch (error) {
+        console.log("Monthly graph error:", error);
+      }
+    };
+    fetchData();
+  },[]);
+  const maxValue=Math.max(...data.map(d=>d.emission),0);
   return (
     <motion.div
       initial={{opacity:0,y:25}}
@@ -72,7 +90,16 @@ const LineChartComponent:React.FC=()=>{
             vertical={false}
           />
           <XAxis dataKey="month" stroke="#ffffff" interval={0}/>
-          <YAxis stroke="#ffffff" domain={[4, 12]} tickCount={5}/>
+          <YAxis
+            domain={[0, maxValue * 1.2]}
+            tickFormatter={(value) => {
+       const num=Number(value || 0);
+       const formatted=(num/1000).toFixed(1);
+       return formatted.endsWith(".0")?`${Math.floor(num / 1000)}k`:`${formatted}k`;
+ }}
+        allowDecimals={false}
+        stroke="#ffffff"
+          />
           <Tooltip
             contentStyle={{
               backgroundColor:"#1f2937",

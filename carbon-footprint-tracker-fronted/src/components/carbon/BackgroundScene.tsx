@@ -1,8 +1,6 @@
 import { Canvas } from "@react-three/fiber"
 import MovingShape from "./MovingShape"
-
 export default function BackgroundScene(){
-
   return(
    <Canvas className="absolute top-0 left-0 w-full h-full -z-10" camera={{position:[0,0,8]}}>
     <ambientLight intensity={1}/>

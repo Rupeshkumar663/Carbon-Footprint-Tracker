@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { serverUrl } from "../App";
+import { useState } from "react";
 function FloatingOrb(){
   return (
     <>
@@ -25,6 +26,7 @@ function FloatingOrb(){
 
 export default function InputPage(){
   const navigate=useNavigate();
+  const [loading, setLoading]=useState(false);
   const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
    e.preventDefault();
    const formData=new FormData(e.currentTarget);
@@ -39,7 +41,9 @@ export default function InputPage(){
      passengers:Number(formData.get("passengers") ?? 1)
   };
   try {
+    setLoading(true);
     const res=await axios.post(`${serverUrl}/api/carbon`,payload);
+    setLoading(false);
     console.log("Result:",res.data);
     navigate("/result",{state:res.data});
   } catch(error:unknown){
@@ -49,6 +53,10 @@ export default function InputPage(){
       console.error("Unknown error",error);
     }
   }
+  finally {
+      // ✅ ALWAYS RUNS
+      setLoading(false);
+    }
  };
 return (
    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center relative">
@@ -86,7 +94,7 @@ return (
       <input name="vehicle_age" placeholder="Vehicle Age" className="p-3 rounded-lg bg-white/10 border border-white/20"/>
       <input name="passengers" placeholder="Passengers" className="p-3 rounded-lg bg-white/10 border border-white/20"/>
      </div>
-     <button type="submit" className="w-full mt-5 bg-green-500 hover:bg-green-600 transition p-3 rounded-lg text-lg font-medium">Carbon Emission</button>
+     <button type="submit" className="w-full mt-5 bg-green-500 hover:bg-green-600 transition p-3 rounded-lg text-lg font-medium" disabled={loading}>{loading ? "Calculating...":"Carbon Emission"}</button>
     </form>
   </motion.div>
   </div>

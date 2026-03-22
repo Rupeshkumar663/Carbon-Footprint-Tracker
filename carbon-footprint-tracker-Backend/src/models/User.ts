@@ -1,5 +1,4 @@
 import mongoose,{Document} from "mongoose";
-
 export interface IUser extends Document{
   name:string;
   email:string;
@@ -11,7 +10,6 @@ export interface IUser extends Document{
   isotpVerified:boolean;
   
 }
-
 const userSchema=new mongoose.Schema<IUser>(
   {
     name:String,
@@ -41,5 +39,4 @@ const userSchema=new mongoose.Schema<IUser>(
   },
   {timestamps:true}
 );
-
 export default mongoose.model<IUser>("User",userSchema);

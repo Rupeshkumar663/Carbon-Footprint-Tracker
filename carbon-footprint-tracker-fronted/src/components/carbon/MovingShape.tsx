@@ -3,7 +3,6 @@ import { useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Mesh } from "three"
 import { MovingShapeProps } from "../../types/carbonTypes"
-
 export default function MovingShape({position,type}:MovingShapeProps){
 const ref=useRef<Mesh>(null!)
 useFrame((state)=>{
@@ -25,7 +24,6 @@ let geometry
  else{
   geometry=<sphereGeometry args={[0.5,32,32]} />
  }
-
 return(
   <Float speed={1.5} rotationIntensity={1} floatIntensity={2}>
    <mesh ref={ref} position={position}>
