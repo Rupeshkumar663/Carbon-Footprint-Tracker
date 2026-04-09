@@ -34,7 +34,7 @@ export default function Navbar({variant}){
        <div className="flex items-center  gap-10">
            <span className="text-green-400 mt-3 font-bold text-2xl hover:text-green-300 " onClick={()=>navigate("/")}>Home</span>
           { variant!=="dash" && <span className="text-green-400 mt-3 font-bold text-2xl hover:text-green-300" onClick={()=>navigate("/dashboard")}>Dashboard</span>}
-           <span className="text-green-400 mt-3 font-bold text-2xl hover:text-green-300" onClick={()=>navigate("/inputpage")}>carboninput</span>
+           {variant==="inputpage"? "":<span className="text-green-400 mt-3 font-bold text-2xl hover:text-green-300" onClick={()=>navigate("/inputpage")}>carboninput</span>}
        </div>
       <div className="flex items-center gap-4">
         <div className="relative" ref={ref}>
@@ -52,7 +52,7 @@ export default function Navbar({variant}){
                 <DropdownItem  icon={<User size={18} className="font-semibold text-green-600" onClick={()=>navigate("/profile")}/>} text="My Profile" />
                 <DropdownItem icon={<IoMdHome size={18} className="font-semibold text-green-600" onClick={()=>navigate("/")}/>} text="Home" />
                 { variant!=="dash" && <DropdownItem icon={<LuLayoutDashboard size={18} className="font-semibold text-green-600" onClick={()=>navigate("/dashboard")}/>} text="Dashboard" />}
-                <DropdownItem icon={<LeafIcon size={18} className="font-semibold text-green-600" onClick={()=>navigate("/inputpage")}/>} text="CarbonInput" />
+               {variant==="inputpage" ? "":<DropdownItem icon={<LeafIcon size={18} className="font-semibold text-green-600" onClick={()=>navigate("/inputpage")}/>} text="CarbonInput" />}
                 <DropdownItem icon={<Edit size={18} className="font-semibold text-green-600" onClick={()=>navigate("/editprofile")}/>} text="Edit Profile" />
                 <DropdownItem icon={<LogOut size={18} className="font-semibold text-green-600" onClick={handleLogout}/>} text="Logout" danger />
               </motion.div>

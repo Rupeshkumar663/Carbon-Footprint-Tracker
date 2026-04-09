@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { serverUrl } from "../App";
 import { useState } from "react";
+import Navbar from "../components/carbon/Navbar";
 
 export default function InputPage(){
   const navigate=useNavigate();
@@ -41,7 +42,11 @@ export default function InputPage(){
  };
 return (
    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center relative">
-   <div className="absolute top-0 left-0 w-full h-full opacity-40 ">
+    <div className="w-full fixed top-0 left-0 z-50 bg-black/80 backdrop-blur-md">
+     <Navbar variant="inputpage"/>
+  </div>
+   
+   <div className="absolute  left-0 w-full h-full opacity-40 ">
      <Canvas dpr={[1,1.5]} camera={{ position:[0,0,5] }} performance={{ min:0.5 }}>
       <ambientLight intensity={0.7}/>
       <directionalLight position={[2,5,2]}/>
@@ -53,7 +58,7 @@ return (
     initial={{opacity:0,y:50}}
     animate={{opacity:1,y:0}}
     transition={{duration:0.8}}
-    className="relative backdrop-blur-xl bg-green-800/10 border border-white/20 rounded-2xl p-10 w-full max-w-xl shadow-none"
+    className="relative backdrop-blur-xl bg-green-800/10 border border-white/20 rounded-2xl p-10 w-full max-w-xl shadow-none mt-35 mb-10"
   >
    <h1 className="text-3xl font-semibold mb-2 text-center text-green-300">Plan Your Carbon Emission</h1>
    <p className=" text-center mb-8 text-green-300">Let's calculate the most eco-friendly Journey</p>
