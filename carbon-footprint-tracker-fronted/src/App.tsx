@@ -25,7 +25,6 @@ const App=()=>{
         
         <Route path="/" element={<Home/>} />
         <Route path="/signup" element={<SignUp/>} />
-        <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} /> 
          <Route path="/forgetpassword" element={<Forgetpassword />} />
         <Route path="/dashboard" element={userData?(<Dashboard/>):(<Navigate to="/signup"/>)} /> 

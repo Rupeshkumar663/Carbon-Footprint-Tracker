@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { CarbonRecord, monthChartData } from "../../types/carbonTypes";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis} from "recharts";
 import api from "../../api/axios";
@@ -63,16 +62,12 @@ const LineChartComponent:React.FC=()=>{
   },[]);
   const maxValue=Math.max(...data.map(d=>d.emission),0);
   return (
-    <motion.div
-      initial={{opacity:0,y:25}}
-      animate={{opacity:1,y:0}}
-      transition={{type:"spring",stiffness:80,damping:18}}
-      whileHover={{y:-3}}
-      className="relative w-135 h-65 p-3 rounded-2xl text-center bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.65)] transition-all duration-500 overflow-hidden">
-      <div className="absolute top-0 left-[-50%] w-[200%] h-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-12 blur-xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-full h-6 bg-green-400/25 blur-2xl opacity-80"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-green-400/5 to-transparent"></div>
-      <p className="relative text-gray-300 font-semibold text-left mb-1 tracking-wide">Monthly Carbon Emissions</p>
+    <div
+      
+      className="relative w-155 h-75 p-3 rounded-2xl text-center bg-black backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.65)] transition-all duration-500 overflow-hidden">
+      
+      
+      <p className="relative text-green-400 font-semibold text-left mb-1 tracking-wide">Monthly Carbon Emissions</p>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
@@ -89,7 +84,7 @@ const LineChartComponent:React.FC=()=>{
             stroke="#6b7280"
             vertical={false}
           />
-          <XAxis dataKey="month" stroke="#ffffff" interval={0}/>
+          <XAxis dataKey="month" stroke="#90EE90" interval={0}/>
           <YAxis
             domain={[0, maxValue * 1.2]}
             tickFormatter={(value) => {
@@ -98,7 +93,7 @@ const LineChartComponent:React.FC=()=>{
        return formatted.endsWith(".0")?`${Math.floor(num / 1000)}k`:`${formatted}k`;
  }}
         allowDecimals={false}
-        stroke="#ffffff"
+        stroke="#90EE90"
           />
           <Tooltip
             contentStyle={{
@@ -111,7 +106,7 @@ const LineChartComponent:React.FC=()=>{
           <Area
             type="monotone"
             dataKey="emission"
-            stroke="#22c55e"
+            stroke="#90EE90"
             strokeWidth={3}
             fill="url(#colorEmission)"
             dot={<CustomDot />}
@@ -119,7 +114,7 @@ const LineChartComponent:React.FC=()=>{
           />
         </AreaChart>
       </ResponsiveContainer>
-    </motion.div>
+    </div>
   );
 };
 export default LineChartComponent;

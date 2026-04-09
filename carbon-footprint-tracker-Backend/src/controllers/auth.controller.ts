@@ -46,6 +46,28 @@ export const login=async(req:Request,res:Response)=>{
   }
 };
 
+//googleAuth---------------------------------------
+export const googleAuth=async(req:Request,res:Response)=>{
+  try {
+    const {name,email}=req.body;
+    let user=await User.findOne({ email });
+    if(!user){
+      user=await User.create({name,email,password: ""});
+    }
+    const token=generateToken(user._id.toString());
+    res.json({success:true,token,
+      user:{
+        _id:user._id,
+        name:user.name,
+        email:user.email,
+      },
+    });
+
+  } catch(error){
+    res.status(500).json({message:"Google auth failed"});
+  }
+};
+
 //Send OTP---------------------------------
 export const sendotp=async(req:Request,res:Response)=>{
   try{

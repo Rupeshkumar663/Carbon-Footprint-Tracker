@@ -28,19 +28,21 @@ const CarbonReportCard:React.FC=()=>{
     fetchData();
   },[]);
   const getBadge=()=>{
-    if(score>=80) return "🌍 Green Hero";
-    if(score>=60) return "🌱 Eco Friendly";
-    if(score>=30) return "⚠️ Moderate";
+    if(score>=80)
+       return "🌍 Green Hero";
+    if(score>=60) 
+      return "🌱 Eco Friendly";
+    if(score>=30) 
+      return "⚠️ Moderate";
     return "🚫 Polluter";
   };
   const downloadPDF=async()=>{
     if(!pdfRef.current) 
       return;
-
     const canvas=await html2canvas(pdfRef.current,{scale:2,backgroundColor:"#ffffff"});
     const imgData=canvas.toDataURL("image/png");
     const pdf=new jsPDF();
-    pdf.addImage(imgData, "PNG", 10, 10, 180, 0);
+    pdf.addImage(imgData,"PNG", 10, 10, 180, 0);
     pdf.save("carbon-report.pdf");
   };
   return (
@@ -48,13 +50,10 @@ const CarbonReportCard:React.FC=()=>{
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="px-20 py-3 p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg text-center"
+        className="w-[400px] py-14 p-2 rounded-xl bg-black backdrop-blur-xl border border-white/10 shadow-lg text-center"
       >
-        <button
-          onClick={downloadPDF}
-          className="w-full py-9 rounded-lg bg-green-500 hover:bg-green-600 text-white text-sm font-semibold">
-          Download PDF of Report
-        </button>
+        <button className="px-6 py-9  rounded-lg bg-green-400 text-black text-1xl font-semibold"> Carbon Emissions Report.</button>
+        <button onClick={downloadPDF} className="px-6 py-2 mt-2 rounded-lg bg-green-300 hover:bg-green-400 text-black text-1xl font-semibold"> Download PDF</button>
       </motion.div>
       <div
         ref={pdfRef}

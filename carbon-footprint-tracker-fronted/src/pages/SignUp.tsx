@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import google from "../assets/google.jpg";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,7 +11,7 @@ import { setUserData } from "../redux/authSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
-
+import { FcGoogle } from "react-icons/fc";
 function SignUp() {
   const [show, setShow]=useState(false);
   const [name, setName]=useState("");
@@ -76,71 +75,71 @@ function SignUp() {
         {/* LEFT SIDE */}
         <form onSubmit={handleSignup} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4"
         >
-          <h1 className="font-semibold text-center text-2xl">let's get started</h1>
-          <h2 className="text-center text-xl font-semibold">Create your account</h2>
+          <h1 className="font-semibold text-center text-2xl text-green-300">let's get started</h1>
+          <h2 className="text-center text-xl font-semibold text-green-300">Create your account</h2>
    
-          <div onClick={googleSignUp} className="flex items-center justify-center gap-2 border border-gray-600 h-[40px] rounded-md cursor-pointer hover:bg-gray-900 transition"
+          <div onClick={googleSignUp} className="flex items-center justify-center gap-2 border border-green-700 h-[40px] rounded-md cursor-pointer hover:bg-green-900 transition"
           >
-            <img src={google} className="w-[18px]" alt="google" />
+            <FcGoogle className="w-[22px] h-[22px]"/>
             <span className="text-sm">Continue with Google</span>
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-gray-400">Name</label>
+            <label className="text-sm text-green-200">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e)=>setName(e.target.value)}
               placeholder="Your name"
-              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
             />
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm text-gray-400">Email Address</label>
+            <label className="text-sm text-green-200">Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e)=>setEmail(e.target.value)}
               placeholder="Your Email"
-              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500  text-green-300"
             />
           </div>
 
           <div className="flex flex-col gap-1 relative">
-            <label className="text-sm text-gray-400">Password</label>
+            <label className="text-sm text-green-200">Password</label>
             <input
               type={show ? "text" : "password"}
               value={password}
               onChange={(e)=>setPassword(e.target.value)}
-              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
             />
             {!show ? (
-              <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"
+              <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-green-500"
                 onClick={() => setShow(true)}
               />
             ) : (
               <IoEye
-                className="absolute right-3 top-[36px] cursor-pointer text-black"
+                className="absolute right-3 top-[36px] cursor-pointer text-green-800"
                 onClick={()=>setShow(false)}
               />
             )}
           </div>
 
-          <button type="submit" disabled={loading} className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-60"
+          <button type="submit" disabled={loading} className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60"
           >
             {loading ? (<ClipLoader size={18} color="white" />
             ):("Sign Up")}
           </button>
 
-          <div className="text-center text-sm text-gray-400">
+          <div className="text-center text-sm text-green-200">
             Already have an account?
-            <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/login")}>Login</span>
+            <span className="ml-2 text-green-400 cursor-pointer hover:text-white" onClick={()=>navigate("/login")}>Login</span>
           </div>
         </form>
 
-        <div className="w-[50%] bg-gradient-to-b from-[#000428] via-[#004e92] to-[#ffffff] flex items-center justify-center">
-         <h1 className="text-4xl font-bold text-white">Carbon Tracker</h1>
+        <div className="w-[50%] bg-gradient-to-b  bg-green-400 to-[#ffffff] flex items-center justify-center">
+         <h1 className="text-4xl font-bold text-black">Carbon Tracker</h1>
         </div>
       </motion.div>
     </div>

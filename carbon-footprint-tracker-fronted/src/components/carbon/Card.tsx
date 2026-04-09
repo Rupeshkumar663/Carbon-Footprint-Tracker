@@ -1,11 +1,15 @@
-import { motion } from "framer-motion"
-import { CardProps } from "../../types/carbonTypes"
+import { motion } from "framer-motion";
+import { CardProps } from "../../types/carbonTypes";
 
-export default function Card({title,value}:CardProps){
-return(
-   <motion.div whileHover={{scale:1.05}} className="bg-gradient-to-br from-[#0f172a]/80 to-[#022c22]/80  backdrop-blur-xl border border-green-500/30 rounded-xl p-5 text-center shadow-lg shadow-green-500/10">
-     <p className="text-gray-400 text-sm">{title}</p>
-     <h3 className="text-green-400 text-lg font-semibold">{value}</h3>
-   </motion.div>
-  )
+export default function Card({ title, value }: CardProps) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.04 }}
+      className="p-5 rounded-2xl bg-black backdrop-blur-md border border-green-200 
+      text-center shadow-md hover:shadow-green-200 transition-all duration-300"
+    >
+      <p className="text-green-400 text-sm">{title}</p>
+      <h3 className="text-green-600 text-lg font-semibold mt-1">{value}</h3>
+    </motion.div>
+  );
 }

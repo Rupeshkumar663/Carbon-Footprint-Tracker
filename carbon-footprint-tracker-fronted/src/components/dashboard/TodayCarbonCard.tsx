@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import api from "../../api/axios";
 import { serverUrl } from "../../App";
 const TodayCarbonCard:React.FC=()=>{
@@ -34,19 +33,12 @@ const TodayCarbonCard:React.FC=()=>{
     return value.toString();
   };
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 80, damping: 18 }}
-      whileHover={{ y: -3 }}
-      className="relative px-24 py-3 rounded-2xl text-center bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.65)] overflow-hidden"
-    >
-      <div className="absolute top-0 left-[-50%] w-[200%] h-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-12 blur-xl pointer-events-none"></div>
+    <div className="relative px-25 py-12 rounded-2xl text-center bg-black backdrop-blur-2xl borderoverflow-hidden">
+      <div className="absolute top-0 left-[-50%] w-[200%] h-[100%] bg-gradient-to-r from-transparent to-transparent rotate-12 blur-xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-full h-6 bg-green-400/25 blur-2xl opacity-80"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-green-400/5 to-transparent"></div>
-      <p className="text-gray-300 font-semibold text-2xl mb-3 tracking-wide">Today Carbon</p>
-      <h2 className="text-white text-3xl font-bold tracking-wide">{formatCarbon(todayCarbon)} kg CO₂</h2>
-    </motion.div>
+      <p className="text-green-400 font-bold text-3xl mb-3 tracking-wide">Today Carbon</p>
+      <h2 className="text-green-300 text-3xl font-bold tracking-wide">{formatCarbon(todayCarbon)} kg CO₂</h2>
+    </div>
   );
 };
 export default TodayCarbonCard;

@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import google from "../assets/google.jpg";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,7 +11,8 @@ import { setUserData } from "../redux/authSlice";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
-
+import { FcGoogle } from "react-icons/fc";
+import api from "../api/axios";
 function Login() {
  const [show,setShow]=useState(false);
  const [email,setEmail]=useState("");
@@ -28,7 +28,7 @@ function Login() {
  }
   setLoading(true); 
  try{
- const result=await axios.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
+ const result=await api.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
  dispatch(setUserData({token:result.data.token,user:result.data.user}));
  toast.success("Login successful");
  navigate("/");
@@ -49,7 +49,7 @@ const googleLogin=async()=>{
  try{
   const response=await signInWithPopup(auth,provider);
    const user=response.user;
-   const result = await axios.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email},{withCredentials:true});
+   const result = await api.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email},{withCredentials:true});
    dispatch(setUserData({token:result.data.token,user:result.data.user}));
    toast.success("Login successfully");
    navigate("/");
@@ -72,55 +72,57 @@ return (
   >
  {/* LEFT SIDE */}
   <form onSubmit={handleLogin} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4">
-  <h2 className="text-center text-xl font-semibold">Login to your account</h2>
+  <h2 className="text-center text-xl font-semibold text-green-300">Login to your account</h2>
 
-  <div onClick={googleLogin} className="flex items-center justify-center gap-2 border border-gray-600 h-[40px] rounded-md cursor-pointer hover:bg-gray-900 transition">
-  <img src={google} className="w-[18px]" />
+  <div onClick={googleLogin} 
+  className="flex items-center justify-center gap-2 border border-green-700 h-[40px] rounded-md cursor-pointer hover:bg-green-900 transition"
+          >
+   <FcGoogle className="w-[22px] h-[22px]"/>
   <span className="text-sm">Continue with Google</span>
  </div>
 
  <div className="flex flex-col gap-1">
-   <label className="text-sm text-gray-400">Email Address</label>
+   <label className="text-sm text-green-200">Email Address</label>
    <input type="email"
      value={email}
      onChange={(e)=>setEmail(e.target.value)}
      placeholder="Your Email"
-     className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+    className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
    />
  </div>
 
  <div className="flex flex-col gap-1 relative">
-  <label className="text-sm text-gray-400">Password</label>
+  <label className="text-sm text-green-200">Password</label>
   <input
    type={show?"text":"password"}
    value={password}
    onChange={(e)=>setPassword(e.target.value)}
-   className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-gray-700 outline-none focus:border-blue-500"
+   className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
  />
-   {!show ? <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(true)}/>
+   {!show ? <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-green-500"onClick={()=>setShow(true)}/>
     :
-   <IoEye className="absolute right-3 top-[36px] cursor-pointer text-black"onClick={()=>setShow(false)}/>
+   <IoEye className="absolute right-3 top-[36px] cursor-pointer text-green-800"onClick={()=>setShow(false)}/>
   }
  </div>
-  <div className="flex justify-between text-xs text-gray-400">
-   <span className="cursor-pointer hover:text-white" onClick={()=>navigate("/forgetpassword")}> Forgot Password</span>
+  <div className="flex justify-between text-xs text-green-200">
+   <span className="cursor-pointer hover:text-green-500" onClick={()=>navigate("/forgetpassword")}> Forgot Password</span>
   </div>
   
   <button
    type="submit"
    disabled={loading}
-   className="h-[40px] bg-blue-600 rounded-md hover:bg-blue-700 transition flex items-center justify-center"
+   className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60"
   >
   {loading ?<ClipLoader size={18} color="white"/> :"Login"}
    </button>
-  <div className="text-center text-sm text-gray-400">Don't have an account?
-  <span className="ml-2 text-blue-400 cursor-pointer hover:text-white" onClick={()=>navigate("/signup")}>Sign Up</span>
+  <div className="text-center text-sm text-green-200">Don't have an account?
+  <span className="ml-2 text-green-400 cursor-pointer hover:text-white" onClick={()=>navigate("/signup")}>Sign Up</span>
   </div>
   </form>
 
   {/* RIGHT SIDE */}
-  <div className="w-[50%] bg-gradient-to-b from-[#000428] via-[#004e92] to-[#ffffff] flex items-center justify-center">
-   <h1 className="text-4xl font-bold text-white">Carbon Tracker</h1>
+  <div className="w-[50%] bg-gradient-to-b  bg-green-400 to-[#ffffff] flex items-center justify-center">
+   <h1 className="text-4xl font-bold text-black">Carbon Tracker</h1>
   </div>
  </motion.div>
 </div>

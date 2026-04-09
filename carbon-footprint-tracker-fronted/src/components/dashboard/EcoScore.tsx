@@ -54,7 +54,7 @@ const EcoScore:React.FC=()=>{
     return "🚫 Polluter";
   };
   return (
-    <div className="relative w-[320px] h-[180px] flex items-center justify-center bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.65)]">
+    <div className="relative px-25 py-7 flex items-center justify-center bg-black backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.65)]">
       <svg width="220" height="120" viewBox="0 0 220 120">
         <path
           d="M20 100 A85 85 0 0 1 200 100"
@@ -80,10 +80,9 @@ const EcoScore:React.FC=()=>{
         />
       </svg>
       <div className="absolute bottom-4 text-center">
-        <p className="text-gray-300 text-sm">Eco Score</p>
-        <h2 className="text-white text-5xl font-bold">{safeScore}%</h2>
-        <p className="text-gray-400 text-sm mt-1">{getBadge()}</p>
-        {trend!==0 && (<p className={`text-xs mt-1 ${trend < 0 ? "text-green-400" : "text-red-400"}`}>{trend < 0 ? "↓" : "↑"} {Math.abs(trend)}% vs yesterday</p>)}
+        <p className="text-green-300 text-sm">Eco Score</p>
+        <h2 className="text-green-200 text-5xl font-bold">{safeScore}%</h2>
+        <p className="text-green-400 text-sm mt-1">{getBadge()}</p>
       </div>
     </div>
   );

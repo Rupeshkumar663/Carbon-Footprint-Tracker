@@ -1,10 +1,11 @@
 import express from"express";
 import protect from "../middleware/AuthMiddleware";
-import {signup,login,sendotp,verifyotp,resetpassword, updateProfile} from "../controllers/auth.controller";
+import {signup,login,sendotp,verifyotp,resetpassword, updateProfile, googleAuth} from "../controllers/auth.controller";
 import upload from "../middleware/multer";
 const router=express.Router();
 router.post("/signup",signup);
 router.post("/login",login);
+router.post("/googleauth",googleAuth);
 router.post("/sendotp",sendotp);
 router.post("/verifiedotp",verifyotp);
 router.post("/resetpassword",resetpassword);

@@ -82,3 +82,25 @@ export interface CarbonType{
   carbonEmission:number;
   createdAt:string;
 };
+
+export interface InfoCardType{
+  label:string;
+  value:string | number;
+  icon:React.ReactNode
+};
+
+export interface VehicleData {
+  vehicle:string;
+  mileage:string;
+  fuel:string;
+  passengers:number;
+  engine:number;
+  age:string;
+  temperature:string;
+}
+
+export interface Field {
+  key:keyof VehicleData;
+  label:string;
+}
+

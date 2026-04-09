@@ -42,22 +42,22 @@ function EditProfile(){
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10">
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-xl w-full relative">
-        <FaArrowLeftLong className="absolute top-[5%] left-[5%] w-[22px] h-[22px] cursor-pointer" onClick={()=>navigate("/profile")} />
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Edit Profile</h2>
+        <FaArrowLeftLong className="absolute top-[5%] left-[5%] w-[22px] h-[22px] cursor-pointer text-green-700" onClick={()=>navigate("/profile")} />
+        <h2 className="text-2xl font-bold text-center text-green-600 mb-6">Edit Profile</h2>
         <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
           {/* Avatar */}
           <div className="flex flex-col items-center text-center">
-            {userData.photoUrl ? (<img src={userData.photoUrl} className="w-24 h-24 rounded-full object-cover border-4 border-black" alt="avatar" />
+            {userData.photoUrl ? (<img src={userData.photoUrl} className="w-24 h-24 rounded-full object-cover border-4 border-green-800" alt="avatar" />
             ) : (
-              <div className="w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-black border-white"> {userData.name?.slice(0, 1).toUpperCase()}</div>)}
+              <div className="w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-green-500 border-white"> {userData.name?.slice(0, 1).toUpperCase()}</div>)}
           </div>
           {/* Image Upload */}
           <div>
-            <label className="text-sm font-medium text-gray-700">Select avatar</label>
+            <label className="text-sm font-medium text-green-700">Select avatar</label>
             <input
               type="file"
               accept="image/*"
-              className="w-full px-4 py-2 border rounded-md text-sm"
+              className="w-full px-4 py-2 border rounded-md text-sm text-green-700"
               onChange={(e:ChangeEvent<HTMLInputElement>)=>
                 setPhotoUrl(e.target.files?.[0] || null)
               }
@@ -65,38 +65,39 @@ function EditProfile(){
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">UserName</label>
+            <label className="text-sm font-medium text-green-700">UserName</label>
             <input
               type="text"
-              className="w-full px-4 py-2 border rounded-md text-sm"
+              className="w-full px-4 py-2 border rounded-md text-sm text-green-700"
               value={name}
               onChange={(e)=>setName(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Email</label>
+            <label className="text-sm font-medium text-green-700">Email</label>
             <input
               readOnly
               type="text"
               value={userData.email}
-              className="w-full px-4 py-2 border rounded-md text-sm bg-gray-100"
+              className="w-full px-4 py-2 border rounded-md text-sm bg-gray-100 text-green-700"
             />
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Bio</label>
+            <label className="text-sm font-medium text-green-700">Bio</label>
             <textarea
               rows={3}
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md resize-none focus:ring-2 focus:ring-black"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md resize-none focus:ring-2 focus:ring-green-600 text-green-700"
               value={description}
               onChange={(e)=>setDescription(e.target.value)}
             />
           </div>
 
           <button
-            className="w-full bg-black active:bg-[#454545] text-white py-2 rounded-md font-medium transition cursor-pointer" disabled={loading} onClick={handleEditProfile} >
-            {loading ? (<ClipLoader size={25} color="white" />) : ( "Save Changes" )}
+            className="w-full py-2 border border-green-400 text-green-400 rounded-lg font-medium hover:bg-green-400 hover:text-black transition"
+            disabled={loading} onClick={handleEditProfile} >
+            {loading ? (<ClipLoader size={25} color="black" />) : ( "Save Changes" )}
           </button>
         </form>
       </div>
