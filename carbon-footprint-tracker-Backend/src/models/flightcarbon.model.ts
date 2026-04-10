@@ -15,17 +15,17 @@ const flightcarbonSchema=new mongoose.Schema({
   seatClass:{
     type:String
   },
-  emission:{
+  distance:{
     type:Number
   },
-  trees:{
+  totalCO2:{
     type:Number
   },
-  impact:{
-    type:String
+  perPassenger:{
+    type:Number
   },
-  insight:{
-    type:String
+  ecoScore:{
+    type:Number
   },
 },{timestamps:true})
-export const Flightcarbon=mongoose.model("Flightcarbon",flightcarbonSchema)
+export const FlightcarbonModel=mongoose.model("FlightcarbonModel",flightcarbonSchema)
