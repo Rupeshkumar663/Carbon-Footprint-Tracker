@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { timeStamp } from "node:console";
 const flightcarbonSchema=new mongoose.Schema({
   from:{ 
     type:String,

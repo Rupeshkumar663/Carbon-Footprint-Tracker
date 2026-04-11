@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../src/redux/store"
 import InputPage from "./pages/InputPage";
 import CarbonEmissionPage from "./pages/CarbonEmissonPage";
+import FlightHome from "./pages/flight/Home";
 
 
 export const serverUrl="http://localhost:9000";
@@ -33,6 +34,8 @@ const App=()=>{
         <Route path="/inputpage" element={userData?(<InputPage/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/result" element={userData?(<CarbonEmissionPage/>):(<Navigate to="/signup"/>)} /> 
 
+        {/*flight */}
+        <Route path="/flighthome" element={<FlightHome/>} />
       </Routes>
     </>
   );

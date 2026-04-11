@@ -35,6 +35,7 @@ export const connectRedis=async()=>{
         });
         await redisClient.connect();
         console.log("Redis Connected Successfully");
+        return redisClient;
     } catch(error){
         console.error("Failed to initialize Redis:",error);
         process.exit(1); 
