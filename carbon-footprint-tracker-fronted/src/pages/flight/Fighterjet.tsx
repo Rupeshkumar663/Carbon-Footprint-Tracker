@@ -1,20 +1,19 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, ChangeEvent } from "react";
+import Navbar from "../../components/carbon/Navbar";
+import { FormType } from "../../types/carbonTypes";
+import Footer from "../../components/flightcarbon/Footer";
 
-export default function FighterJetPage() {
-  const navigate = useNavigate();
-
-  const [form, setForm] = useState({
-    jetModel: "",
-    hours: "",
-    mission: "",
-    payload: "",
-    altitude: "",
-    speed: "",
+export default function FighterJetPage(){
+  const [form,setForm]=useState<FormType>({
+    jetModel:"",
+    hours:"",
+    mission:"",
+    payload:"",
+    altitude:"",
+    speed:"",
   });
 
-  // 🔥 Extended Fighter Jet List
-  const fighterJets = [
+  const fighterJets=[
     "F-16 Fighting Falcon",
     "F-22 Raptor",
     "F-35 Lightning II",
@@ -29,11 +28,10 @@ export default function FighterJetPage() {
     "Mirage 2000",
     "Gripen E",
     "SU-30MKI",
-    "F-15 Eagle"
+    "F-15 Eagle",
   ];
 
-  // 🔥 All Mission Types
-  const missionTypes = [
+  const missionTypes=[
     "Training",
     "Combat",
     "Patrol",
@@ -41,104 +39,85 @@ export default function FighterJetPage() {
     "Air Superiority",
     "Ground Attack",
     "Interception",
-    "Surveillance"
+    "Surveillance",
   ];
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange=(e:ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
+    const {name,value}=e.target;
+    setForm((prev)=>({...prev,[name]:value}));
+  };
+
+  const handleSubmit=()=>{
+    console.log(form);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#0a0a0a] to-black text-white flex items-center justify-center px-4">
-
-      <div className="w-full max-w-4xl bg-[#0d0d0d] border border-green-500/10 rounded-3xl shadow-[0_0_40px_rgba(34,197,94,0.15)] p-10">
-
-        <button onClick={() => navigate("/")} className="text-green-400 mb-4">
-          ← Back
-        </button>
-
-        <h1 className="text-3xl text-green-400 text-center mb-8 font-bold">
-          FIGHTER JET INPUT
-        </h1>
-
-        <div className="grid gap-6">
-
-          {/* Jet Model */}
-          <select name="jetModel" onChange={handleChange} className="input">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar variant="fighterjet" />
+      <div className="flex flex-col items-center px-4 py-10">
+        <div className="w-full max-w-2xl bg-[#0a0a0a] border border-green-900 rounded-2xl p-8 space-y-6 shadow-[0_0_30px_rgba(34,197,94,0.15)]">
+          <h1 className="text-5xl font-bold text-green-400 mb-10 text-center">Fighter Jet Input</h1>
+          <select
+            name="jetModel"
+            value={form.jetModel}
+            onChange={handleChange}
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500">
             <option value="">Select Fighter Jet</option>
-            {fighterJets.map((jet) => (
-              <option key={jet}>{jet}</option>
-            ))}
+            {fighterJets.map((jet)=>(<option  key={jet} value={jet}>{jet}</option>))}
           </select>
 
-          {/* Flight Hours */}
           <input
             type="number"
             name="hours"
+            value={form.hours}
             placeholder="Flight Hours (e.g. 1.5)"
             onChange={handleChange}
-            className="input"
-          />
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
-          {/* Mission Type */}
-          <select name="mission" onChange={handleChange} className="input">
+          <select
+            name="mission"
+            value={form.mission}
+            onChange={handleChange}
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500">
             <option value="">Mission Type</option>
-            {missionTypes.map((m) => (
-              <option key={m}>{m}</option>
-            ))}
+            {missionTypes.map((m)=>(<option key={m} value={m}>{m}</option>))}
           </select>
 
-          {/* Payload */}
           <input
             type="number"
             name="payload"
+            value={form.payload}
             placeholder="Payload Weight (kg)"
             onChange={handleChange}
-            className="input"
-          />
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
-          {/* Altitude */}
           <input
             type="number"
             name="altitude"
+            value={form.altitude}
             placeholder="Flight Altitude (feet)"
             onChange={handleChange}
-            className="input"
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
-          {/* Speed */}
           <input
             type="number"
             name="speed"
+            value={form.speed}
             placeholder="Average Speed (km/h)"
             onChange={handleChange}
-            className="input"
+            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
-          {/* Button */}
-          <button className="bg-green-500 text-black py-3 rounded-xl font-semibold hover:bg-green-400">
-            CALCULATE
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-green-500 text-black font-semibold py-4 rounded-xl hover:bg-green-300 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.4)]">
+            Calculate Fighter jet Carbon
           </button>
         </div>
       </div>
-
-      {/* SAME UI STYLE */}
-      <style>{`
-        .input {
-          width: 100%;
-          padding: 12px;
-          background: black;
-          border: 1px solid rgba(34,197,94,0.2);
-          border-radius: 12px;
-          outline: none;
-          transition: 0.3s;
-        }
-
-        .input:focus {
-          border-color: #22c55e;
-          box-shadow: 0 0 10px rgba(34,197,94,0.3);
-        }
-      `}</style>
+      <Footer/>
     </div>
   );
 }
+

@@ -115,3 +115,12 @@ export interface  ResultType{
   ecoScore:number;
   aiAdvice:string[];
 };
+
+export interface FormType {
+  jetModel:string;
+  hours:string;
+  mission:string;
+  payload:string;
+  altitude:string;
+  speed:string;
+};

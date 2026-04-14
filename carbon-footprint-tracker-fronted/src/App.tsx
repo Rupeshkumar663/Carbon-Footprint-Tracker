@@ -14,6 +14,8 @@ import CarbonEmissionPage from "./pages/CarbonEmissonPage";
 import FlightHome from "./pages/flight/Home";
 import FighterJetPage from "./pages/flight/Fighterjet";
 import FlighResult from "./pages/flight/FlightResult";
+import FighterjetResult from "./pages/flight/FighterjetResult";
+import FlightDashboard from "./pages/flight/FlightDashboard";
 
 
 export const serverUrl="http://localhost:9000";
@@ -40,7 +42,8 @@ const App=()=>{
         <Route path="/flighthome" element={userData?(<FlightHome/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/fighter-jet" element={userData?(<FighterJetPage/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/flightresult" element={userData?(<FlighResult/>):(<Navigate to="/signup"/>)} /> 
-        
+        <Route path="/fighterjetresult" element={userData?(<FighterjetResult/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/flightdashboard" element={userData?(<FlightDashboard/>):(<Navigate to="/signup"/>)} /> 
       </Routes>
     </>
   );
