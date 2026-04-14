@@ -104,3 +104,14 @@ export interface Field {
   label:string;
 }
 
+export interface  ResultType{
+  from:string;
+  to:string;
+  distance:number;
+  passengers:number;
+  seatClass:string;
+  perPassenger:number;
+  totalCO2:number;
+  ecoScore:number;
+  aiAdvice:string[];
+};

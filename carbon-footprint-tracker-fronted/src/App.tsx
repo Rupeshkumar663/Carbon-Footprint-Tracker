@@ -12,6 +12,8 @@ import type { RootState } from "../src/redux/store"
 import InputPage from "./pages/InputPage";
 import CarbonEmissionPage from "./pages/CarbonEmissonPage";
 import FlightHome from "./pages/flight/Home";
+import FighterJetPage from "./pages/flight/Fighterjet";
+import FlighResult from "./pages/flight/FlightResult";
 
 
 export const serverUrl="http://localhost:9000";
@@ -35,7 +37,10 @@ const App=()=>{
         <Route path="/result" element={userData?(<CarbonEmissionPage/>):(<Navigate to="/signup"/>)} /> 
 
         {/*flight */}
-        <Route path="/flighthome" element={<FlightHome/>} />
+        <Route path="/flighthome" element={userData?(<FlightHome/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/fighter-jet" element={userData?(<FighterJetPage/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/flightresult" element={userData?(<FlighResult/>):(<Navigate to="/signup"/>)} /> 
+        
       </Routes>
     </>
   );
