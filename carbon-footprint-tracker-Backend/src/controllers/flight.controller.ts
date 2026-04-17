@@ -44,3 +44,5 @@ export const FlightCarbon=async(req:Request,res:Response)=>{
         return res.status(500).json({success:false,error:error.message || "Internal Server Error"});
     }
 }
+
+
