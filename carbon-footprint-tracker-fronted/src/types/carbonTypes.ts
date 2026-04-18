@@ -124,3 +124,23 @@ export interface FormType {
   altitude:string;
   speed:string;
 };
+
+export interface MonthlyRecord{
+  _id:{
+    month:number;
+  };
+  total:number;
+}
+
+export interface WeeklyRecord{
+  day:string;
+  total:number;
+}
+
+export interface FlightRecord{
+  _id:string;
+  from:string;
+  to:string;
+  totalCarbon:number;
+  createdAt:string;
+}

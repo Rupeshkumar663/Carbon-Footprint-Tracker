@@ -1,36 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { CarbonRecord, weekChartData } from "../../types/carbonTypes";
+import { weekChartData, WeeklyRecord } from "../../types/carbonTypes";
 import {ResponsiveContainer,Bar,BarChart,CartesianGrid,Tooltip,
 XAxis,YAxis} from "recharts";
 import api from "../../api/axios";
 import { serverUrl } from "../../App";
+
+
 const DailyBarChart:React.FC=()=>{
   const [data,setData]=useState<weekChartData[]>([])
   useEffect(()=>{
     const fetchData=async()=>{
       try {
-        const result=await api.get(`${serverUrl}/api/carbon`)
-        const records:CarbonRecord[]=result.data.data;
-        const days= ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-        const weeklyMap:Record<string,number>={
-          Sun:0,
-          Mon:0, 
-          Tue:0,
-          Wed:0, 
-          Thu:0,
-          Fri:0, 
-          Sat:0
-        };
-         records.forEach((item)=>{
-          const date=new Date(item.createdAt);
-          const day=days[date.getDay()];
-          weeklyMap[day]+= item.carbonEmission || 0;
-        })
-         const finalData=days.map((day)=>({
-          week:day,
-          emission:Math.round(weeklyMap[day])
-        }));
-        setData(finalData)
+        const result=await api.get(`${serverUrl}/api/flight/getdailychart`,{withCredentials:true})
+        const records:WeeklyRecord[]=result.data?.data || [];
+      const finalData:weekChartData[]=records.map((item)=>({
+        week:item.day,
+        emission:item.total
+      }));
+      setData(finalData);
       } catch (error) {
         console.log("graph error",error)
       }
@@ -57,7 +44,18 @@ return (
             stroke="none"
             tick={{ fill:"#90EE90" }}
           />
-        <Tooltip formatter={(value:any)=>Math.round(value)} contentStyle={{ background:"#1e293b",border:"none",borderRadius:"8px",color:"#fff"}}/>
+              <Tooltip
+                formatter={(value)=>{
+                  const val=typeof value === "number"? Math.round(value): Math.round(Number(value));
+                  return [val,"Emission"];
+                }}
+                contentStyle={{
+                  background:"#1e293b",
+                  border:"none",
+                  borderRadius:"8px",
+                  color:"#fff"
+                }}
+              />
         <Bar dataKey="emission" fill="#3b82f6" radius={[6,6,0,0]}barSize={30}/>
        </BarChart>
      </ResponsiveContainer>

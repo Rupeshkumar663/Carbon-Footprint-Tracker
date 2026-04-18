@@ -41,3 +41,8 @@ export interface DashboardCarbon extends Document {
   carbon:number;
   date:Date;
 }
+
+export interface WeeklyRecord{
+  _id:{ day:number };
+  total:number;
+}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { CarbonRecord, monthChartData } from "../../types/carbonTypes";
+import {  monthChartData, MonthlyRecord } from "../../types/carbonTypes";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis} from "recharts";
 import api from "../../api/axios";
 import { serverUrl } from "../../App";
-const CustomDot=(props:any)=>{
+import { DotProps } from "recharts";
+
+const CustomDot:React.FC<DotProps>=(props)=>{
    const { cx,cy,height}=props;
   if(cx===undefined || cy===undefined) 
     return null;
@@ -11,7 +13,7 @@ const CustomDot=(props:any)=>{
     <>
       <line
         x1={cx}
-        y1={height}
+        y1={height ?? 0}
         x2={cx}
         y2={cy}
         stroke="#6b7280"
@@ -29,38 +31,30 @@ const CustomDot=(props:any)=>{
    );
  };
 const MonthlyLineChart:React.FC=()=>{
-  const [data,setData]=useState<monthChartData[]>([]);
-  useEffect(()=>{
-    const fetchData=async()=>{
-      try {
-        const result=await api.get(`${serverUrl}/api/carbon`);
-        const records:CarbonRecord[]=result.data?.data || [];
-        const months=[
-          "Jan","Feb","Mar","Apr","May","Jun",
-          "Jul","Aug","Sep","Oct","Nov","Dec"
-        ];
-        const monthlyMap:Record<string,number>={
-          Jan:0, Feb:0, Mar:0, Apr:0,
-          May:0, Jun:0, Jul:0, Aug:0,
-          Sep:0, Oct:0, Nov:0, Dec:0
-        };
-        records.forEach((item)=>{
-          const date=new Date(item.createdAt);
-          const month=months[date.getMonth()];
-          monthlyMap[month]+=item.carbonEmission || 0;
-        });
-        const finalData=months.map((m)=>({
-          month:m,
-          emission:Math.round(monthlyMap[m])
-        }));
-        setData(finalData);
-      } catch (error) {
-        console.log("Monthly graph error:", error);
-      }
-    };
-    fetchData();
-  },[]);
-  const maxValue=Math.max(...data.map(d=>d.emission),0);
+ const [data,setData]=useState<monthChartData[]>([]);
+ useEffect(()=>{
+  const fetchData=async()=>{
+    try{
+      const result=await api.get(`${serverUrl}/api/flight/getmonthlychart`,{ withCredentials: true });
+      const records:MonthlyRecord[]=result.data?.data || [];
+      const months=[
+        "Jan","Feb","Mar","Apr","May","Jun",
+        "Jul","Aug","Sep","Oct","Nov","Dec"
+      ];
+
+      const finalData=months.map((month,index)=>{
+        const found=records.find((item)=>item._id.month===index + 1);
+        return {month,emission: found ? Math.round(found.total):0};
+      });
+      setData(finalData);
+    } catch(error){
+      console.log("Monthly graph error:", error);
+    }
+  };
+  fetchData();
+},[]);
+
+const maxValue=Math.max(...data.map((d)=>d.emission),0);
   return (
     <div
       
@@ -87,11 +81,11 @@ const MonthlyLineChart:React.FC=()=>{
           <XAxis dataKey="month" stroke="#90EE90" interval={0}/>
           <YAxis
             domain={[0, maxValue * 1.2]}
-            tickFormatter={(value) => {
-       const num=Number(value || 0);
-       const formatted=(num/1000).toFixed(1);
-       return formatted.endsWith(".0")?`${Math.floor(num / 1000)}k`:`${formatted}k`;
- }}
+            tickFormatter={(value)=>{
+              const num=Number(value || 0);
+              const formatted=(num/1000).toFixed(1);
+              return formatted.endsWith(".0")?`${Math.floor(num / 1000)}k`:`${formatted}k`;
+          }}
         allowDecimals={false}
         stroke="#90EE90"
           />

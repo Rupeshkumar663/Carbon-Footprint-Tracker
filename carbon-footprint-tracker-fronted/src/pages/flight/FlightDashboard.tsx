@@ -8,16 +8,39 @@ import TotalCarbonCard from "../../components/flightdashboard/TotalCarbonCard";
 import Navbar from "../../components/carbon/Navbar";
 import DailyBarChart from "../../components/flightdashboard/DailyBarChart";
 import MonthlyLineChart from "../../components/flightdashboard/MonthlyLineChart";
+import { useEffect, useState } from "react";
+import api from "../../api/axios";
+import { serverUrl } from "../../App";
+import CarbonHistory from "../../components/dashboard/CarbonHistory";
 
 export default function Dashboard(){
-
+   const [totalCO2,setTotalCO2]=useState(0);
+  const [ecoScore,setEcoScore]=useState(0);
+  const [impact,setImpact]=useState({
+    trees:0,
+    jetFuel:0,
+    flightHours:0,
+    earthTrips:0,
+  });
+  const [todayCO2,setTodayCO2]=useState(0);
+   useEffect(()=>{
+  const fetchData=async()=>{
+    try {
+      const res=await api.get(`${serverUrl}/api/flight/gettotalco2`,{ withCredentials: true });
+      const data=res.data?.data;
+      setTotalCO2(data?.totalCO2 || 0);
+      setEcoScore(data?.ecoScore || 0);
+      setImpact(data?.impact || {});
+      const todayRes=await api.get(`${serverUrl}/api/flight/gettodayco2`,{ withCredentials: true });
+      setTodayCO2(todayRes.data?.data?.todayCO2 || 0);
+    } catch(error){
+      console.log("Dashboard error:", error);
+    }
+  };
+  fetchData();
+},[]);
   
-  const totalCO2 = 12000;
-  const todayCO2 = 1800;
-  const history = [12000, 9500, 14000, 8000];
-
-  const ecoScore = Math.max(0, 100 - totalCO2 / 200);
-
+  
   return (
     <div className=" min-h-screen bg-gradient-to-br bg-gray-900 text-white max-w-[1600px] mx-auto ">
       {/* NAVBAR */}
@@ -63,17 +86,13 @@ export default function Dashboard(){
       {/* ANALYTICS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-5">
         <div className="bg-black"><EmissionBreakdown total={totalCO2} /></div>
-        <div className="bg-black"><TimelineChart history={history} /></div>
+        <div className="w-[500px]"><CarbonHistory/></div>
       </div>
 
       {/* EXTRA */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-10  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 mt-5">
-        <GlobalImpact total={totalCO2} />
-        <AdvancedPDF
-          total={totalCO2}
-          route="Delhi → Mumbai"
-          score={ecoScore}
-        />
+        <GlobalImpact total={totalCO2} impact={impact} />
+        {/*<AdvancedPDF/> */}
       </div>
 
       <style>{`
