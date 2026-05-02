@@ -1,9 +1,15 @@
 import { useState, ChangeEvent } from "react";
-import Navbar from "../../components/carbon/Navbar";
+import Navbar from "../../components/flightcarbon/Navbar";
 import { FormType } from "../../types/carbonTypes";
 import Footer from "../../components/flightcarbon/Footer";
+import api from "../../api/axios";
+import { serverUrl } from "../../App";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 export default function FighterJetPage(){
+  const navigate=useNavigate()
   const [form,setForm]=useState<FormType>({
     jetModel:"",
     hours:"",
@@ -47,9 +53,29 @@ export default function FighterJetPage(){
     setForm((prev)=>({...prev,[name]:value}));
   };
 
-  const handleSubmit=()=>{
-    console.log(form);
-  };
+   const handleSubmit=async()=>{
+  try{
+    const result=await api.post(`${serverUrl}/api/fighter/fighterjetcarbon`,
+      {
+        jetModel:form.jetModel,
+        hours:form.hours,
+        mission:form.mission,
+        payload:form.payload,
+        altitude:form.altitude,
+        speed:form.speed
+      },
+      {
+        withCredentials:true
+      }
+    );
+    const data=result.data;
+    toast.success("fighterjet CarbonCalculate Successfully")
+    navigate("/fighterjetresult",{state:data.data});
+  } catch(error){
+     toast.success("Server error")
+    console.error("Error:",error);
+   }
+};
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">

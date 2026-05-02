@@ -144,3 +144,16 @@ export interface FlightRecord{
   totalCarbon:number;
   createdAt:string;
 }
+
+export interface FighterData {
+  jetModel: string;
+  mission: string;
+  distance: number;
+  hours: number;
+  speed: number;
+  altitude: number;
+  payload: number;
+  carbon: number;
+  ecoScore: number;
+  label: string;
+}

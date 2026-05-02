@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 const flightcarbonSchema=new mongoose.Schema({
+  userId:{
+        type:mongoose.Types.ObjectId,
+        ref:"User"
+      },
   from:{ 
     type:String,
     required:true 

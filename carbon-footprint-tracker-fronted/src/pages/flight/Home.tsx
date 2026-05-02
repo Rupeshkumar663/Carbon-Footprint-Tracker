@@ -32,13 +32,13 @@ export default function FlightInputPage() {
         to:form.to,
         passengers:form.passengers,
         seatClass:form.flightClass,
-      }
+      },
     );
     const data=result.data;
     toast.success("Flight CarbonCalculate Successfully")
     navigate("/flightresult",{state:data.data});
   } catch(error){
-     toast.success("Server error")
+     toast.error("Server error")
     console.error("Error:",error);
    }
 };
@@ -89,8 +89,6 @@ export default function FlightInputPage() {
               <option value="fighterjet">Fighter Jet</option>
             </select>
           </div>
-
-          {/* Fighter jet pe model hide */}
           {form.aircraftType && form.aircraftType !=="fighterjet" && (
             <div>
               <label className="text-sm text-green-300">Aircraft Model</label>
@@ -102,7 +100,6 @@ export default function FlightInputPage() {
           )}
         </div>
 
-        {/* SAME UI BELOW  */}
         <div className="grid md:grid-cols-2 gap-6">
           <input name="from" placeholder="Departure" onChange={handleChange} className="input text-green-100" />
           <input type="date" name="departureDate" onChange={handleChange} className="input text-green-100" />

@@ -96,6 +96,7 @@ export default function FlightResult(){
           </div>
         </div>
       </div>
+      <button className="bg-red-400" onClick={()=>navigate("/flightdashboard")}>FighterDashboard</button>
       <Footer/>
     </div>
   );

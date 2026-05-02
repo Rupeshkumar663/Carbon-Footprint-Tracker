@@ -8,9 +8,11 @@ const api=axios.create({
 api.interceptors.request.use(
   (config:InternalAxiosRequestConfig)=>{
     const token=store.getState().auth.token;
+     console.log("TOKEN:", token); // 🔥 debug
     if(token){
       config.headers.Authorization=`Bearer ${token}`;
     }
+
     return config;
   },
   (error:unknown)=>Promise.reject(error)

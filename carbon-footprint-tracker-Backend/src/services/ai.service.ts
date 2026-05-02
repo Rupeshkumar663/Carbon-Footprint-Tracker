@@ -1,44 +1,84 @@
-import axios from "axios";
-import { getRedisClient } from "../config/redis"
+import OpenAI from "openai";
+import dotenv from "dotenv"
+dotenv.config()
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
+});
 
-export const getEcoAdvice=async(data:{totalCO2:number})=>{
-  try{
-    if (!data || typeof data.totalCO2 !=="number"){
-      throw new Error("Invalid CO2 data");
-    }
-    const redisClient=getRedisClient();
-    const cacheKey=`eco:${data.totalCO2}`;
-    const cachedData=await redisClient.get(cacheKey);
-    if(cachedData){
-      console.log("Cache HIT");
-      return JSON.parse(cachedData);
-    }
-    console.log("Cache MISS→Calling AI");
-    const prompt=`You are an environmental expert.Flight CO2 emission: ${data.totalCO2} kg.Give exactly 3 short, practical eco-friendly tips.Each tip should be under 15 words.Use bullet points.`;
+function cleanBullets(text: string) {
+  return text
+    .split("\n")
+    .map((t) => t.replace(/^[-•\d\.\)\s]+/, "").trim())
+    .filter(Boolean)
+    .slice(0, 3);
+}
 
-    const response=await axios.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model:"gpt-4o-mini",
-        messages:[{ role:"user",content:prompt}],
-        temperature:0.7,
-      },
-      {
-        headers:{
-          "Content-Type":"application/json",
-          Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,
-        },
-      }
-    );
-    const advice=response.data?.choices?.[0]?.message?.content || "No advice generated";
-    await redisClient.set(cacheKey,JSON.stringify(advice),{EX:3600});
-    return advice;
-  } catch(error:any){
-    console.error("AI Service Error:",error?.response?.data || error.message);
+export async function generateCarbonAdvice(
+  type: "fighter" | "flight",
+  data: any
+): Promise<string[]> {
+  const base = `
+You are a sustainability expert.
+Give EXACTLY 3 short actionable tips (no numbering).
+`;
+
+  const fighterBlock = `
+Fighter Jet:
+Model: ${data.jetModel}
+Mission: ${data.mission}
+Hours: ${data.hours}
+Speed: ${data.speed}
+Altitude: ${data.altitude}
+Payload: ${data.payload}
+Carbon: ${data.carbon}
+EcoScore: ${data.ecoScore}
+`;
+
+  const flightBlock = `
+Flight:
+Airline: ${data.airline}
+From: ${data.from}
+To: ${data.to}
+Distance: ${data.distance}
+Passengers: ${data.passengers}
+Class: ${data.flightClass}
+Carbon: ${data.carbon}
+EcoScore: ${data.ecoScore}
+`;
+
+  const guidance = `
+If EcoScore > 80 → optimization tips
+If EcoScore 40-80 → moderate improvements
+If EcoScore < 40 → strong actions
+Return only 3 bullet lines.
+`;
+
+  const prompt = `${base}
+${type === "fighter" ? fighterBlock : flightBlock}
+${guidance}`;
+
+  try {
+    const res = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      temperature: 0.4,
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const text = res.choices?.[0]?.message?.content || "";
+    const tips = cleanBullets(text);
+
+    return tips.length >= 3
+      ? tips
+      : [
+          "Reduce payload weight",
+          "Maintain optimal speed",
+          "Optimize altitude",
+        ];
+  } catch {
     return [
-      "Use direct flights to reduce emissions",
-      "Offset carbon via verified programs",
-      "Travel light to reduce fuel consumption",
+      "Reduce payload weight",
+      "Maintain optimal speed",
+      "Optimize altitude",
     ];
   }
-};
+}

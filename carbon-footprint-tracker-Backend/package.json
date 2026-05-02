@@ -24,6 +24,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@google/genai": "^1.51.0",
     "@react-google-maps/api": "^2.20.8",
     "axios": "^1.13.6",
     "bcryptjs": "^3.0.3",
@@ -35,6 +36,7 @@
     "mongoose": "^9.2.1",
     "multer": "^2.0.2",
     "nodemailer": "^8.0.1",
+    "openai": "^6.35.0",
     "redis": "^5.11.0"
   }
 }

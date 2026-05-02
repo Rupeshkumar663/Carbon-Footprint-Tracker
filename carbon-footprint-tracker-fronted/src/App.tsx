@@ -42,7 +42,7 @@ const App=()=>{
         <Route path="/flighthome" element={userData?(<FlightHome/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/fighter-jet" element={userData?(<FighterJetPage/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/flightresult" element={userData?(<FlighResult/>):(<Navigate to="/signup"/>)} /> 
-        <Route path="/fighterjetresult" element={userData?(<FighterjetResult/>):(<Navigate to="/signup"/>)} /> 
+       <Route path="/fighterjetresult" element={<FighterjetResult/>} />
         <Route path="/flightdashboard" element={userData?(<FlightDashboard/>):(<Navigate to="/signup"/>)} /> 
       </Routes>
     </>
