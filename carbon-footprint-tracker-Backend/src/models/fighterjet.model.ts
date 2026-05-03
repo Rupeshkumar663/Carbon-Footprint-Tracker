@@ -1,34 +1,40 @@
 import mongoose from "mongoose";
-const emissionSchema=new mongoose.Schema({
+const fighterjetSchema=new mongoose.Schema({
   userId:{
-      type:mongoose.Types.ObjectId,
+      type:mongoose.Schema.Types.ObjectId,
       ref:"User"
     },
   jetModel:{
-    type:String
+    type:String,
+    required:true
    },
   hours:{
-     type:Number
+     type:Number,
+     required:true
   },
   payload:{
-     type:Number
+     type:Number,
+     required:true
   },
   altitude:{
-    type: Number
+    type:Number,
+    required:true
   },
   speed:{
-    type: Number
+    type:Number,
+    required:true
   },
   distance:{
     type:Number
   },
   mission:{
-    type:String
+    type:String,
+    required:true
   },
-  carbon:{
+   totalCO2:{
       type:Number,
       required:true,
-  },
+    },
   ecoScore:{
       type:Number,
       required:true,
@@ -42,4 +48,4 @@ const emissionSchema=new mongoose.Schema({
     timestamps:true
 });
 
-export default mongoose.model("Emission",emissionSchema);
+export default mongoose.model("Fighterjet",fighterjetSchema);

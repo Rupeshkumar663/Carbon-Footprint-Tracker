@@ -85,9 +85,7 @@ export const getTotalCO2=async(req:Request,res:Response)=>{
     if(cached){
          return res.json({source:"cache",data:JSON.parse(cached)});
     }
-    console.log("USER ID:", userId);
     const flights=await FlightcarbonModel.find({userId,}).lean();
-    console.log("FLIGHTS:", flights);
     const totalCO2=flights.reduce((sum:number,item:any)=>sum+(Number(item.totalCO2) || 0),0);
     const MAX_CO2=50000;
     const ecoScore=Math.max(0,Math.min(100, 100 - (totalCO2 / MAX_CO2) * 100));
