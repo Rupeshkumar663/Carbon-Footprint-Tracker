@@ -3,28 +3,22 @@ from App.schemas import CarbonInput
 from App.predictor import predict_carbon
 from fastapi.middleware.cors import CORSMiddleware
 import time
-
-app = FastAPI()
-
-# 🔥 CORS (frontend connect ke liye)
+app=FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # production me restrict kar dena
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ⚡ health check (important)
 @app.get("/")
 def health():
-    return {"status": "ML service running 🚀"}
+    return {"status":"ML service running"}
 
-# 🔥 prediction API
 @app.post("/predict")
 def predict(data: CarbonInput):
     start_time = time.time()
-
     carbon = predict_carbon(
         data.distance,
         data.mileage,
@@ -38,9 +32,7 @@ def predict(data: CarbonInput):
         data.elevation_gain,
         data.engine_cc
     )
-
     response_time = round((time.time() - start_time) * 1000, 2)
-
     return {
         "carbon_emission": carbon,
         "response_time_ms": response_time

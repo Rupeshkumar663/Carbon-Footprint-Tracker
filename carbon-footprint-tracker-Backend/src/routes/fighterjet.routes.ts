@@ -4,8 +4,7 @@ import authMiddleware from "../middleware/AuthMiddleware";
 
 const router=Router()
 
-router.post("/fighterjetcarbon",calculateFighterCarbonController)
-router.get("/fighterjettotal",authMiddleware,getfighterjetTotalCO2)
+router.post("/fighterjetcarbon",authMiddleware,calculateFighterCarbonController)
 router.get("/fighterjettoday",authMiddleware,getfighterjetTodayCO2)
 router.get("/fighterjethistory",authMiddleware,getfighterjetHistory)
 router.get("/fighterjetmonthly",authMiddleware,getfighterjetMonthlyChart)

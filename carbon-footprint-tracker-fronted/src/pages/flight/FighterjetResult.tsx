@@ -34,39 +34,39 @@ export default function FlightResult(){
 
             <div>
               <p className="text-green-300 text-sm">mission</p>
-              <p className="text-lg text-green-100 font-semibold">{data.mission}</p>
+              <p className="text-lg text-green-100 font-semibold">{data?.mission}</p>
             </div>
 
             <div>
               <p className="text-green-300 text-sm">Distance</p>
-              <p className="text-lg text-green-100 font-semibold">{data.distance} km</p>
+              <p className="text-lg text-green-100 font-semibold">{data?.distance} km</p>
             </div>
 
             <div>
               <p className="text-green-300 text-sm">Hours</p>
-              <p className="text-green-100">{data.hours} hours</p>
+              <p className="text-green-100">{data?.hours} hours</p>
             </div>
 
             <div>
               <p className="text-green-300 text-sm">Speed</p>
-              <p  className="text-green-100">{data.speed} km/h</p>
+              <p  className="text-green-100">{data?.speed} km/h</p>
             </div>
 
             <div>
               <p className="text-green-300 text-sm">altitude</p>
-              <p  className="text-green-100">{data.altitude}</p>
+              <p  className="text-green-100">{data?.altitude}</p>
             </div>
 
             <div>
               <p className="text-green-300 text-sm">Payload</p>
-              <p  className="text-green-100">{data.payload} kg </p>
+              <p  className="text-green-100">{data?.payload} kg </p>
             </div>
 
           </div>
 
           <div className="text-center mt-8">
             <p className="text-green-300 text-sm">Total Emission</p>
-            <h2 className="text-5xl text-green-500 font-bold mt-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">{data.carbon} kg CO₂</h2>
+            <h2 className="text-5xl text-green-500 font-bold mt-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">{data?.totalCO2} kg CO₂</h2>
           </div>
 
           <div className="mt-10">
@@ -111,7 +111,7 @@ export default function FlightResult(){
           </div>
         </div>
       </div>
-      <button className="bg-red-400" onClick={()=>navigate("/flightdashboard")}>FighterDashboard</button>
+      <button className="bg-red-400" onClick={()=>navigate("/fighterdashboard")}>FighterDashboard</button>
       <Footer/>
     </div>
   );

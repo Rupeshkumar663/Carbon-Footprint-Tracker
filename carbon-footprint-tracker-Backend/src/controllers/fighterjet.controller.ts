@@ -13,7 +13,7 @@ export const calculateFighterCarbonController=async(req:Request,
     const userId=(req as any).user?._id;
     const redisClient=getRedisClient()
     const { hours,payload,speed,altitude,jetModel,mission }=req.body;
-     if(hours<=0 ||payload<=0 || altitude<=0 ||speed<=0 || !jetModel || !mission){
+     if(hours<=0 ||payload<0 || altitude<0 ||speed<=0 || !jetModel || !mission){
         return res.status(400).json({message:"please fill all fields"});
      }
      const cacheKey=`fighter:${userId}:${hours}:${payload}:${speed}:${altitude}:${jetModel}:${mission}`;
@@ -32,7 +32,9 @@ export const calculateFighterCarbonController=async(req:Request,
       jetModel,
       mission,
     });
-    const distance=Number((speed*hours).toFixed(2));
+    const hoursNum=Number(hours);
+    const speedNum=Number(speed);
+    const distance=Number((speedNum * hoursNum).toFixed(2));
     let aiAdvice:any[]=[];
     try {
        aiAdvice=await generateCarbonAdvice("fighter",{
@@ -57,7 +59,7 @@ export const calculateFighterCarbonController=async(req:Request,
       speed,
       altitude,
       distance,
-      carbon:result.carbon,
+      totalCO2:result.carbon,
       ecoScore:result.ecoScore,
       label:result.label,
     });
@@ -66,7 +68,7 @@ export const calculateFighterCarbonController=async(req:Request,
       aiAdvice,
     };
     await redisClient.set(cacheKey,JSON.stringify(finalResponse),{EX:3600})
-    return res.status(200).json({success:true,messagae:"carbon calculate successfully",data:finalResponse});
+    return res.status(200).json({success:true,message:"carbon calculate successfully",data:finalResponse});
 
   } catch(error){
     return res.status(500).json({success:false,message:"Server Error",error});
@@ -79,26 +81,30 @@ export const getfighterjetTotalCO2=async(req:Request,res:Response)=>{
   try{
     const userId=(req as any).user._id;
     const redisClient=getRedisClient()
-    const cacheKey=`fighterTotal:${userId}`;
+    const cacheKey=`fighterTotal:v2:${userId}`;
     const cached=await redisClient.get(cacheKey);
     if(cached){
          return res.json({source:"cache",data:JSON.parse(cached)});
     }
-    const flights=await fighterjetModel.find({userId,}).lean();
-    const totalCO2=flights.reduce((sum:number,item:any)=>sum+(Number(item.totalCO2) || 0),0);
-    const MAX_CO2=50000;
+    const fighterJets=await fighterjetModel.find({ userId }).lean();
+
+    const totalCO2=fighterJets.reduce((sum:number,item:any)=>sum+(Number(item.totalCO2) || 0),0);
+    const MAX_CO2=300000;
     const ecoScore=Math.max(0,Math.min(100, 100 - (totalCO2 / MAX_CO2) * 100));
      const trees=Math.ceil(totalCO2 / 21);
     const jetFuel=Math.round(totalCO2 / 2.5);
-    const flightHours=Number((totalCO2 / 90).toFixed(1));
+    const fighterHours = fighterJets.reduce(
+  (sum:number,item:any)=>sum+(Number(item.hours) || 0),
+  0
+);
     const flightKm=totalCO2 / 0.09;
     const earthTrips=Number((flightKm / 40075).toFixed(2));
     const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),impact:{
-        trees,
-        jetFuel,
-        flightHours,
-        earthTrips,
-      }};
+  trees,
+  jetFuel,
+  fighterHours,
+  earthTrips,
+}};
     await redisClient.set(cacheKey,JSON.stringify(result),{EX:3600});
     return res.json({source:"database",data:result});
 
@@ -130,19 +136,29 @@ export const getfighterjetTodayCO2=async(req:Request,res:Response)=>{
     }
   };
 
-//getFlightHistory----------------------------------------------
+//getFighterJetHistory ----------------------------------------------
 export const getfighterjetHistory=async(req:Request,res:Response)=>{
-  try{
+  try {
     const userId=(req as any).user._id;
-    const flights=await fighterjetModel.find({ userId }).sort({ createdAt:-1 }).lean();
-    const count=flights?flights.length:0;
-    return res.json({success:true,count,data:flights});
+    const limit=Math.max(1,parseInt(req.query.limit as string) || 20);
+    const page=Math.max(1,parseInt(req.query.page as string) || 1);
+    const skip=(page-1)*limit;
 
+    const [fighterJets,total]=await Promise.all([
+      fighterjetModel
+        .find({ userId })
+        .select("jetModel mission totalCO2 createdAt") 
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      fighterjetModel.countDocuments({ userId }),
+    ]);
+     return res.json({success:true,count:fighterJets.length,total,page,limit,data:fighterJets});
   } catch(error:any){
-    return res.status(500).json({message:error.message});
+    return res.status(500).json({success:false,message:error.message});
   }
 };
-
 //getMonthlyChart----------------------------------------------
 export const getfighterjetMonthlyChart=async(req:Request,res:Response)=>{
     try{

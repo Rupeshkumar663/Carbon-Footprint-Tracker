@@ -8,16 +8,16 @@ const DailyBarChart: React.FC=()=>{
   useEffect(()=>{
     const fetchData=async()=>{
       try {
-        const res=await api.get("/api/flight/getdailychart");
+        const res=await api.get("/api/fighter/fighterjetweekly");
         const records=res.data?.data || [];
-        const finalData=records.map((item:any)=>({week:item.day,emission:item.total}));
+       const finalData=records.map((item:any)=>({week:item.day,emission:Math.round(item.totalCO2 || item.total || 0)}));
         setData(finalData);
       } catch(error){
         console.log("graph error",error);
       }
     };
     fetchData();
-   const interval=setInterval(fetchData,60000);
+    const interval=setInterval(fetchData,60000);
     return ()=>clearInterval(interval);
   },[]);
   const maxValue=data.length>0? Math.max(...data.map(d=>d.emission)):0;

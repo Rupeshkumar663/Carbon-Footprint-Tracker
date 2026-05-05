@@ -11,7 +11,7 @@ import CarbonHistory from "../../components/flightdashboard/CarbonHistory";
 import AdvancedPDF from "../../components/flightdashboard/AdvancedPDF";
 import SmartEmissionCard from "../../components/flightdashboard/TotalCarbonCard";
 import Footer from "../../components/layout/Footer";
-export default function Dashboard() {
+export default function FlightDashboard() {
   const [totalCO2,setTotalCO2]=useState(0);
   const [ecoScore,setEcoScore]=useState(0);
   const [impact,setImpact]=useState({
@@ -47,7 +47,7 @@ export default function Dashboard() {
   },[]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white max-w-7xl mx-auto">
+   <div className="min-h-screen bg-gray-900 text-white w-full">
       <Navbar variant="flightdashboard" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-5">
         <div className="bg-black p-4 sm:p-6 rounded-2xl text-center">

@@ -16,6 +16,7 @@ import FighterJetPage from "./pages/flight/Fighterjet";
 import FlighResult from "./pages/flight/FlightResult";
 import FighterjetResult from "./pages/flight/FighterjetResult";
 import FlightDashboard from "./pages/flight/FlightDashboard";
+import FighterjetDashboard from "./pages/flight/FighterjetDashboard";
 
 
 export const serverUrl="http://localhost:9000";
@@ -44,6 +45,7 @@ const App=()=>{
         <Route path="/flightresult" element={userData?(<FlighResult/>):(<Navigate to="/signup"/>)} /> 
        <Route path="/fighterjetresult" element={<FighterjetResult/>} />
         <Route path="/flightdashboard" element={userData?(<FlightDashboard/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/fighterdashboard" element={userData?(<FighterjetDashboard/>):(<Navigate to="/signup"/>)} /> 
       </Routes>
     </>
   );
