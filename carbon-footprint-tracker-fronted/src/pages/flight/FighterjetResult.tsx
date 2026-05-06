@@ -26,43 +26,36 @@ export default function FlightResult(){
       <div className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-3xl bg-[#0d0d0d]/80 backdrop-blur-xl border border-green-500/20 rounded-3xl p-8 shadow-[0_0_80px_rgba(34,197,94,0.25)] transition-all duration-500">
           <h1 className="text-3xl text-center text-green-400 font-semibold mb-8">Carbon Footprint Result</h1>
-          <div className="grid grid-cols-2 gap-6 bg-black/40 p-6 rounded-2xl border border-green-500/10">
-             <div className="text-center mb-8">
-              <p className="text-green-400 text-sm">Jet Model</p>
-              <h2 className="text-white text-2xl font-bold">{data.jetModel}</h2>
-             </div>
-
-            <div>
-              <p className="text-green-300 text-sm">mission</p>
-              <p className="text-lg text-green-100 font-semibold">{data?.mission}</p>
-            </div>
-
-            <div>
-              <p className="text-green-300 text-sm">Distance</p>
-              <p className="text-lg text-green-100 font-semibold">{data?.distance} km</p>
-            </div>
-
-            <div>
-              <p className="text-green-300 text-sm">Hours</p>
-              <p className="text-green-100">{data?.hours} hours</p>
-            </div>
-
-            <div>
-              <p className="text-green-300 text-sm">Speed</p>
-              <p  className="text-green-100">{data?.speed} km/h</p>
-            </div>
-
-            <div>
-              <p className="text-green-300 text-sm">altitude</p>
-              <p  className="text-green-100">{data?.altitude}</p>
-            </div>
-
-            <div>
-              <p className="text-green-300 text-sm">Payload</p>
-              <p  className="text-green-100">{data?.payload} kg </p>
-            </div>
-
+         <div className="grid grid-cols-2 gap-y-10 gap-x-6 bg-black/40 p-8 rounded-2xl border border-green-500/10">
+          <div className="col-span-2 text-center">
+            <p className="text-green-400 text-sm">Jet Model</p>
+            <h2 className="text-white text-3xl font-bold mt-2">{data.jetModel}</h2>
           </div>
+          <div className="text-center">
+           <p className="text-green-300 text-sm">Distance</p>
+           <p className="text-lg text-green-100 font-semibold mt-2">{data?.distance} km</p>
+         </div>
+         <div className="text-center">
+          <p className="text-green-300 text-sm">Mission</p>
+          <p className="text-lg text-green-100 font-semibold mt-2">{data?.mission}</p>
+         </div>
+         <div className="text-center">
+          <p className="text-green-300 text-sm">Speed</p>
+          <p className="text-lg text-green-100 font-semibold mt-2">{data?.speed} km/h</p>
+         </div>
+         <div className="text-center">
+          <p className="text-green-300 text-sm"> Hours</p>
+          <p className="text-lg text-green-100 font-semibold mt-2">{data?.hours} hours</p>
+         </div>
+         <div className="text-center">
+          <p className="text-green-300 text-sm">Altitude</p>
+          <p className="text-lg text-green-100 font-semibold mt-2">{data?.altitude}</p>
+         </div>
+         <div className="text-center">
+          <p className="text-green-300 text-sm">Payload</p>
+          <p className="text-lg text-green-100 font-semibold mt-2">{data?.payload} kg</p>
+         </div>
+        </div>
 
           <div className="text-center mt-8">
             <p className="text-green-300 text-sm">Total Emission</p>

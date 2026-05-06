@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import EcoScore from "../../components/flightdashboard/EcoScore";
 import EmissionBreakdown from "../../components/flightdashboard/EmissionBreakdown";
 import GlobalImpact from "../../components/flightdashboard/GlobalImpact";
@@ -5,11 +6,10 @@ import TodayCarbonCard from "../../components/flightdashboard/TodayCarbonCard";
 import Navbar from "../../components/flightcarbon/Navbar";
 import DailyBarChart from "../../components/flightdashboard/DailyBarChart";
 import MonthlyLineChart from "../../components/flightdashboard/MonthlyLineChart";
-import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import CarbonHistory from "../../components/flightdashboard/CarbonHistory";
 import AdvancedPDF from "../../components/flightdashboard/AdvancedPDF";
-import SmartEmissionCard from "../../components/flightdashboard/TotalCarbonCard";
+import SmartEmissionCard from "../../components/flightdashboard/SmartEmissionCard";
 import Footer from "../../components/layout/Footer";
 export default function FlightDashboard() {
   const [totalCO2,setTotalCO2]=useState(0);

@@ -4,7 +4,7 @@ const COLORS=["#22c55e","#3b82f6","#f59e0b"];
 export default function EmissionBreakdown({ total }:{ total:number }){
   const safeTotal=Number(total) || 0;
 
-  if(safeTotal === 0){
+  if(safeTotal===0){
     return (
       <div className="bg-black p-6 rounded-2xl text-center border border-white/10">
         <h3 className="text-green-400 font-semibold mb-2">Emission Breakdown</h3>
@@ -13,11 +13,21 @@ export default function EmissionBreakdown({ total }:{ total:number }){
     );
   }
   const data=[
-    { name:"Fuel",value:Math.round(safeTotal * 0.6) },
-    { name:"Operations",value:Math.round(safeTotal * 0.25) },
-    { name:"Other",value:Math.round(safeTotal * 0.15) },
-  ];
+  {
+    name:"Fuel Consumption",
+    value:Math.round(safeTotal * 0.55),
+  },
 
+  {
+    name:"Traffic & Idle",
+    value:Math.round(safeTotal * 0.30),
+  },
+
+  {
+    name:"Engine Efficiency",
+    value:Math.round(safeTotal * 0.15),
+  },
+];
   return (
     <div className="bg-black p-4 sm:p-6 rounded-2xl border border-white/10 w-full h-full">
       <h3 className="text-green-400 font-semibold mb-4 text-center sm:text-left">Emission Breakdown</h3>

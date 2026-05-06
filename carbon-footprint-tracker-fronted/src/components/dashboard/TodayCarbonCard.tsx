@@ -36,7 +36,7 @@ const TodayCarbonCard:React.FC=()=>{
     <div className="relative px-25 py-12 rounded-2xl text-center bg-black backdrop-blur-2xl borderoverflow-hidden">
       <div className="absolute top-0 left-[-50%] w-[200%] h-[100%] bg-gradient-to-r from-transparent to-transparent rotate-12 blur-xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-full h-6 bg-green-400/25 blur-2xl opacity-80"></div>
-      <p className="text-green-400 font-bold text-3xl mb-3 tracking-wide">Today Carbon</p>
+      <p className="text-green-400 font-bold text-1xl mb-3 tracking-wide">Today Carbon</p>
       <h2 className="text-green-300 text-3xl font-bold tracking-wide">{formatCarbon(todayCarbon)} kg CO₂</h2>
     </div>
   );

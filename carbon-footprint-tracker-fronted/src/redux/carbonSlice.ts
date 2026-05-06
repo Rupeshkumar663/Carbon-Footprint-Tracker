@@ -2,14 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type {CarbonInput,CarbonResult,CarbonState} from "../types/carbonTypes";
 
-const initialState: CarbonState={
+const initialState:CarbonState={
   status:"idle",
   result:null,
   error:null,
 };
 
-export const createCarbonRecord=createAsyncThunk<CarbonResult,CarbonInput,{ rejectValue: string }>(
-  "carbon/create",
+export const createCarbonRecord=createAsyncThunk<CarbonResult,CarbonInput,{ rejectValue: string }>("carbon/create",
   async(data,{ rejectWithValue })=>{
     try{
       const response=await api.post("/routes",data);
@@ -21,7 +20,7 @@ export const createCarbonRecord=createAsyncThunk<CarbonResult,CarbonInput,{ reje
   }
 );
 
-const carbonSlice = createSlice({
+const carbonSlice=createSlice({
   name:"carbon",
   initialState,
   reducers:{

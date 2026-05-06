@@ -263,7 +263,7 @@ export const getfighterjetMonthlyReport=async(req:any,res:any)=>{
           userId,
           createdAt:{
             $gte:new Date(currentYear,0,1), 
-            $lte:new Date(currentYear,11,31)
+            $lte:new Date(currentYear,11,31,23,59,59)
           }
         }
       },
@@ -291,7 +291,7 @@ export const getfighterjetMonthlyReport=async(req:any,res:any)=>{
 
     const finalData=months.map((month,index)=>{
       const found=data.find((item:any)=>item._id.month === index + 1);
-      return {month,totalCO2:found ? Math.round(found.totalCO2):0};
+      return {month,totalCO2:found ? Number(found.totalCO2.toFixed(2)):0};
     });
     return res.json({data:finalData});
   } catch(error:any){

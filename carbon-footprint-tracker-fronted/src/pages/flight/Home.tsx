@@ -54,7 +54,7 @@ export default function FlightInputPage() {
   const handleChange=(e)=>{setForm({ ...form,[e.target.name]:e.target.value })};
   return (
     <div className="min-h-screen bg-gradient-to-br bg-gray-900 text-white flex flex-col">
-      <Navbar variant="fligthhome" />
+      <Navbar variant="flightHome" />
       <div className="w-full max-w-5xl bg-[#0d0d0d] border border-green-500/10 rounded-3xl mt-5 shadow-[0_0_40px_rgba(34,197,94,0.15)] p-10  mx-auto">
         <h1 className="text-4xl font-bold text-center text-green-400 mb-8 tracking-wider"> Carbon  Footprint Tracker</h1>
         {/* Trip Type */}

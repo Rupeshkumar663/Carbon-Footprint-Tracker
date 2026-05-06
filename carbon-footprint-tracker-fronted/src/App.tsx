@@ -3,7 +3,6 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import Forgetpassword from "./pages/Forgetpassword";
-import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
@@ -17,6 +16,7 @@ import FlighResult from "./pages/flight/FlightResult";
 import FighterjetResult from "./pages/flight/FighterjetResult";
 import FlightDashboard from "./pages/flight/FlightDashboard";
 import FighterjetDashboard from "./pages/flight/FighterjetDashboard";
+import CarbonDashboard from "./pages/Dashboard";
 
 
 export const serverUrl="http://localhost:9000";
@@ -33,7 +33,7 @@ const App=()=>{
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/login" element={<Login/>} /> 
          <Route path="/forgetpassword" element={<Forgetpassword />} />
-        <Route path="/dashboard" element={userData?(<Dashboard/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/dashboard" element={userData?(<CarbonDashboard/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/profile" element={userData?(<Profile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/editprofile" element={userData?(<EditProfile/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/inputpage" element={userData?(<InputPage/>):(<Navigate to="/signup"/>)} /> 

@@ -77,11 +77,16 @@ export interface CarbonRecord{
 
 export interface CarbonType{
   _id:string;
+  vehicle_name:string;
+  fuel_type:string;
+  carbonEmission:number;
+  distance:number;
+  duration:number;
+  mileage:number;
   startLocation:string;
   endLocation:string;
-  carbonEmission:number;
   createdAt:string;
-};
+}
 
 export interface InfoCardType{
   label:string;
@@ -146,14 +151,14 @@ export interface FlightRecord{
 }
 
 export interface FighterData {
-  jetModel: string;
-  mission: string;
-  distance: number;
-  hours: number;
-  speed: number;
-  altitude: number;
-  payload: number;
-  carbon: number;
-  ecoScore: number;
-  label: string;
+  jetModel:string;
+  mission:string;
+  distance:number;
+  hours:number;
+  speed:number;
+  altitude:number;
+  payload:number;
+  carbon:number;
+  ecoScore:number;
+  label:string;
 }

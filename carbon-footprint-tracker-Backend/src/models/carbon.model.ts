@@ -20,7 +20,8 @@ const carbonSchema=new mongoose.Schema({
   default:0
  },
  engine_cc:{
-  type:Number
+  type:Number,
+  default:0
  },
  passengers:{
   type:Number,
@@ -45,34 +46,42 @@ const carbonSchema=new mongoose.Schema({
   required:true
  },
  duration:{
-  type:Number
+  type:Number,
+  default:0
  },
  speed:{
-  type:Number
+  type:Number,
+  default:0
  },
  road_type:{
   type:String,
   enum:["city","highway"]
  },
  elevation_gain:{
-  type:Number
+  type:Number,
+  default:0
  },
  traffic_level:{
   type:String,
   enum:["Low","Medium","High"]
  },
  temperature:{
-  type:Number
+  type:Number,
+  default:25
  },
  carbonEmission:{
   type:Number,
   required:true
  },
  greenScore:{
-  type:Number
+  type:Number,
+  default:50,
+  min:0,
+  max:100
  },
  isEcoFriendly:{
-  type:Boolean
+  type:Boolean,
+  default:false
  }
 },{
  timestamps:true

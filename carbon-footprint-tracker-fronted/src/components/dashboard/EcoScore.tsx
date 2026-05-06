@@ -1,90 +1,62 @@
-import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import api from "../../api/axios";
-import { serverUrl } from "../../App";
-const EcoScore:React.FC=()=>{
-  const [score,setScore]=useState(0);
-  const [trend,setTrend]=useState(0); 
-  const fetchScore=async()=>{
-    try {
-      const res=await api.get(`${serverUrl}/api/carbon`);
-      const records=res.data.data || [];
-      const latest=records[0];
-      setScore(latest?.greenScore || 0);
-      const today=new Date();
-      today.setHours(0,0,0,0);
-      const yesterday=new Date(today);
-      yesterday.setDate(today.getDate()-1);
-      let todayTotal=0;
-      let yesterdayTotal=0;
-      records.forEach((item:any)=>{
-        const date=new Date(item.createdAt);
-        if(date>=today){
-          todayTotal +=item.carbonEmission || 0;
-        } else if(date>= yesterday && date<today){
-          yesterdayTotal +=item.carbonEmission || 0;
-        }
-      });
-      if(yesterdayTotal>0){
-        const change=((todayTotal-yesterdayTotal)/yesterdayTotal)*100;
-        setTrend(Math.round(change));
-      }
-
-    } catch(error){
-      console.log("EcoScore error:",error);
-    }
+export default function EcoScore({ score }:{ score:number }){
+  const radius=70;
+  const stroke=10;
+  const normalized=Math.max(0,Math.min(100,score));
+  const circumference=2*Math.PI*radius;
+  const offset=circumference-(normalized/100)*circumference;
+  const getLabel=()=>{
+    if(normalized>=85) 
+      return "Excellent";
+    if(normalized>=60) 
+      return "Good";
+    if(normalized>=40) 
+      return "Average";
+    return "Poor";
   };
-  useEffect(()=>{
-    fetchScore();
-  },[]);
-  const safeScore=Math.max(0,Math.min(100,score || 0));
-  const radius=85;
-  const stroke=15;
-  const circumference=Math.PI * radius;
-  const progress=(safeScore/100)* circumference;
-  const getColor=()=>{
-    if(safeScore>=60) return "#4ade80";
-    if(safeScore>=30) return "#facc15";
-    return "#ef4444";
-  };
-  const getBadge=()=>{
-    if(safeScore>=80) return "🌍 Green Hero";
-    if(safeScore>=60) return "🌱 Eco Friendly";
-    if(safeScore>=30) return "⚠️ Moderate";
-    return "🚫 Polluter";
-  };
+  const label=getLabel();
   return (
-    <div className="relative px-25 py-7 flex items-center justify-center bg-black backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.65)]">
-      <svg width="220" height="120" viewBox="0 0 220 120">
-        <path
-          d="M20 100 A85 85 0 0 1 200 100"
-          fill="none"
+    <div className="flex flex-col items-center justify-center relative">
+      <svg width="180" height="180">
+        <defs>
+          <linearGradient id="ecoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#22c55e" />
+            <stop offset="50%" stopColor="#4ade80" />
+            <stop offset="100%" stopColor="#16a34a" />
+          </linearGradient>
+        </defs>
+
+        {/* Background */}
+        <circle
+          cx="90"
+          cy="90"
+          r={radius}
           stroke="#1f2937"
           strokeWidth={stroke}
+          fill="transparent"
         />
-        <path
-          d="M20 100 A85 85 0 0 1 200 100"
-          fill="none"
-          stroke="#374151"
+        <motion.circle
+          cx="90"
+          cy="90"
+          r={radius}
+          stroke="url(#ecoGradient)"
           strokeWidth={stroke}
-        />
-        <motion.path
-          d="M20 100 A85 85 0 0 1 200 100"
-          fill="none"
-          stroke={getColor()}
-          strokeWidth={stroke}
+          fill="transparent"
           strokeDasharray={circumference}
           strokeDashoffset={circumference}
-          animate={{ strokeDashoffset: circumference - progress }}
-          transition={{ duration: 1.2 }}
+          strokeLinecap="round"
+          transform="rotate(-90 90 90)"
+          initial={{ strokeDashoffset:circumference }}
+          animate={{ strokeDashoffset:offset }}
+          transition={{ duration:1.2,ease:"easeInOut" }}
+          style={{filter:"drop-shadow(0 0 10px rgba(34,197,94,0.6))"}}
         />
       </svg>
-      <div className="absolute bottom-4 text-center">
-        <p className="text-green-300 text-sm">Eco Score</p>
-        <h2 className="text-green-200 text-5xl font-bold">{safeScore}%</h2>
-        <p className="text-green-400 text-sm mt-1">{getBadge()}</p>
+      {/* Center */}
+      <div className="absolute flex flex-col items-center">
+        <h2 className="text-4xl font-bold text-green-400">{normalized}</h2>
+        <p className="text-xs text-gray-400">{label}</p>
       </div>
     </div>
   );
-};
-export default EcoScore;
+}

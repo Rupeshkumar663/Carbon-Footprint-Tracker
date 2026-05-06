@@ -45,7 +45,7 @@ const SmartEmissionCard:React.FC=()=>{
       animate={{ opacity: 1, y: 0 }}
       className="bg-black/90 p-6 rounded-2xl border border-white/10 shadow-lg w-full">
       <p className="text-green-400 text-sm mb-2">Total Emission</p>
-      <h2 className="text-4xl md:text-5xl text-green-300 font-bold">{data.totalCO2} kg CO₂</h2>
+      <h2 className="text-4xl md:text-5xl text-green-300 font-bold">{Math.round(data?.totalCO2).toLocaleString()} kg CO₂</h2>
       <div className="mt-3">
         <div className="flex items-center justify-between">
           <p className={`text-sm font-semibold ${isBad ? "text-red-400":"text-green-400"}`}>

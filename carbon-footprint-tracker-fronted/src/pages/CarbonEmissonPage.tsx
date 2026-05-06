@@ -45,8 +45,8 @@ export default function CarbonEmissionPage():JSX.Element {
         <Card title="Eco Status" value={ecoStatus} />
       </div>
       <div className="grid grid-cols-2 gap-6 mt-10 max-w-xl mx-auto">
-        <Card title="Best Route" value={`${bestRoute.distance.toFixed(1)} km | ${(bestRoute.duration / 60).toFixed(0)} min`}/>
-        <Card title="Fastest Route" value={`${fastestRoute.distance.toFixed(1)} km | ${(fastestRoute.duration / 60).toFixed(0)} min`}/>
+        <Card title="Best Route" value={`${bestRoute.distance.toFixed(1)} km |  ${Math.floor(bestRoute.duration / 3600)} hr  ${(bestRoute.duration % 60).toFixed(0)} min`}/>
+        <Card title="Fastest Route" value={`${fastestRoute.distance.toFixed(1)} km |  ${Math.floor(fastestRoute.duration / 3600)} hr ${(fastestRoute.duration % 60).toFixed(0)} min `}/>
       </div>
       <div className="mt-10 max-w-xl mx-auto">
         <div onClick={openNavigation} className="p-6  rounded-2xl bg-black backdrop-blur-md border border-green-200 text-green-400
