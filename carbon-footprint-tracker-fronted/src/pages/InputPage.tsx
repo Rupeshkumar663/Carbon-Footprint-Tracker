@@ -6,6 +6,8 @@ import axios from "../api/axios";
 import { serverUrl } from "../App";
 import { useState } from "react";
 import Navbar from "../components/carbon/Navbar";
+import Footer from "../components/layout/Footer";
+
 
 export default function InputPage(){
   const navigate=useNavigate();
@@ -41,7 +43,7 @@ export default function InputPage(){
     }
  };
 return (
-   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col items-center justify-center relative overflow-hidden">
     <div className="w-full fixed top-0 left-0 z-50 bg-black/80 backdrop-blur-md">
      <Navbar variant="inputpage"/>
   </div>
@@ -82,6 +84,9 @@ return (
      <button type="submit" className="w-full py-2 border bg-green-300 border-green-400 text-green-950 rounded-lg font-medium hover:bg-green-400 hover:text-black transition" disabled={loading}>{loading ? "Calculating...":"Carbon Emission"}</button>
     </form>
   </motion.div>
+      <div className="relative z-10 w-full mt-auto">
+      <Footer />
+    </div>
   </div>
   );
  }

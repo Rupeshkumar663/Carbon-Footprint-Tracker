@@ -3,7 +3,7 @@ import EcoScore from "../components/dashboard/EcoScore";
 import EmissionBreakdown from "../components/dashboard/EmissionBreakdown";
 import GlobalImpact from "../components/dashboard/GlobalImpact";
 import TodayCarbonCard from "../components/dashboard/TodayCarbonCard";
-import Navbar from "../components/carbon/Card";
+import Navbar from "../components/carbon/Navbar";
 import DailyBarChart from "../components/dashboard/DailyBarChart";
 import MonthlyLineChart from "../components/dashboard/MonthlyLineChart";
 import CarbonHistory from "../components/dashboard/CarbonHistory";
@@ -47,7 +47,7 @@ export default function CarbonDashboard(){
 
   return (
    <div className="min-h-screen bg-gray-900 text-white w-full">
-      <Navbar variant="carbondashboard" />
+      <Navbar variant="vehicledashboard" />
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 sm:px-6 lg:px-8 mt-5">
        <div className="bg-black p-4 sm:p-6 rounded-2xl text-center">
           <p className="text-green-400 text-sm sm:text-base font-semibold"> Total CO₂</p>

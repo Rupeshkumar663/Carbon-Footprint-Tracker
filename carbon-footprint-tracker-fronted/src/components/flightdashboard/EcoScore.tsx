@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 export default function EcoScore({ score }:{ score:number }){
+    console.log("EcoScore prop:", score);
   const radius=70;
   const stroke=10;
   const normalized=Math.max(0,Math.min(100,score));

@@ -81,30 +81,35 @@ export const getfighterjetTotalCO2=async(req:Request,res:Response)=>{
   try{
     const userId=(req as any).user._id;
     const redisClient=getRedisClient()
-    const cacheKey=`fighterTotal:v2:${userId}`;
+    const cacheKey=`fighterTotal:v4:${userId}`;
     const cached=await redisClient.get(cacheKey);
     if(cached){
          return res.json({source:"cache",data:JSON.parse(cached)});
     }
     const fighterJets=await fighterjetModel.find({ userId }).lean();
-
     const totalCO2=fighterJets.reduce((sum:number,item:any)=>sum+(Number(item.totalCO2) || 0),0);
-    const MAX_CO2=300000;
-    const ecoScore=Math.max(0,Math.min(100, 100 - (totalCO2 / MAX_CO2) * 100));
-     const trees=Math.ceil(totalCO2 / 21);
+    const calculateEcoScore=(co2:number)=>{
+      if(co2<=5000) return 95;
+      if(co2<=20000) return 80;
+      if(co2<=50000) return 65;
+      if(co2<=100000) return 45;
+      if(co2<=200000) return 30;
+      if(co2<=400000) return 18;
+      return 10;
+    };
+    const ecoScore=calculateEcoScore(totalCO2);
+    ecoScore:Number(ecoScore.toFixed(0))
+    const trees=Math.ceil(totalCO2 / 21);
     const jetFuel=Math.round(totalCO2 / 2.5);
-    const fighterHours = fighterJets.reduce(
-  (sum:number,item:any)=>sum+(Number(item.hours) || 0),
-  0
-);
-    const flightKm=totalCO2 / 0.09;
-    const earthTrips=Number((flightKm / 40075).toFixed(2));
+    const fighterHours=fighterJets.reduce((sum:number,item:any)=>sum+(Number(item.hours) || 0),0);
+    const flightKm=totalCO2/0.09;
+    const earthTrips=Number((flightKm/40075).toFixed(2));
     const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),impact:{
-  trees,
-  jetFuel,
-  fighterHours,
-  earthTrips,
-}};
+        trees,
+        jetFuel,
+        fighterHours,
+        earthTrips,
+     }};
     await redisClient.set(cacheKey,JSON.stringify(result),{EX:3600});
     return res.json({source:"database",data:result});
 

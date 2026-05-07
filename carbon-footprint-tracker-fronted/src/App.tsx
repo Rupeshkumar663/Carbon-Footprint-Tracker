@@ -39,7 +39,7 @@ const App=()=>{
         <Route path="/inputpage" element={userData?(<InputPage/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/result" element={userData?(<CarbonEmissionPage/>):(<Navigate to="/signup"/>)} /> 
 
-        {/*flight */}
+        {/*flight and fighterjet*/}
         <Route path="/flighthome" element={userData?(<FlightHome/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/fighter-jet" element={userData?(<FighterJetPage/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/flightresult" element={userData?(<FlighResult/>):(<Navigate to="/signup"/>)} /> 

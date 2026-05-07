@@ -31,6 +31,7 @@ const SmartEmissionCard:React.FC=()=>{
   if(!data) 
     return <p className="text-red-400">No data</p>;
   const isBad=data.trend>0;
+  const isStable=data.trend===0;
   const trendValue=Math.abs(data.trend);
   const getLabel=()=>{
     if(trendValue<5) 
@@ -48,7 +49,7 @@ const SmartEmissionCard:React.FC=()=>{
       <h2 className="text-4xl md:text-2xl text-green-300 font-bold">{Math.round(data?.totalCO2).toLocaleString()} kg CO₂</h2>
       <div className="mt-3">
         <div className="flex items-center justify-between">
-          <p className={`text-sm font-semibold ${isBad ? "text-red-400":"text-green-400"}`}>
+          <p className={`text-sm font-semibold ${isStable ? "text-amber-300":isBad? "text-red-400": "text-green-400"}`}>
             {isBad ? "↑":"↓"} {trendValue}% this week</p>
           <span className="text-xs text-gray-400">{getLabel()}</span>
         </div>
