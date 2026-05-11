@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, LeafIcon, Edit, LogOut } from "lucide-react";
+import { User, LeafIcon,LogOut } from "lucide-react";
 import { IoMdHome } from "react-icons/io";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { LuLayoutDashboard } from "react-icons/lu";
+import { LayoutDashboard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
 
@@ -38,6 +39,8 @@ export default function Navbar({ variant }:any){
 
       <div className="hidden md:flex items-center gap-10">
         <span onClick={()=>navigate("/")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Home</span>
+       
+
         {(variant==="fighterdashboard"||variant==="flightdashboard") &&
           <span onClick={()=>navigate("/fighter-jet")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FighterjetInput</span>
         }
@@ -53,7 +56,9 @@ export default function Navbar({ variant }:any){
         {variant==="flightresult" &&
           <span onClick={()=>navigate("/flighthome")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FlightInput</span>
         }
-        
+        {variant==="fighterresult" &&
+          <span onClick={()=>navigate("/fighterdashboard")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Fighterdashboard</span>
+        }
       </div>
       <div className="flex items-center gap-4">
         {/* mobile menu */}
@@ -75,9 +80,10 @@ export default function Navbar({ variant }:any){
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="absolute right-0 mt-3 w-40 bg-gray-900 border rounded-xl shadow-xl text-base font-bold"
-              >
-                <DropdownItem  icon={<User size={18} className="font-semibold text-green-600" onClick={()=>navigate("/profile")}/>} text="My Profile" />
+                className="absolute right-0 mt-3 w-40 bg-gray-900 border rounded-xl shadow-xl text-base font-bold">
+                                <DropdownItem icon={<LayoutDashboard size={18} className="font-semibold text-green-600" onClick={()=>navigate("/overviewdashboard")}/>} text="Overview" />
+
+                                <DropdownItem  icon={<User size={18} className="font-semibold text-green-600" onClick={()=>navigate("/profile")}/>} text="My Profile" />
 
                                 <DropdownItem icon={<IoMdHome size={18} className="font-semibold text-green-600" onClick={()=>navigate("/")}/>} text="Home" />
 
@@ -88,8 +94,6 @@ export default function Navbar({ variant }:any){
                                 { (variant==="flightdashboard" || variant==="flightHome")  && <DropdownItem icon={<LuLayoutDashboard size={18} className="font-semibold text-green-600" onClick={()=>navigate("/fighterdashboard")}/>} text="Fighterdash" />}
 
                                {variant==="inputpage"?"":<DropdownItem icon={<LeafIcon size={18} className="font-semibold text-green-600" onClick={()=>navigate("/inputpage")}/>} text="CarbonInput" />}
-
-                                <DropdownItem icon={<Edit size={18} className="font-semibold text-green-600" onClick={()=>navigate("/editprofile")}/>} text="Edit Profile" />
 
                                 <DropdownItem icon={<LogOut size={18} className="font-semibold text-green-600" onClick={handleLogout}/>} text="Logout" danger />
               </motion.div>
@@ -107,27 +111,27 @@ export default function Navbar({ variant }:any){
             exit={{ opacity: 0, y: -10 }}
             className="absolute top-full left-0 w-full bg-black border-t border-white/10 md:hidden">
             <div className="flex flex-col items-center gap-5 py-5 text-green-400 font-bold text-lg">
-              <span onClick={()=>{navigate("/"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">Home</span>
+            <span onClick={()=>{ navigate("/overviewdashboard"); setMenuOpen(false); }}className="cursor-pointer hover:text-green-300"> Overview</span>
+            
+            <span onClick={()=>{ navigate("/profile"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300">Profile</span>
 
-             {(variant==="fighterdashboard" || variant==="flightdashboard") && (
-              <span onClick={()=>{ navigate("/fighter-jet"); setMenuOpen(false);}} className="cursor-pointer hover:text-green-300">FighterjetInput</span>)}
+            <span onClick={()=>{ navigate("/"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300"> Home</span>
 
-             {(variant==="fighterdashboard" || variant==="flightdashboard") && (
-             <span onClick={()=>{navigate("/flighthome"); setMenuOpen(false);}} className="cursor-pointer hover:text-green-300">FlightInput</span>)}
+            <span onClick={()=>{ navigate("/dashboard"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">VehicleDash</span>
 
-            {variant==="fighterjet" && (
-             <span onClick={()=>{navigate("/fighterdashboard"); setMenuOpen(false);}} className="cursor-pointer hover:text-green-300">Fighterdashboard</span>)}
+           {variant !== "inputpage" && (<span onClick={()=>{ navigate("/inputpage"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300"> CarbonInput</span>)}
 
-            {variant==="fighterjet" && (
-             <span onClick={()=>{navigate("/flighthome"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">FlightInput</span>)}
+           {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/fighter-jet"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300"> FighterjetInput</span>)}
 
-            {(variant==="flightHome" || variant==="flightresult") && (
-             <span onClick={()=>{ navigate("/flightdashboard"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">Flightdashboard</span>)}
+          {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/flighthome"); setMenuOpen(false);}} className="cursor-pointer hover:text-green-300"> FlightInput</span>)}
 
-            {variant==="flightresult" && (
-             <span onClick={()=>{ navigate("/flighthome"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">FlightInput</span>)}
+         {(variant==="flightdashboard" || variant==="flightHome") && (<span onClick={()=>{ navigate("/fighterdashboard"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">FighterDash</span>)}
 
-           </div>
+         {(variant==="fighterdashboard" || variant==="fighterjet") && (<span onClick={()=>{ navigate("/flightdashboard"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300"> FlightDash</span>)}
+
+         <span onClick={handleLogout} className="cursor-pointer text-red-500 hover:text-red-400"> Logout</span>
+
+         </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -4,7 +4,7 @@ import { getDistance } from "../services/haversine.service";
 import { calculateCarbon } from "../services/flightcarbon.service";
 import { FlightcarbonModel } from "../models/flightcarbon.model";
 import { getRedisClient } from "../config/redis";
-import { generateCarbonAdvice } from "../services/ai.service";
+import { generateCarbonAdvice } from "../services/GroqAdvice.service";
 import { WeeklyRecord } from "../types/carbonType";
 
 //FlightCarbon----------------------------------------------
@@ -45,6 +45,7 @@ export const FlightCarbon=async(req:Request,res:Response)=>{
            console.log("AI FAILED:",err);
           advice=[];
         }
+        console.log(advice)
         if(!advice || advice.length === 0){
            advice=[
               `Optimize passengers (${passengers})`,
@@ -80,7 +81,7 @@ export const getTotalCO2=async(req:Request,res:Response)=>{
   try{
     const userId=(req as any).user._id;
     const redisClient=getRedisClient()
-    const cacheKey=`totalCO2:${userId}`;
+    const cacheKey=`flightTotal:v6:${userId}`;
     const cached=await redisClient.get(cacheKey);
     if(cached){
          return res.json({source:"cache",data:JSON.parse(cached)});
@@ -94,7 +95,10 @@ export const getTotalCO2=async(req:Request,res:Response)=>{
     const flightHours=Number((totalCO2 / 90).toFixed(1));
     const flightKm=totalCO2 / 0.09;
     const earthTrips=Number((flightKm / 40075).toFixed(2));
-    const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),impact:{
+    const totalFlights=flights.length;
+    const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),
+      totalFlights,
+      impact:{
         trees,
         jetFuel,
         flightHours,

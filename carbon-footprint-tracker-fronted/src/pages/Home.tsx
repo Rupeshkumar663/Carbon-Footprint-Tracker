@@ -1,160 +1,221 @@
-import React from "react";
 import MainLayout from "../components/layout/MainLayout";
-import { useNavigate } from "react-router-dom";
-import { FaLeaf, FaRoute, FaChartLine } from "react-icons/fa";
+import AIAssistant from "../components/layout/AIAssistant";
+import SystemStatus from "../components/layout/SystemStatus";
+import Footer from "../components/layout/Footer";
+import { motion} from "framer-motion";
+import {ArrowRight,Brain,Shield,Plane,Car,Sparkles,} from "lucide-react";
+import {useNavigate,} from "react-router-dom";
+import api from "../api/axios";
+import { useEffect, useState } from "react";
 
-const Home = () => {
-  const navigate = useNavigate();
+export default function Home(){
 
+  const navigate=useNavigate();
+  const [stats,setStats]=useState({
+  totalCO2:0,
+  flights:0,
+  missions:0,
+  ecoScore:0,
+});
+useEffect(()=>{
+  const fetchStats=async()=>{
+    try {
+      const vehicleRes=await api.get( "/api/carbon/carbontotal");
+      const flightRes=await api.get("/api/flight/gettotalco2");
+      const fighterRes=await api.get("/api/fighter/fighterjet");
+      const totalCO2=(vehicleRes.data?.data?.totalCO2 || 0 ) +( flightRes.data?.data?.totalCO2 || 0 ) +(  fighterRes.data?.data?.totalCO2 || 0 );
+      setStats({totalCO2,
+        flights:flightRes.data?.data?.totalFlights || 0,
+        missions:fighterRes.data?.data?.missions || 0,
+        ecoScore:Math.round(
+            (
+              (
+                vehicleRes.data?.data?.ecoScore || 0
+              ) +
+              (
+                flightRes.data?.data?.ecoScore || 0
+              ) +
+              (
+                fighterRes.data?.data?.ecoScore || 0
+              )
+            ) / 3
+          ),
+      });
+
+    } catch(error){
+      console.log(error);
+    }
+  };
+  fetchStats();
+},[]);
+  const systems=[
+    {
+      title:"Vehicle Intelligence",
+      description:"Real-time transportation carbon tracking with AI sustainability optimization systems.",
+      icon:<Car size={28} />,
+      color:"from-green-400 to-emerald-500",
+    },
+    {
+      title:"Flight Analytics",
+      description:"Advanced aviation emission analytics powered by live sustainability intelligence.",
+      icon:<Plane size={28} />,
+      color:"from-cyan-400 to-blue-500",
+    },
+    {
+      title:"Defense AI",
+      description:"Military-grade fighter jet environmental intelligence and mission sustainability analysis.",
+      icon:<Shield size={28} />,
+      color:"from-orange-400 to-red-500",
+    },
+  ];
   return (
     <MainLayout>
-
-      {/* ================= HERO SECTION ================= */}
-      <section className="bg-black text-white py-28 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            Build a Greener Future with
-            <span className="text-green-400"> Smart Route Tracking</span>
-          </h1>
-
-          <p className="mt-6 text-gray-400 text-lg max-w-2xl mx-auto">
-            Monitor your travel emissions, analyze eco scores and choose
-            sustainable alternatives with powerful real-time carbon insights.
-          </p>
-
-          <div className="mt-10 flex justify-center gap-6 flex-wrap">
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="px-8 py-4 bg-green-500 rounded-xl text-lg font-semibold hover:bg-green-600 transition"
+      <div className="bg-black text-white overflow-x-hidden">
+        <section className="relative min-h-screen flex items-center px-6 overflow-x-hidden">
+          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
+          <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
+          <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-20 items-center">
+            <motion.div
+              initial={{
+                opacity:0,
+                y:40,
+              }}
+              animate={{
+                opacity:1,
+                y:0,
+              }}
+              transition={{
+                duration:0.7,
+              }}
             >
-              Go to Dashboard
-            </button>
 
-            <button
-              onClick={() => navigate("/calculate")}
-              className="px-8 py-4 border border-green-400 text-green-400 rounded-xl text-lg font-semibold hover:bg-green-400 hover:text-black transition"
-            >
-              Calculate Emission
-            </button>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm font-medium">
+                <Sparkles size={16} /> Carbon  Intelligence</div>
+              {/* TITLE */}
+              <h1 className="mt-8 text-5xl md:text-7xl font-bold tracking-[-3px] leading-[1.05]"> AI-Powered Carbon
+                <span className="block text-green-400">Intelligence Platform</span>
+              </h1>
+
+              {/* DESCRIPTION */}
+              <p className="mt-8 text-lg text-gray-400 leading-relaxed max-w-2xl">Real-time carbon analytics for transportation,aviation, and defense systems.</p>
+
+              {/* BUTTONS */}
+              <div className="flex flex-wrap gap-5 mt-10">
+                <button onClick={()=>navigate("/overviewdashboard")} className="group px-8 py-4 rounded-2xl bg-green-500 text-black font-semibold text-lg flex items-center gap-3 hover:bg-green-400 transition-all duration-300 shadow-[0_10px_30px_rgba(34,197,94,0.25)]">Launch Dashboard
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition" />
+                </button>
+                <button onClick={()=> navigate("/about") } className="px-8 py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-lg font-semibold">Learn More
+                </button>
+              </div>
+
+           <div className="grid grid-cols-2 gap-6 mt-16">
+            <div>
+               <h3 className="text-3xl font-bold text-white">
+             {Math.round( stats.totalCO2).toLocaleString()} kg</h3>
+             <p className="text-gray-500 mt-2">Total CO₂ Tracked</p></div>
+            <div>
+          <h3 className="text-3xl font-bold text-white">{stats.flights + stats.missions}</h3>
+          <p className="text-gray-500 mt-2">Operations Analyzed</p>
           </div>
-
-        </div>
-      </section>
-
-      {/* ================= FEATURES ================= */}
-      <section className="bg-gray-950 text-white py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold">
-              Powerful Sustainability Tools
-            </h2>
-            <p className="text-gray-400 mt-4">
-              Everything you need to monitor and reduce carbon impact.
-            </p>
+         </div>
+            </motion.div>
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{
+                duration: 0.7,
+              }}
+              className="relative">
+              <div className="relative rounded-[40px] border border-white/10 bg-[#0B0B0B] p-8 overflow-x-hidden">
+                <div className="absolute top-0 right-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
+                {/* AI ASSISTANT */}
+                <AIAssistant />
+              </div>
+            </motion.div>
           </div>
+        </section>
 
-          <div className="grid md:grid-cols-3 gap-10">
-
-            <div className="bg-gray-900 p-10 rounded-2xl shadow-lg">
-              <FaLeaf className="text-green-400 text-4xl mb-6" />
-              <h3 className="text-2xl font-semibold">
-                Eco Score Tracking
-              </h3>
-              <p className="text-gray-400 mt-4">
-                Instantly measure sustainability of your travel patterns.
+        <section className="relative py-32 px-6 overflow-x-hidden">
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-green-500/10 blur-[120px] rounded-full" />
+          <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-cyan-500/10 blur-[120px] rounded-full" />
+          <div className="relative max-w-7xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto">
+              <div className="inline-flex px-4 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm mb-6">Enterprise AI Systems</div>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-[-2px]">Enterprise AI Systems</h2><p className="mt-6 text-gray-400 text-lg leading-relaxed"> CarbonTrack combines multiple environmental intelligence systems into one scalable sustainability platform.
               </p>
-            </div>
+             </div>
 
-            <div className="bg-gray-900 p-10 rounded-2xl shadow-lg">
-              <FaRoute className="text-green-400 text-4xl mb-6" />
-              <h3 className="text-2xl font-semibold">
-                Smart Route Suggestions
-              </h3>
-              <p className="text-gray-400 mt-4">
-                Discover greener and optimized travel routes using AI.
+            <div className="grid md:grid-cols-3 gap-8 mt-20">
+              {systems.map((system,index)=>(
+                  <motion.div
+                    key={index}
+                    initial={{
+                      opacity:0,
+                      y:40,
+                    }}
+                    whileInView={{
+                      opacity:1,
+                      y:0,
+                    }}
+                    viewport={{
+                      once:true,
+                    }}
+                    transition={{
+                      duration:0.5,
+                      delay:
+                        index * 0.1,
+                    }}
+                    className="group relative overflow-x-hidden rounded-[32px] border border-white/10 bg-[#0B0B0B] p-10 hover:border-green-500/20 transition-all duration-500">
+
+                    <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${system.color} blur-3xl opacity-0 group-hover:opacity-10 transition duration-500`} />
+
+                    <div className="relative z-10">
+                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${system.color} flex items-center justify-center text-black shadow-lg`}>{system.icon}</div>
+                      <h3 className="mt-8 text-2xl font-semibold"> {system.title}</h3>
+                      <p className="mt-5 text-gray-400 leading-relaxed">{system.description}</p>
+                    </div>
+                  </motion.div>
+                )
+              )}
+            </div>
+          </div>
+        </section>
+        <SystemStatus />
+        <section className="px-6 py-32 bg-[#050505] border-t border-white/5">
+          <div className="max-w-5xl mx-auto text-center rounded-[40px] border border-white/10 bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-16 overflow-x-hidden relative">
+            <div className="absolute top-0 left-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
+            <div className="relative z-10">
+              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(34,197,94,0.25)]">
+                <Brain className="text-black" size={38} />
+              </div>
+
+              <h2 className="mt-10 text-4xl md:text-5xl font-bold tracking-[-2px] leading-tight">Launch Carbon Intelligence</h2>
+              <p className="mt-6 text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
+                Access enterprise-grade environmental analytics,
+                real-time carbon monitoring,
+                and AI-powered sustainability systems.
               </p>
+              <div className="flex flex-wrap justify-center gap-5 mt-10">
+                <button onClick={()=>navigate("/overviewdashboard" )}
+                  className="group px-8 py-4 rounded-2xl bg-green-500 text-black text-lg font-semibold hover:bg-green-400 transition-all duration-300 flex items-center gap-3 shadow-[0_10px_30px_rgba(34,197,94,0.25)]"
+                >Launch Dashboard
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition" />
+                </button>
+                <button onClick={()=>navigate("/about")}
+                  className="px-8 py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-lg font-semibold">Learn More
+                </button>
+              </div>
             </div>
-
-            <div className="bg-gray-900 p-10 rounded-2xl shadow-lg">
-              <FaChartLine className="text-green-400 text-4xl mb-6" />
-              <h3 className="text-2xl font-semibold">
-                Emission Analytics
-              </h3>
-              <p className="text-gray-400 mt-4">
-                Visualize emission trends and sustainability performance.
-              </p>
-            </div>
-
           </div>
-
-        </div>
-      </section>
-
-      {/* ================= STATS ================= */}
-      <section className="bg-black text-white py-24 px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 text-center">
-
-          <div className="bg-gray-900 p-12 rounded-2xl">
-            <h2 className="text-5xl font-bold text-green-400">18K+</h2>
-            <p className="text-gray-400 mt-4 text-lg">Routes Analyzed</p>
-          </div>
-
-          <div className="bg-gray-900 p-12 rounded-2xl">
-            <h2 className="text-5xl font-bold text-green-400">11T</h2>
-            <p className="text-gray-400 mt-4 text-lg">CO₂ Saved</p>
-          </div>
-
-          <div className="bg-gray-900 p-12 rounded-2xl">
-            <h2 className="text-5xl font-bold text-green-400">7K+</h2>
-            <p className="text-gray-400 mt-4 text-lg">Active Users</p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= CALL TO ACTION ================= */}
-      <section className="bg-gradient-to-r from-green-600 to-emerald-500 text-black py-24 text-center px-6">
-
-        <h2 className="text-4xl font-bold">
-          Ready to Reduce Your Carbon Footprint?
-        </h2>
-
-        <p className="mt-4 text-lg max-w-2xl mx-auto">
-          Join thousands of users who are making smarter, greener decisions.
-        </p>
-
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="mt-8 px-10 py-4 bg-black text-white rounded-xl text-lg font-semibold hover:opacity-90 transition"
-        >
-          Start Tracking Now
-        </button>
-
-      </section>
-
-      {/* ================= FOOTER ================= */}
-      <footer className="bg-black text-gray-400 py-14 border-t border-gray-800">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-
-          <h3 className="text-white text-2xl font-semibold mb-4">
-            CarbonTrack
-          </h3>
-
-          <p>
-            Empowering sustainable travel through smart emission analysis.
-          </p>
-
-          <p className="mt-6 text-sm text-gray-500">
-            © 2026 CarbonTrack. All rights reserved.
-          </p>
-
-        </div>
-      </footer>
-
+        </section>
+        <Footer />
+      </div>
     </MainLayout>
   );
-};
-
-export default Home;
+}

@@ -60,7 +60,7 @@ const [loading,setLoading]=useState(true);
                 key={item._id}
                 className="flex justify-between items-center p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5">
                 <div className="flex flex-col">
-                  <p className="text-green-300 text-sm font-semibold flex items-center gap-2">✈️ {item.jetModel || "Unknown Jet"} • {item.mission || "No Mission"}</p>
+                  <p className="text-green-300 text-sm font-semibold flex items-center gap-2"> {item.jetModel || "Unknown Jet"} • {item.mission || "No Mission"}</p>
                   <p className="text-gray-400 text-xs">{date} • {time}</p>
                 </div>
                 <div className="text-right">

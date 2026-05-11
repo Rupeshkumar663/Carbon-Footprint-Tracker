@@ -22,7 +22,7 @@ export default function FlightResult(){
   }
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
-      <Navbar variant="flightresult"/>
+      <Navbar variant="fighterresult"/>
       <div className="flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-3xl bg-[#0d0d0d]/80 backdrop-blur-xl border border-green-500/20 rounded-3xl p-8 shadow-[0_0_80px_rgba(34,197,94,0.25)] transition-all duration-500">
           <h1 className="text-3xl text-center text-green-400 font-semibold mb-8">Carbon Footprint Result</h1>

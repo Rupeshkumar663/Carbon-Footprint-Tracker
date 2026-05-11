@@ -3,7 +3,7 @@ import FighterCarbon from "../models/fighterjet.model"
 import { calculateFighterCarbon } from "../services/flighjetcarbon.service";
 import { getRedisClient } from "../config/redis";
 import fighterjetModel from "../models/fighterjet.model";
-import { generateCarbonAdvice } from "../services/ai.service";
+import { generateCarbonAdvice } from "../services/GroqAdvice.service";
 import { WeeklyRecord } from "../types/carbonType";
 
 //fighterjetcarbon-----------------------------------------------------
@@ -81,7 +81,7 @@ export const getfighterjetTotalCO2=async(req:Request,res:Response)=>{
   try{
     const userId=(req as any).user._id;
     const redisClient=getRedisClient()
-    const cacheKey=`fighterTotal:v4:${userId}`;
+    const cacheKey=`fighterTotal:v5:${userId}`;
     const cached=await redisClient.get(cacheKey);
     if(cached){
          return res.json({source:"cache",data:JSON.parse(cached)});
@@ -104,7 +104,10 @@ export const getfighterjetTotalCO2=async(req:Request,res:Response)=>{
     const fighterHours=fighterJets.reduce((sum:number,item:any)=>sum+(Number(item.hours) || 0),0);
     const flightKm=totalCO2/0.09;
     const earthTrips=Number((flightKm/40075).toFixed(2));
-    const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),impact:{
+    const missions=fighterJets.length;
+    const result={totalCO2:Number(totalCO2.toFixed(2)),ecoScore:Number(ecoScore.toFixed(0)),
+      missions,
+      impact:{
         trees,
         jetFuel,
         fighterHours,

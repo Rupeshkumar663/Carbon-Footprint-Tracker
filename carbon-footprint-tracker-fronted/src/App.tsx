@@ -17,9 +17,12 @@ import FighterjetResult from "./pages/flight/FighterjetResult";
 import FlightDashboard from "./pages/flight/FlightDashboard";
 import FighterjetDashboard from "./pages/flight/FighterjetDashboard";
 import CarbonDashboard from "./pages/Dashboard";
+import OverviewDashboard from "./pages/Overviewdashboard";
+import About from "./pages/About";
+import ScrollToTop from "./components/layout/ScrollToTop";
 
 
-export const serverUrl="http://localhost:9000";
+export const serverUrl=import.meta.env.VITE_BASE_URL;
 const App=()=>{
  const userData = useSelector(
      (state: RootState) => state.auth.userData
@@ -27,6 +30,7 @@ const App=()=>{
   return(
     <>
       <ToastContainer position="top-right" autoClose={2000} />
+      <ScrollToTop/>
       <Routes>
         
         <Route path="/" element={<Home/>} />
@@ -46,6 +50,9 @@ const App=()=>{
        <Route path="/fighterjetresult" element={<FighterjetResult/>} />
         <Route path="/flightdashboard" element={userData?(<FlightDashboard/>):(<Navigate to="/signup"/>)} /> 
         <Route path="/fighterdashboard" element={userData?(<FighterjetDashboard/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/overviewdashboard" element={userData?(<OverviewDashboard/>):(<Navigate to="/signup"/>)} /> 
+        <Route path="/about" element={<About/>}/>
+        
       </Routes>
     </>
   );

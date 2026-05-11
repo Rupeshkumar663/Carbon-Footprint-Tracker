@@ -11,7 +11,7 @@ export const connectRedis=async()=>{
         const REDIS_URL=process.env.REDIS_URL;
         if(!REDIS_URL){
             console.log("redis url missing")
-            process.exit(1)
+             throw new Error("REDIS_URL missing");
         }
         redisClient=createClient({
             url:REDIS_URL,

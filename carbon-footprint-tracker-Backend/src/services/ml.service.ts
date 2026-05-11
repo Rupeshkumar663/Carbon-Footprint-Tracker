@@ -1,4 +1,7 @@
 import axios from "axios";
+import dotenv from "dotenv"
+dotenv.config()
+const ml_service=process.env.ML_SERVICE_URL || "http://127.0.0.1:8000"
 const cache=new Map<string,any>();
 
 const normalizeInput=(data:any)=>({
@@ -40,7 +43,7 @@ const fallbackCarbon=(data:any)=>{
     }
     let result;
     try {
-      const res=await axios.post("http://127.0.0.1:8000/predict",cleanData,
+      const res=await axios.post(`${ml_service}/predict`,cleanData,
         {
           headers:{ "Content-Type": "application/json" },
           timeout:3000 

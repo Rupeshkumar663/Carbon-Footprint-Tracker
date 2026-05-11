@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface CarbonFormData {
   start:string;
   end:string;
@@ -161,4 +163,21 @@ export interface FighterData {
   carbon:number;
   ecoScore:number;
   label:string;
+}
+
+export interface Props {
+  children:ReactNode;
+}
+
+export interface SystemItem {
+  name: string;
+  status: string;
+  metric: string;
+  color: string;
+}
+
+export interface ApiData {
+  totalCO2?: number;
+  totalFlights?: number;
+  missions?: number;
 }

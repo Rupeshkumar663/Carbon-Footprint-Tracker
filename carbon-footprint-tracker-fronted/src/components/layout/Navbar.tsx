@@ -1,18 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../redux/store";
+import React,{useState,useRef,useEffect,} from "react";
+import {NavLink,useNavigate} from "react-router-dom";
+import {useSelector,useDispatch} from "react-redux";
+import {Menu, X, ChevronDown,User,LayoutDashboard,Settings,LogOut,Plane,Car,Shield} from "lucide-react";
+import type { RootState } from "../../redux/store";
 import { logout } from "../../redux/authSlice";
-import { Menu, X } from "lucide-react";
 
 const Navbar=()=>{
   const navigate=useNavigate();
   const dispatch=useDispatch();
   const { userData }=useSelector((state:RootState)=>state.auth);
-
   const [open,setOpen]=useState(false);
   const [show,setShow]=useState(false);
+  const [dashboardOpen,setDashboardOpen]=useState(false);
   const profileRef=useRef<HTMLDivElement>(null);
+  const dashboardRef=useRef<HTMLDivElement>(null);
 
   const handleLogout=()=>{
     dispatch(logout());
@@ -20,72 +21,164 @@ const Navbar=()=>{
   };
 
   useEffect(()=>{
-    const handleClickOutside=(event:any)=>{
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+    const handleClickOutside=(event:MouseEvent)=>{
+      if(profileRef.current && !profileRef.current.contains( event.target as Node)){
         setShow(false);
+      }
+
+      if(dashboardRef.current && !dashboardRef.current.contains( event.target as Node)){
+        setDashboardOpen(false);
       }
     };
     document.addEventListener("mousedown",handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown",handleClickOutside);
+    return ()=>document.removeEventListener("mousedown",handleClickOutside);
   },[]);
 
+  const navLinkClass=({isActive,}:any)=>isActive? `text-white relative after:absolute after:left-0 after:-bottom-[24px] after:w-full after:h-[2px] after:bg-green-400 after:rounded-full` : ` text-green-400 hover:text-green-200 transition duration-300`;
+
   return (
-    <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-lg border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#050505]/90 backdrop-blur-2xl">
+      <div className="max-w-7xl mx-auto h-[74px] px-4 sm:px-6 flex items-center justify-between">
+        <div onClick={()=>navigate("/")} className="flex items-center gap-3 cursor-pointer">
+          <div className=" w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-black text-sm font-bold shadow-[0_10px_30px_rgba(34,197,94,0.18)]">🌍</div>
+        <div>
+           <h1 className="text-[20px] font-semibold tracking-[-0.5px] text-white leading-none">Carbon<span className="text-green-400"> Track</span></h1>
+            <p className="text-[10px] uppercase tracking-[2px] text-green-300 mt-1">AI Sustainability</p>
+        </div>
+      </div>
 
-        {/* LOGO */}
-        <div
-          className="text-2xl font-bold text-white cursor-pointer"onClick={()=>navigate("/")} > Carbon<span className="text-green-400">Track</span></div>
+        <div className="hidden md:flex items-center gap-7 text-sm font-medium">
+           <NavLink to="/inputpage"  className={navLinkClass}>Vehicle</NavLink>
+          <NavLink to="/flighthome"  className={navLinkClass}>Flight</NavLink>
+          <NavLink to="/fighter-jet" className={navLinkClass}>Flightjet</NavLink>
+          <NavLink to="/about" className={navLinkClass}>About Us</NavLink>
 
-        {/* CENTER LINKS */}
-        <div className="hidden md:flex items-center gap-8 text-gray-300">
+          {/* DASHBOARD */}
+          <div className="relative" ref={dashboardRef}>
+            <button onClick={()=>setDashboardOpen(!dashboardOpen)}className="flex items-center gap-1 text-green-400 hover:text-green-200 transition">Dashboard
+              <ChevronDown
+                size={15}
+                className={`transition duration-300 ${
+                  dashboardOpen
+                    ? "rotate-180"
+                    : ""
+                }`}
+              />
+          </button>
 
-          <NavLink to="/" className={({ isActive })=>isActive? "text-green-400 font-medium" : "hover:text-white transition" }>Home</NavLink>
-          
-          <NavLink to="/calculate" className={({ isActive })=>isActive? "text-green-400 font-medium" : "hover:text-white transition" }>Calculate</NavLink>
-          
+            {/* DROPDOWN */}
+            {dashboardOpen && (
+              <div className="absolute top-11 left-0 w-64 rounded-2xl border border-green-300 bg-[#101010]/95 backdrop-blur-2xl shadow-2xl overflow-hidden">
+                <div className="p-2">
+
+                  <button onClick={()=>{navigate("/overviewdashboard");setDashboardOpen(false);}} className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-green-300 hover:bg-green-500/10 hover:text-green-400 transition">
+                    <LayoutDashboard size={17} />
+                    Overview Dashboard
+                  </button>
+
+                  <button onClick={()=>{navigate("/dashboard");setDashboardOpen(false);}}className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-green-300 hover:bg-green-500/10 hover:text-green-400 transition"><Car size={17} />Vehicle Dashboard
+                  </button>
+
+                  <button onClick={()=>{navigate("/flightdashboard");setDashboardOpen(false);}}className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-green-300 hover:bg-green-500/10 hover:text-green-400 transition"><Plane size={17} />Flight Dashboard
+                  </button>
+
+                  <button onClick={()=>{navigate("/fighterdashboard");setDashboardOpen(false);}}className="w-full flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-green-300 hover:bg-green-500/10 hover:text-green-400 transition"><Shield size={17} />Defense Dashboard
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* RIGHT SECTION */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
+          <div className=" hidden xl:flex items-center gap-2 h-10 px-4 rounded-xl border border-green-500/20 bg-green-500/10 text-green-400 text-sm font-medium ">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> AI Live
+        </div>
+          {userData ? (<div className="relative" ref={profileRef}>
+              <button onClick={()=>setShow(!show)} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-2 py-1.5 hover:bg-white/[0.05] transition-all duration-300">
 
-          {userData? (
-            <>
-              {/* Profile Photo */}
-              <div className="relative" ref={profileRef}>
-                <div className="w-9 h-9 rounded-full overflow-hidden bg-green-500 flex items-center justify-center text-sm font-bold text-white cursor-pointer" onClick={()=>setShow(!show)} >
-                 {userData?.photoUrl ? (<img src={userData.photoUrl} alt="profile" className="w-full h-full object-cover" /> ) : ( userData?.name?.slice(0, 1).toUpperCase() )}
+                <div className=" w-9 h-9 rounded-full overflow-hidden bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-sm font-semibold text-white ">
+                  {userData?.photoUrl ? (
+                    <img src={userData.photoUrl}alt="profile" className="w-full h-full object-cover"/>
+                  ):(
+                    userData?.name ?.slice(0,1).toUpperCase()
+                  )}
                 </div>
+                <span className="text-sm text-green-200 font-medium max-w-[100px] truncate">{userData?.name}</span>
+                <ChevronDown size={16} className={` text-gray-400 transition duration-300 ${ show? "rotate-180" : ""}`}
+                />
+              </button>
 
-                {/* Dropdown */}
-               {show && ( <div className='absolute top-[120%] left-0 bg-white px-[10px] py-[8px] rounded-md border-[2px] border-black hover:border-white hover:text-white hover:bg-black'>
+              {show && (
+                <div className=" absolute right-0 mt-3  w-64  overflow-hidden  rounded-2xl border border-green-200 bg-[#121212]  shadow-2xl ">
+                  <div className="px-5 py-4 border-b border-white/5">
+                    <p className="text-green-400 font-semibold text-sm"> {userData?.name}</p>
+                    <p className="text-green-300 text-xs mt-1"> AI Sustainability User</p>
+                  </div>
 
-               <span className='bg-black text-white px-[18px] py-[6px] text-[14px] rounded-sm hover:bg-gray-600 cursor-pointer    whitespace-nowrap inline-block' onClick={()=>navigate("/profile")}>My Profile</span></div>)}
+                  <div className="py-2">
+                    <button onClick={()=>{ navigate("/profile"); setShow(false);}} className=" w-full flex items-center gap-3 px-5 py-3 text-sm text-green-400 hover:bg-white/10  transition"><User size={16} /> My Profile
+                    </button>
 
-              </div>
+                    <button onClick={()=>{ navigate("/editprofile"); setShow(false); }} className=" w-full flex items-center gap-3 px-5 py-3  text-sm text-green-400  hover:bg-white/5  transition ">
+                      <Settings size={16} /> Settings
+                    </button>
+                    <button onClick={() => { navigate( "/overviewdashboard" ); setShow(false);}} className=" w-full flex items-center gap-3  px-5 py-3  text-sm text-green-400  hover:bg-white/5 transition " > <LayoutDashboard size={16} />  Dashboard
+                    </button>
+                  </div>
+                  <div className="border-t border-white/5 py-2">
+                    <button onClick={()=>{ handleLogout(); setShow(false);}} className=" w-full flex items-center gap-3  px-5 py-3  text-sm text-red-400  hover:bg-red-500/10  transition  ">
+                     <LogOut size={16} />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
-              {/* Dashboard Button */}
-              <button className="px-4 py-2 border border-green-400 text-green-400 rounded-lg font-medium hover:bg-green-400 hover:text-black transition" onClick={()=>navigate("/dashboard")}>Dashboard</button>
+          ):(
+            <div className="flex items-center gap-3">
+              <button onClick={() => navigate("/login")} className=" h-12 px-7 rounded-2xl border border-white/10 bg-white/[0.02]  text-gray-300  text-sm font-medium hover:bg-white  hover:text-black hover:border-white transition-all duration-300 " >Login </button>
 
-              {/* Logout Button */}
-              <button className="px-4 py-2 bg-white text-black rounded-lg font-medium hover:opacity-90 transition" onClick={handleLogout}>
-                Logout</button>
-           </>
-           ) : (
-            <>
-              <button className="px-4 py-2 border border-green-400 text-green-400 rounded-lg font-medium hover:bg-green-400 hover:text-black transition"onClick={() => navigate("/login")} >Login</button>
-
-              <button className="px-4 py-2 bg-green-500 text-black rounded-lg font-medium hover:bg-green-600 transition"onClick={() => navigate("/signup")} >Sign Up</button>
-            </>
+              <button  onClick={() => navigate("/signup") } className=" relative overflow-hidden h-12 px-8 rounded-2xl bg-gradient-to-r from-green-400  via-emerald-500  to-green-500 text-black  text-sm font-semibold shadow-[0_10px_30px_rgba(34,197,94,0.25)]  hover:scale-[1.03]  transition-all duration-300 ">
+                <span className="relative z-10"> Get Started </span>
+                <div className=" absolute inset-0   opacity-0 hover:opacity-100  bg-white/10  transition duration-300 "></div>
+            </button>
+            </div>
           )}
         </div>
 
-        {/* MOBILE TOGGLE */}
         <div className="md:hidden text-white">
-          {open ? ( <X onClick={() => setOpen(false)} className="cursor-pointer" /> ) : ( <Menu onClick={() => setOpen(true)} className="cursor-pointer" /> )}
+          {open ? (
+            <X size={26} className="cursor-pointer" onClick={()=>setOpen(false) }/>
+          ):(
+            <Menu size={26} className="cursor-pointer" onClick={()=>setOpen(true) }/>
+          )}
         </div>
       </div>
+
+      {/* MOBILE MENU */}
+      {open && (
+        <div className="  md:hidden border-t border-white/10 bg-[#050505]/95  backdrop-blur-2xl " >
+          <div className="flex flex-col px-6 py-6 gap-5"> 
+            <NavLink to="/flighthome" onClick={() => setOpen(false) } className="text-green-400 hover:text-green-200"> Flight</NavLink>
+            <NavLink to="/fighter-jet" onClick={()=>setOpen(false)} className="text-green-400 hover:text-green-200"> Fighterjet</NavLink>
+            <NavLink to="/about" onClick={()=>setOpen(false) } className="text-green-400 hover:text-green-200" >About Us </NavLink>
+
+            {/* DASHBOARD */}
+            <div className="border-t border-white/10 pt-5 flex flex-col gap-4">
+              <button onClick={()=>{ navigate( "/overviewdashboard" ); setOpen(false);}}className="text-left text-green-400"> Overview Dashboard</button>
+
+              <button onClick={()=>{ navigate( "/dashboard" ); setOpen(false); }} className="text-left text-green-400"> Vehicle Dashboard</button>
+
+              <button onClick={()=>{ navigate( "/flightdashboard"); setOpen(false);}}className="text-left text-green-400">Flight Dashboard</button>
+
+              <button onClick={() => { navigate( "/fighterdashboard" ); setOpen(false); }} className="text-left text-green-400"> Defense Dashboard</button>
+
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

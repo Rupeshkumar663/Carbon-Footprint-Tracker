@@ -29,12 +29,12 @@ const AdvancedPDF:React.FC=()=>{
 
   const getBadge=()=>{
     if(score>=85) 
-      return "🌍 Green Hero";
+      return " Green Hero";
     if(score>=60) 
-      return "🌱 Eco Friendly";
+      return " Eco Friendly";
     if(score>=40) 
-      return "⚠️ Moderate";
-    return "🚫 High Impact";
+      return " Moderate";
+    return "High Impact";
   };
 
   const getSuggestion=()=>{
