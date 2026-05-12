@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
@@ -28,7 +27,7 @@ function Login() {
  }
   setLoading(true); 
  try{
- const result=await api.post(`${serverUrl}/api/auth/login`,{email,password},{withCredentials:true});
+ const result=await api.post("/api/auth/login",{email,password},{withCredentials:true});
  dispatch(setUserData({token:result.data.token,user:result.data.user}));
  toast.success("Login successful");
  navigate("/");
@@ -49,7 +48,7 @@ const googleLogin=async()=>{
  try{
   const response=await signInWithPopup(auth,provider);
    const user=response.user;
-   const result = await api.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email},{withCredentials:true});
+   const result = await api.post("/api/auth/googleauth",{name:user.displayName,email:user.email},{withCredentials:true});
    dispatch(setUserData({token:result.data.token,user:result.data.user}));
    toast.success("Login successfully");
    navigate("/");

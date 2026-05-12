@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../App";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
@@ -31,7 +30,7 @@ function SignUp() {
       return; 
     setLoading(true);
     try {
-      const result=await axios.post(`${serverUrl}/api/auth/signup`,{name,email,password},{ withCredentials: true });
+      const result=await axios.post("/api/auth/signup",{name,email,password},{ withCredentials: true });
       dispatch(setUserData({token:result.data.token,user:result.data.user}));
       toast.success("Signup successful");
       navigate("/");
@@ -50,7 +49,7 @@ function SignUp() {
     try{
       const response=await signInWithPopup(auth,provider);
       const user=response.user;
-      const result=await axios.post(`${serverUrl}/api/auth/googleauth`,{name:user.displayName,email:user.email,},{ withCredentials: true });
+      const result=await axios.post("/api/auth/googleauth",{name:user.displayName,email:user.email,},{ withCredentials: true });
 
       dispatch(setUserData({token:result.data.token,user:result.data.user,}));
       toast.success("Signup successful");
