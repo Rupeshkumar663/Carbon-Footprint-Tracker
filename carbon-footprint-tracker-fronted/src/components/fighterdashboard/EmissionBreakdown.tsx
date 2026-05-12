@@ -39,7 +39,7 @@ export default function EmissionBreakdown({ total }:{ total:number}){
             </Pie>
 
             <Tooltip
-              formatter={(value: number) => `${value} kg`}
+              formatter={(value:any) => `${value} kg`}
               contentStyle={{
                 background:"#1e293b",
                 border:"none",

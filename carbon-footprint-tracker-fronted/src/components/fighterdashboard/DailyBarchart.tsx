@@ -49,7 +49,7 @@ const DailyBarChart: React.FC=()=>{
           />
 
           <Tooltip
-            formatter={(value:number)=>[`${Math.round(value)} kg`,"Emission"]}
+            formatter={(value:any)=>[`${Math.round(value)} kg`,"Emission"]}
             contentStyle={{
               background:"#1e293b",
               border:"none",
