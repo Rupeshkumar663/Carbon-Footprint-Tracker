@@ -2,7 +2,7 @@ import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
 import { store } from "../redux/store";
 const api=axios.create({
-  baseURL:import.meta.env.VITE_BASE_URL,
+  baseURL:import.meta.env.VITE_API_URL,
   withCredentials:true,
 });
 api.interceptors.request.use(

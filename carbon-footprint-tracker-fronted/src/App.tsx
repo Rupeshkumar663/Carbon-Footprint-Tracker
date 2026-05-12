@@ -22,7 +22,7 @@ import About from "./pages/About";
 import ScrollToTop from "./components/layout/ScrollToTop";
 
 
-export const serverUrl=import.meta.env.VITE_BASE_URL;
+export const serverUrl=import.meta.env.VITE_API_URL;
 const App=()=>{
  const userData = useSelector(
      (state: RootState) => state.auth.userData
