@@ -8,12 +8,17 @@ import aiRoute from "./routes/ai.routes"
 import dotenv from "dotenv"
 dotenv.config()
 const app=express();
-const frontend_url=process.env.FRONTEND_URL ||"http://localhost:5173"
- app.use(cors({
-    origin:frontend_url,
-    credentials:true,              
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL_PROD,
+].filter(Boolean) as string[];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
   })
- );
+);
  app.use(express.json());
  app.use("/api/auth",authRoutes);
  app.use("/api/carbon",carbonRoutes);
