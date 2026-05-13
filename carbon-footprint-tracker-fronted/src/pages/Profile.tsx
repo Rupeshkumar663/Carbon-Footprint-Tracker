@@ -16,12 +16,12 @@ function Profile(){
     return null;
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 py-10 flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-2xl p-8 max-w-xl w-full relative">
-        <FaArrowLeftLong className="absolute top-[8%] left-[5%] w-[22px] h-[22px] cursor-pointer text-green-700" onClick={()=>navigate("/")}/>
+    <div className="min-h-screen bg-gray-100 px-3 sm:px-4 py-6 sm:py-10 flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-2xl p-5 sm:p-8 max-w-xl w-full relative">
+        <FaArrowLeftLong className="absolute top-5 left-5 w-[22px] h-[22px] cursor-pointer text-green-700" onClick={()=>navigate("/")}/>
         <div className="flex flex-col items-center text-center">
           {userData.photoUrl ? (
-            <img src={userData.photoUrl} className="w-24 h-24 rounded-full object-cover border-4 border-green-800" alt="Profile"/>
+            <img src={userData.photoUrl} className="w-24 h-24 rounded-full object-cover border-4 border-green-800" alt="Profile"  onError={(e)=> {e.currentTarget.style.display="none";}}/>
           ) : (
             <div className="w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-green-500 border-white"> {userData.name?.slice(0, 1).toUpperCase()}</div>
           )}
@@ -30,11 +30,11 @@ function Profile(){
           <p className="text-sm text-green-500">Carbon Saver 🌿</p>
         </div>
         <div className="mt-6 space-y-4">
-          <div className="text-sm flex items-center gap-1 text-green-700">
+          <div className="text-sm flex flex-wrap items-center gap-1 text-green-700 break-all">
             <span className="font-semibold text-green-700">Email:</span>
             <span>{userData.email}</span>
           </div>
-          <div className="text-sm flex items-center gap-1 text-green-700">
+          <div className="text-sm flex flex-wrap items-center gap-1 text-green-700 break-all">
             <span className="font-semibold text-green-700">Bio:</span>
             <span>{userData.description || "No bio added"}</span>
           </div>

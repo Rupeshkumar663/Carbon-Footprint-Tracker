@@ -159,8 +159,33 @@ const Navbar=()=>{
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="  md:hidden border-t border-white/10 bg-[#050505]/95  backdrop-blur-2xl " >
+        <div className="md:hidden border-t border-white/10 bg-[#050505]/95 backdrop-blur-2xl max-h-[calc(100vh-74px)] overflow-y-auto" >
           <div className="flex flex-col px-6 py-6 gap-5"> 
+            {userData && (
+  <div className="border border-white/10 rounded-2xl p-4 bg-white/[0.02]">
+    
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-semibold">
+        {userData?.photoUrl ? (
+          <img src={userData.photoUrl} alt="profile" className="w-full h-full object-cover"/>
+        ):(userData?.name?.slice(0,1).toUpperCase())}
+      </div>
+
+        <div><p className="text-green-300 font-medium">{userData?.name}</p>
+        <p className="text-xs text-green-500"> AI Sustainability User</p>
+         </div>
+    </div>
+
+       <div className="flex flex-col gap-3">
+         <button onClick={()=>{ navigate("/profile"); setOpen(false);}}className="text-left text-green-400"> My Profile </button>
+
+         <button onClick={()=>{ navigate("/editprofile"); setOpen(false); }} className="text-left text-green-400">Settings</button>
+
+         <button onClick={()=>{ handleLogout(); setOpen(false);}} className="text-left text-red-400">Logout</button>
+       </div>
+     </div>
+     )}       
+            <NavLink to="/inputpage" onClick={()=>setOpen(false)} className="text-green-400 hover:text-green-200">Vehicle</NavLink>
             <NavLink to="/flighthome" onClick={() => setOpen(false) } className="text-green-400 hover:text-green-200"> Flight</NavLink>
             <NavLink to="/fighter-jet" onClick={()=>setOpen(false)} className="text-green-400 hover:text-green-200"> Fighterjet</NavLink>
             <NavLink to="/about" onClick={()=>setOpen(false) } className="text-green-400 hover:text-green-200" >About Us </NavLink>

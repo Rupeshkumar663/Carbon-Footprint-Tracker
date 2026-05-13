@@ -116,7 +116,7 @@ export default function OverviewDashboard(){
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#050505] via-[#07120d] to-[#050505] text-white overflow-hidden">
       <Navbar variant="overview"/>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-6">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-16 pb-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -125,7 +125,7 @@ export default function OverviewDashboard(){
               <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-sm">Live Intelligence</div>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-2px] leading-tight max-w-2xl">Unified Carbon
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[-1px] sm:tracking-[-2px] leading-tight max-w-2xl">Unified Carbon
               <span className="text-green-400">{" "}Intelligence{" "}</span>Dashboard
             </h1>
 
@@ -147,7 +147,7 @@ export default function OverviewDashboard(){
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-3"> {item.title}</p>
-                  <h2 className="text-3xl font-bold tracking-tight">{item.value}</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{item.value}</h2>
                 </div>
               <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-black shadow-lg group-hover:scale-105 transition-all duration-300`}>{item.icon}</div>
               </div>
@@ -171,7 +171,7 @@ export default function OverviewDashboard(){
             </div>
 
             {/* GRAPH */}
-            <div className="h-[280px] rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent border border-white/5 flex items-end gap-4 px-5 pb-5 overflow-hidden">
+            <div className="h-[280px] rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent border border-white/5 flex items-end gap-2 sm:gap-4 px-3 sm:px-5 pb-5 overflow-hidden">
               {weeklyData.map((height,i)=>(
                   <div
                     key={i}
@@ -200,7 +200,7 @@ export default function OverviewDashboard(){
               {insights.map((item,index)=>(
                 <div
                   key={index}
-                  className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 hover:border-green-500/20 transition-all">
+                  className="rounded-2xl border border-white/5 bg-white/[0.02] p-3 sm:p-4 hover:border-green-500/20 transition-all">
                   <div className="flex items-start gap-3">
                     <Activity size={18} className="text-green-400 mt-1"/>
                     <p className="text-gray-300 text-sm leading-relaxed">{item}</p>

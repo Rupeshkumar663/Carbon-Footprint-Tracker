@@ -56,11 +56,13 @@ export const googleAuth=async(req:Request,res:Response)=>{
     }
     const token=generateToken(user._id.toString());
     res.json({success:true,token,
-      user:{
-        _id:user._id,
-        name:user.name,
-        email:user.email,
-      },
+     user:{
+      _id:user._id,
+      name:user.name,
+      email:user.email,
+      photoUrl:user.photoUrl,
+      description:user.description,
+     },
     });
 
   } catch(error){

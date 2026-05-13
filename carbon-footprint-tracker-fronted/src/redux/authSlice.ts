@@ -19,7 +19,12 @@ const loadUserFromStorage=():User | null=>{
     if(!savedUser || savedUser === "undefined"){
       return null;
     }
-    return JSON.parse(savedUser);
+    const parsedUser:User=JSON.parse(savedUser);
+    if(parsedUser.photoUrl && !parsedUser.photoUrl.startsWith( "https://res.cloudinary.com")){
+     localStorage.removeItem("user");
+      return null;
+    }
+    return parsedUser;
   } catch(error){
     console.error(`Invalid user in localStorage ${error}`);
     return null;

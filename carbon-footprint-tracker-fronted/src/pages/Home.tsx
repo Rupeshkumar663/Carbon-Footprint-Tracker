@@ -74,7 +74,7 @@ useEffect(()=>{
         <section className="relative min-h-screen flex items-center px-6 overflow-x-hidden">
           <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
           <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
-          <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-20 items-center">
+          <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             <motion.div
               initial={{
                 opacity:0,
@@ -92,7 +92,7 @@ useEffect(()=>{
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm font-medium">
                 <Sparkles size={16} /> Carbon  Intelligence</div>
               {/* TITLE */}
-              <h1 className="mt-8 text-5xl md:text-7xl font-bold tracking-[-3px] leading-[1.05]"> AI-Powered Carbon
+              <h1 className="mt-8 text-4xl sm:text-5xl md:text-7xl font-bold tracking-[-2px] md:tracking-[-3px] leading-[1.05]"> AI-Powered Carbon
                 <span className="block text-green-400">Intelligence Platform</span>
               </h1>
 
@@ -108,7 +108,7 @@ useEffect(()=>{
                 </button>
               </div>
 
-           <div className="grid grid-cols-2 gap-6 mt-16">
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16">
             <div>
                <h3 className="text-3xl font-bold text-white">
              {Math.round( stats.totalCO2).toLocaleString()} kg</h3>
@@ -151,7 +151,7 @@ useEffect(()=>{
               </p>
              </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mt-20">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-16 md:mt-20">
               {systems.map((system,index)=>(
                   <motion.div
                     key={index}
@@ -188,7 +188,7 @@ useEffect(()=>{
         </section>
         <SystemStatus />
         <section className="px-6 py-32 bg-[#050505] border-t border-white/5">
-          <div className="max-w-5xl mx-auto text-center rounded-[40px] border border-white/10 bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-16 overflow-x-hidden relative">
+          <div className="max-w-5xl mx-auto text-center rounded-[40px] border border-white/10 bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-8 md:p-16 overflow-x-hidden relative">
             <div className="absolute top-0 left-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(34,197,94,0.25)]">

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ function Login() {
  const [loading,setLoading]=useState(false);
  const navigate=useNavigate();
  const dispatch=useDispatch<AppDispatch>();
- const handleLogin=async (e:FormEvent<HTMLFormElement>)=>{
+ const handleLogin=async (e:any)=>{
    e.preventDefault();
    if(!email || !password){
    toast.error("Email and password required");
@@ -62,15 +62,15 @@ const googleLogin=async()=>{
   }
  };
 return (
-  <div className="w-screen h-screen flex items-center justify-center bg-gray-200">
+  <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-4">
   <motion.div
    initial={{opacity:0,scale:0.95}}
    animate={{opacity:1,scale:1}}
    transition={{duration:0.5}}
-   className="w-[900px] h-[560px] bg-white rounded-xl shadow-2xl flex overflow-hidden"
+   className="w-[95%] max-w-[900px] min-h-[560px] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden"
   >
  {/* LEFT SIDE */}
-  <form onSubmit={handleLogin} className="w-[50%] bg-black text-white flex flex-col justify-center px-12 gap-4">
+  <form onSubmit={handleLogin} className="w-full md:w-[50%] bg-black text-white flex flex-col justify-center px-6 md:px-12 py-8 gap-4">
   <h2 className="text-center text-xl font-semibold text-green-300">Login to your account</h2>
 
   <div onClick={googleLogin} 
@@ -120,8 +120,8 @@ return (
   </form>
 
   {/* RIGHT SIDE */}
-  <div className="w-[50%] bg-gradient-to-b  bg-green-400 to-[#ffffff] flex items-center justify-center">
-   <h1 className="text-4xl font-bold text-black">Carbon Tracker</h1>
+  <div className="w-full md:w-[50%] bg-gradient-to-b bg-green-400 to-[#ffffff] flex items-center justify-center py-10">
+   <h1 className="text-2xl md:text-4xl font-bold text-black text-center">Carbon Tracker</h1>
   </div>
  </motion.div>
 </div>
