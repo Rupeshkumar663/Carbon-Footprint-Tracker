@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
@@ -31,14 +30,9 @@ function Login() {
  dispatch(setUserData({token:result.data.token,user:result.data.user}));
  toast.success("Login successful");
  navigate("/");
-}
-catch(error:unknown){
-  if(axios.isAxiosError(error)){
-   toast.error(error.response?.data?.message || "Login failed");
-  }else{
-   toast.error("Login failed");
+} catch(error:any){
+  toast.error(error?.response?.data?.message || "Login failed");
   }
- }
  finally{
   setLoading(false);
  }
@@ -53,13 +47,9 @@ const googleLogin=async()=>{
    toast.success("Login successfully");
    navigate("/");
   }
-  catch(error:unknown){
-   if(axios.isAxiosError(error)){
-    toast.error(error.response?.data?.message || "Google login failed");
-   }else{
-    toast.error("Google login failed");
+  catch(error:any){
+   toast.error(error?.response?.data?.message || "Google login failed");
    }
-  }
  };
 return (
   <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-4">

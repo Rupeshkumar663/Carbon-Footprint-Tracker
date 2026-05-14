@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoEyeOutline, IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
@@ -11,6 +10,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
 import { FcGoogle } from "react-icons/fc";
+import api from "../api/axios";
 function SignUp() {
   const [show, setShow]=useState(false);
   const [name, setName]=useState("");
@@ -30,37 +30,29 @@ function SignUp() {
       return; 
     setLoading(true);
     try {
-      const result=await axios.post("/api/auth/signup",{name,email,password},{ withCredentials: true });
+      const result=await api.post("/api/auth/signup",{name,email,password},{ withCredentials: true });
       dispatch(setUserData({token:result.data.token,user:result.data.user}));
       toast.success("Signup successful");
       navigate("/");
-    } catch(error:unknown){
-      if(axios.isAxiosError(error)){
-        toast.error(error.response?.data?.message || "Signup failed");
-      } else{
-        toast.error("Signup failed");
+    } catch(error:any){
+      toast.error(error?.response?.data?.message || "Signup failed");
+     } finally{
+       setLoading(false);
       }
-    } finally{
-      setLoading(false);
-    }
-  };
+    };
 
   const googleSignUp=async()=>{
     try{
       const response=await signInWithPopup(auth,provider);
       const user=response.user;
-      const result=await axios.post("/api/auth/googleauth",{name:user.displayName,email:user.email,},{ withCredentials: true });
+      const result=await api.post("/api/auth/googleauth",{name:user.displayName,email:user.email,},{ withCredentials: true });
 
       dispatch(setUserData({token:result.data.token,user:result.data.user,}));
       toast.success("Signup successful");
       navigate("/");
-    } catch(error:unknown){
-      if(axios.isAxiosError(error)){
-        toast.error(error.response?.data?.message || "Google signup failed");
-      } else{
-        toast.error("Google signup failed");
-      }
-    }
+    } catch(error:any){
+       toast.error(error?.response?.data?.message || "Google signup failed");
+       }
   };
 
   return (
