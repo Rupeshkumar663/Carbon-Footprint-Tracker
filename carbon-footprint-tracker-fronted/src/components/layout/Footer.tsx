@@ -72,8 +72,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-8"> Stay Update
-            </h3>
+            <h3 className="text-lg font-semibold mb-8">Platform Information</h3>
             <div className="rounded-[28px] border border-white/10 bg-[#0B0B0B] p-6">
               <p className="text-gray-400 text-sm leading-relaxed">
                 Subscribe for sustainability insights,

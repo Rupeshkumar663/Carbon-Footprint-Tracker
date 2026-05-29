@@ -64,27 +64,25 @@ export default function AIFeatures(){
   ];
 
   return (
-    <section className="relative overflow-hidden bg-black py-28 px-6 text-white">
+    <section className="relative overflow-hidden bg-black py-20 sm:py-28 px-4 sm:px-6 text-white">
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-green-500/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-purple-500/10 blur-[120px] rounded-full" />
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm mb-6">AI Sustainability Suite</div>
-          <h2 className="text-5xl md:text-6xl font-bold tracking-[-2px] leading-tight">AI Sustainability Intelligence</h2>
-          <p className="mt-6 text-gray-400 text-lg leading-relaxed">
-            Advanced AI infrastructure built for
-            real-time carbon monitoring,
-            predictive analytics, and enterprise
-            sustainability intelligence.
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-[-1px] md:tracking-[-2px] leading-tight">AI Sustainability Intelligence</h2>
+          <p className="mt-6 text-gray-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+          Advanced AI infrastructure for real-time carbon monitoring,
+          predictive analytics, and sustainability intelligence.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 mt-20">
+      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8 mt-16 sm:mt-20">
           {features.map(
             (feature,index)=>(
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0B0B0B] p-8 hover:border-green-500/20 hover:-translate-y-2 transition-all duration-500">
+                className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0B0B0B] p-6 sm:p-8 hover:border-green-500/20 sm:hover:-translate-y-2 transition-all duration-500">
                 <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${feature.color} blur-3xl opacity-0 group-hover:opacity-10 transition duration-500`}/>
                 <div className="relative z-10">
                   <div className="flex items-center justify-between">
@@ -92,9 +90,9 @@ export default function AIFeatures(){
                       className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-black shadow-lg`}>
                       {feature.icon}
                     </div>
-                    <ArrowUpRight className="text-gray-600 group-hover:text-white transition" size={22}/>
+                    <ArrowUpRight className="hidden sm:block text-gray-600 group-hover:text-white transition" size={22}/>
                   </div>
-                  <h3 className="mt-10 text-2xl font-semibold leading-tight">{feature.title}</h3>
+                  <h3 className="mt-8 text-xl sm:text-2xl font-semibold leading-tight">{feature.title}</h3>
                   <p className="mt-5 text-gray-400 leading-relaxed">{feature.description}</p>
                   <div className="mt-8">
                     {loading ? (<div className="h-8 w-32 rounded bg-white/10 animate-pulse" />
@@ -108,19 +106,19 @@ export default function AIFeatures(){
           )}
         </div>
 
-        <div className="mt-20 rounded-[36px] border border-white/10 bg-[#0B0B0B] p-10">
+        <div className="mt-20 rounded-[36px] border border-white/10 bg-[#0B0B0B] p-6 sm:p-10">
           <div className="grid md:grid-cols-3 gap-10">
             <div>
               <p className="text-green-400 text-sm"> AI MODEL</p>
-              <h3 className="mt-4 text-3xl font-bold"> Neural Intelligence Core </h3>
+              <h3 className="mt-4 text-xl sm:text-3xl font-bold"> Neural Intelligence Core </h3>
             </div>
             <div>
               <p className="text-cyan-400 text-sm"> SYSTEM TYPE</p>
-              <h3 className="mt-4 text-3xl font-bold">Real-Time Analytics</h3>
+              <h3 className="mt-4 text-xl sm:text-3xl font-bold">Real-Time Analytics</h3>
             </div>
             <div>
               <p className="text-purple-400 text-sm"> PLATFORM MODE</p>
-              <h3 className="mt-4 text-3xl font-bold"> Unified Sustainability Platform</h3>
+              <h3 className="mt-4 text-xl sm:text-3xl font-bold"> Unified Sustainability Platform</h3>
            </div>
           </div>
         </div>
