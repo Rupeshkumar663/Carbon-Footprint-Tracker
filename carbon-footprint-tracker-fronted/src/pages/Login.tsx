@@ -18,7 +18,7 @@ function Login() {
  const [loading,setLoading]=useState(false);
  const navigate=useNavigate();
  const dispatch=useDispatch<AppDispatch>();
- const handleLogin=async (e:any)=>{
+ const handleLogin=async(e:any)=>{
    e.preventDefault();
    if(!email || !password){
    toast.error("Email and password required");

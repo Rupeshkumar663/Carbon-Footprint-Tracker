@@ -138,7 +138,7 @@ const Navbar=()=>{
 
           ):(
             <div className="flex items-center gap-3">
-              <button onClick={() => navigate("/login")} className=" h-12 px-7 rounded-2xl border border-white/10 bg-white/[0.02]  text-gray-300  text-sm font-medium hover:bg-white  hover:text-black hover:border-white transition-all duration-300 " >Login </button>
+              <button onClick={() => navigate("/login")} className=" h-12 px-7 rounded-2xl border border-white/10 bg-white/[0.02]  text-gray-300  text-sm font-medium hover:bg-white  hover:text-black hover:border-white transition-all duration-300 " >Login</button>
 
               <button  onClick={() => navigate("/signup") } className=" relative overflow-hidden h-12 px-8 rounded-2xl bg-gradient-to-r from-green-400  via-emerald-500  to-green-500 text-black  text-sm font-semibold shadow-[0_10px_30px_rgba(34,197,94,0.25)]  hover:scale-[1.03]  transition-all duration-300 ">
                 <span className="relative z-10">Get Started</span>
@@ -160,7 +160,7 @@ const Navbar=()=>{
       {/* MOBILE MENU */}
       {open && (
         <div className="lg:hidden border-t border-white/10 bg-[#050505]/95 backdrop-blur-2xl min-h-[calc(100vh-74px)] overflow-y-auto" >
-          <div className="flex flex-col px-5 py-7 gap-5"> 
+          <div className="flex flex-col px-5 py-7 gap-4"> 
             {userData && (
              <div className="w-full border border-white/10 rounded-2xl p-4 bg-white/[0.02]">
              <div className="flex items-center gap-3 mb-4">
@@ -175,7 +175,7 @@ const Navbar=()=>{
             </div>
            </div>
 
-           <div className="flex flex-col gap-3">
+           <div className="flex flex-col gap-2">
             <button onClick={()=>{ navigate("/profile"); setOpen(false);}}className="text-left text-green-400"> My Profile </button>
           <button onClick={()=>{ navigate("/editprofile"); setOpen(false); }} className="text-left text-green-400">Settings</button>
 
@@ -191,7 +191,7 @@ const Navbar=()=>{
             {/* LOGIN / SIGNUP */}
             {!userData && (<div className="flex flex-col gap-3 pt-4 border-t border-white/10">
             <button onClick={()=>{ navigate("/login"); setOpen(false);}}
-           className="w-full h-12 rounded-2xl border border-white/10 bg-white/[0.03] text-white font-medium hover:bg-white hover:text-black transition-all duration-300">Login</button>
+           className="w-full h-12 rounded-2xl border border-white/10 bg-white/[0.03] text-white font-medium hover:bg-green-300 hover:text-black transition-all duration-300">Login</button>
            <button onClick={()=>{ navigate("/signup"); setOpen(false);}}
            className="w-full h-12 rounded-2xl bg-gradient-to-r from-green-400 via-emerald-500 to-green-500 text-black font-semibold shadow-[0_10px_25px_rgba(34,197,94,0.25)] hover:scale-[1.02] transition-all duration-300">Get Started</button>
            </div>
@@ -199,7 +199,7 @@ const Navbar=()=>{
             {/* DASHBOARD */}
             {userData && (
               <>
-               <div className="text-[11px] uppercase tracking-[3px] text-green-600 border-t border-white/10 pt-5">Dashboards</div>
+               <div className="text-[11px] uppercase tracking-[4px] text-green-500 border-t border-white/10 pt-5">Dashboards</div>
                <div className="flex flex-col gap-4">
                 <button
                  onClick={()=>{
