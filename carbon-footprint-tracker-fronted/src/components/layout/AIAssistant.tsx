@@ -47,7 +47,7 @@ export default function AIAssistant(){
            <>
            <div className="mt-8 mb-3 text-xs font-semibold uppercase tracking-[4px] text-green-500 text-left">AI Insight</div>
 
-           <div className="text-left bg-[#070707] rounded-2xl border border-white/10 p-4 md:p-6 text-gray-200 leading-relaxed whitespace-pre-wrap break-words overflow-auto max-h-[250px] md:max-h-[400px]">{response}</div>
+           <div className="text-left bg-[#070707] rounded-2xl border border-white/10 p-4 md:p-6 text-gray-200 text-sm md:text-base leading-8 whitespace-pre-wrap break-words overflow-auto max-h-[250px] md:max-h-[400px]">{response}</div>
           </>
          )
         }
