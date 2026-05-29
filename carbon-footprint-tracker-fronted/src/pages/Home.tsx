@@ -72,8 +72,9 @@ useEffect(()=>{
     <MainLayout>
       <div className="bg-black text-white overflow-x-hidden">
         <section className="relative min-h-screen flex items-center px-4 sm:px-6 overflow-x-hidden">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
-          <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
+          <div className="absolute top-0 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
+
+        <div className="absolute bottom-0 right-0 w-[220px] md:w-[450px] h-[220px] md:h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
           <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             <motion.div
               initial={{
