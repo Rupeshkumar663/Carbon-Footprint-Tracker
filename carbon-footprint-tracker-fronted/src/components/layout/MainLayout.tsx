@@ -10,7 +10,7 @@ export default function MainLayout({children}:Props){
         <header className="sticky top-0 z-50 backdrop-blur-xl border-b border-white/10 bg-black/60">
           <Navbar />
         </header>
-        <main className="flex-1 w-full px-4 sm:px-6 md:px-8 lg:px-10 py-6 md:py-8">
+        <main className="flex-1 w-full px-3 sm:px-6 md:px-8 lg:px-10 py-4 md:py-8">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>

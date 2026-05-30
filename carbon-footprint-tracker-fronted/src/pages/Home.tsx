@@ -71,11 +71,11 @@ useEffect(()=>{
   return (
     <MainLayout>
       <div className="bg-black text-white overflow-x-hidden">
-        <section className="relative min-h-screen flex items-center px-4 sm:px-6 overflow-x-hidden">
+        <section className="relative min-h-[80vh] md:min-h-screen flex items-center px-4 sm:px-6 overflow-x-hidden">
           <div className="absolute top-0 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
 
         <div className="absolute bottom-0 right-0 w-[220px] md:w-[450px] h-[220px] md:h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
-          <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+          <div className="relative max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             <motion.div
               initial={{
                 opacity:0,
@@ -90,32 +90,32 @@ useEffect(()=>{
               }}
             >
 
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm font-medium">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-xs sm:text-sm font-medium">
                 <Sparkles size={16} /> Carbon  Intelligence</div>
               {/* TITLE */}
-              <h1 className="mt-8 text-4xl sm:text-5xl md:text-7xl font-bold tracking-[-2px] md:tracking-[-3px] leading-[1.05]"> AI-Powered Carbon
+              <h1 className="mt-8 text-2xl sm:text-4xl md:text-5xl lg:text-[64px] font-bold tracking-[-2px] md:tracking-[-3px] leading-[1.05]"> AI-Powered Carbon
                 <span className="block text-green-400">Intelligence Platform</span>
               </h1>
 
               {/* DESCRIPTION */}
-              <p className="mt-8 text-lg text-gray-400 leading-relaxed max-w-2xl">Real-time carbon analytics for transportation,aviation, and defense systems.</p>
+              <p className="mt-5 text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed max-w-2xl">Real-time carbon analytics for transportation,aviation, and defense systems.</p>
 
               {/* BUTTONS */}
-              <div className="flex flex-wrap gap-5 mt-10">
-                <button onClick={()=>navigate("/overviewdashboard")} className="group px-8 py-4 rounded-2xl bg-green-500 text-black font-semibold text-lg flex items-center gap-3 hover:bg-green-400 transition-all duration-300 shadow-[0_10px_30px_rgba(34,197,94,0.25)]">Launch Dashboard
+           <div className="flex flex-col sm:flex-row gap-3 mt-8">
+                <button onClick={()=>navigate("/overviewdashboard")} className="group px-5 py-3 sm:px-8 sm:py-4 rounded-2xl bg-green-500 text-black font-semibold text-sm sm:text-base flex items-center gap-3 hover:bg-green-400 transition-all duration-300 shadow-[0_10px_30px_rgba(34,197,94,0.25)]">Launch Dashboard
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition" />
                 </button>
-                <button onClick={()=> navigate("/about") } className="px-8 py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-lg font-semibold">Learn More
+                <button onClick={()=> navigate("/about") } className="px-5 py-3 sm:px-8 sm:py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-sm sm:text-base font-semibold">Learn More
                 </button>
               </div>
 
-           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16">
+           <div className="grid grid-cols-2 gap-4 mt-8">
             <div>
-               <h3 className="text-3xl font-bold text-white">
+               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
              {Math.round( stats.totalCO2).toLocaleString()} kg</h3>
              <p className="text-gray-500 mt-2">Total CO₂ Tracked</p></div>
             <div>
-          <h3 className="text-3xl font-bold text-white">{stats.flights + stats.missions}</h3>
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{stats.flights + stats.missions}</h3>
           <p className="text-gray-500 mt-2">Operations Analyzed</p>
           </div>
          </div>
@@ -133,7 +133,7 @@ useEffect(()=>{
                 duration: 0.7,
               }}
               className="relative">
-              <div className="relative rounded-[40px] border border-white/10 bg-[#0B0B0B] p-8 overflow-x-hidden">
+            <div className="relative rounded-2xl border border-white/10 bg-[#0B0B0B] p-3 sm:p-4 md:p-6 overflow-x-hidden">
                 <div className="absolute top-0 right-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
                 {/* AI ASSISTANT */}
                 <AIAssistant />
@@ -142,17 +142,17 @@ useEffect(()=>{
           </div>
         </section>
 
-        <section className="relative py-32 px-6 overflow-x-hidden">
+        <section className="relative py-16 sm:py-24 md:py-32 px-4 sm:px-6 overflow-x-hidden">
           <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-green-500/10 blur-[120px] rounded-full" />
           <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-cyan-500/10 blur-[120px] rounded-full" />
           <div className="relative max-w-7xl mx-auto">
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-flex px-4 py-2 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 text-sm mb-6">Enterprise AI Systems</div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-[-2px]">Enterprise AI Systems</h2><p className="mt-6 text-gray-400 text-lg leading-relaxed"> CarbonTrack combines multiple environmental intelligence systems into one scalable sustainability platform.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-[-2px]">Enterprise AI Systems</h2><p className="mt-6 text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed"> CarbonTrack combines multiple environmental intelligence systems into one scalable sustainability platform.
               </p>
              </div>
 
-            <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-16 md:mt-20">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-10 md:mt-20">
               {systems.map((system,index)=>(
                   <motion.div
                     key={index}
@@ -172,14 +172,14 @@ useEffect(()=>{
                       delay:
                         index * 0.1,
                     }}
-                    className="group relative overflow-x-hidden rounded-[32px] border border-white/10 bg-[#0B0B0B] p-10 hover:border-green-500/20 transition-all duration-500">
+                    className="group relative overflow-x-hidden rounded-2xl border border-white/10 bg-[#0B0B0B] p-5 sm:p-6 hover:border-green-500/20 transition-all duration-500">
 
                     <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${system.color} blur-3xl opacity-0 group-hover:opacity-10 transition duration-500`} />
 
                     <div className="relative z-10">
-                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${system.color} flex items-center justify-center text-black shadow-lg`}>{system.icon}</div>
-                      <h3 className="mt-8 text-2xl font-semibold"> {system.title}</h3>
-                      <p className="mt-5 text-gray-400 leading-relaxed">{system.description}</p>
+                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${system.color} flex items-center justify-center text-black shadow-lg`}>{system.icon}</div>
+                      <h3 className="mt-4 text-lg sm:text-xl font-semibold"> {system.title}</h3>
+                      <p className="mt-4 text-sm sm:text-base text-gray-400 leading-relaxed">{system.description}</p>
                     </div>
                   </motion.div>
                 )
@@ -188,28 +188,28 @@ useEffect(()=>{
           </div>
         </section>
         <SystemStatus />
-        <section className="px-6 py-32 bg-[#050505] border-t border-white/5">
-          <div className="max-w-5xl mx-auto text-center rounded-[40px] border border-white/10 bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-8 md:p-16 overflow-x-hidden relative">
+        <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#050505] border-t border-white/5">
+          <div className="max-w-5xl mx-auto text-center rounded-2xl sm:rounded-[40px] border border-white/10 bg-gradient-to-r from-green-500/10 to-emerald-500/10 p-4 sm:p-6 md:p-8 overflow-x-hidden relative">
             <div className="absolute top-0 left-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
             <div className="relative z-10">
-              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(34,197,94,0.25)]">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto shadow-[0_10px_40px_rgba(34,197,94,0.25)]">
                 <Brain className="text-black" size={38} />
               </div>
 
-              <h2 className="mt-10 text-4xl md:text-5xl font-bold tracking-[-2px] leading-tight">Launch Carbon Intelligence</h2>
-              <p className="mt-6 text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
+              <h2 className="mt-6 text-2xl sm:text-3xl md:text-4xl font-bold tracking-[-2px] leading-tight">Launch Carbon Intelligence</h2>
+              <p className="mt-6 text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
                 Access enterprise-grade environmental analytics,
                 real-time carbon monitoring,
                 and AI-powered sustainability systems.
               </p>
-              <div className="flex flex-wrap justify-center gap-5 mt-10">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 mt-6">
                 <button onClick={()=>navigate("/overviewdashboard" )}
-                  className="group px-8 py-4 rounded-2xl bg-green-500 text-black text-lg font-semibold hover:bg-green-400 transition-all duration-300 flex items-center gap-3 shadow-[0_10px_30px_rgba(34,197,94,0.25)]"
+                  className="group px-5 py-3 sm:px-8 sm:py-4 rounded-2xl bg-green-500 text-black text-sm sm:text-base font-semibold hover:bg-green-400 transition-all duration-300 flex items-center gap-3 shadow-[0_10px_30px_rgba(34,197,94,0.25)]"
                 >Launch Dashboard
                   <ArrowRight size={20} className="group-hover:translate-x-1 transition" />
                 </button>
                 <button onClick={()=>navigate("/about")}
-                  className="px-8 py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-lg font-semibold">Learn More
+                  className="px-5 py-3 sm:px-8 sm:py-4 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white hover:text-black transition-all duration-300 text-sm sm:text-base font-semibold">Learn More
                 </button>
               </div>
             </div>

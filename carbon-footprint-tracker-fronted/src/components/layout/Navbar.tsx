@@ -150,21 +150,21 @@ const Navbar=()=>{
 
         <div className="lg:hidden text-white">
           {open ? (
-            <X size={26} className="cursor-pointer" onClick={()=>setOpen(false) }/>
+            <X size={22} className="cursor-pointer" onClick={()=>setOpen(false) }/>
           ):(
-            <Menu size={26} className="cursor-pointer" onClick={()=>setOpen(true) }/>
+            <Menu size={22} className="cursor-pointer" onClick={()=>setOpen(true) }/>
           )}
         </div>
       </div>
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-[#050505]/98 backdrop-blur-xl max-h-[80vh] overflow-y-auto">
-          <div className="flex flex-col px-4 py-4 gap-2"> 
+        <div className="lg:hidden border-t border-white/10 bg-[#050505]/98 backdrop-blur-xl max-h-[70vh] overflow-y-auto">
+        <div className="flex flex-col px-3 py-3 gap-2"> 
             {userData && (
              <div className="w-full border border-white/10 rounded-2xl p-4 bg-white/[0.02]">
              <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-semibold">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-semibold">
             {userData?.photoUrl ? (
             <img src={userData.photoUrl} alt="profile" className="w-full h-full object-cover"/>
             ):(userData?.name?.slice(0,1).toUpperCase())}
@@ -176,17 +176,17 @@ const Navbar=()=>{
            </div>
 
            <div className="flex flex-col gap-2">
-            <button onClick={()=>{ navigate("/profile"); setOpen(false);}}className="text-left text-green-400"> My Profile </button>
-          <button onClick={()=>{ navigate("/editprofile"); setOpen(false); }} className="text-left text-green-400">Settings</button>
+            <button onClick={()=>{ navigate("/profile"); setOpen(false);}}className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition"> My Profile </button>
+          <button onClick={()=>{ navigate("/editprofile"); setOpen(false); }} className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition">Settings</button>
 
           <button onClick={()=>{ handleLogout(); setOpen(false);}} className="text-left text-red-400">Logout</button>
           </div>
           </div>
         )}       
-            <NavLink to="/inputpage" onClick={()=>setOpen(false)} className="text-[15px] font-medium text-green-400 hover:text-green-200">Vehicle</NavLink>
-            <NavLink to="/flighthome" onClick={() => setOpen(false) } className="text-[15px] font-medium text-green-400 hover:text-green-200"> Flight</NavLink>
-            <NavLink to="/fighter-jet" onClick={()=>setOpen(false)} className="text-[15px] font-medium text-green-400 hover:text-green-200"> Fighter Jet</NavLink>
-            <NavLink to="/about" onClick={()=>setOpen(false) } className="text-[15px] font-medium text-green-400 hover:text-green-200">About Us </NavLink>
+            <NavLink to="/inputpage" onClick={()=>setOpen(false)} className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm font-medium text-green-400 hover:bg-green-500/10 transition">Vehicle</NavLink>
+            <NavLink to="/flighthome" onClick={() => setOpen(false) } className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm font-medium text-green-400 hover:bg-green-500/10 transition"> Flight</NavLink>
+            <NavLink to="/fighter-jet" onClick={()=>setOpen(false)} className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm font-medium text-green-400 hover:bg-green-500/10 transition"> Fighter Jet</NavLink>
+            <NavLink to="/about" onClick={()=>setOpen(false) } className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm font-medium text-green-400 hover:bg-green-500/10 transition">About Us </NavLink>
 
             {/* LOGIN / SIGNUP */}
             {!userData && (<div className="flex flex-col gap-3 pt-4 border-t border-white/10">
@@ -200,34 +200,34 @@ const Navbar=()=>{
             {userData && (
               <>
                <div className="text-[11px] uppercase tracking-[4px] text-green-500 border-t border-white/10 pt-5">Dashboards</div>
-               <div className="flex flex-col gap-4">
+               <div className="flex flex-col gap-2">
                 <button
                  onClick={()=>{
                   navigate("/overviewdashboard");
                   setOpen(false);
                 }}
-                className="text-left text-green-400">Overview Dashboard</button>
+                className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition">Overview Dashboard</button>
  
                <button
                 onClick={()=>{
                 navigate("/dashboard");
                 setOpen(false);
                }}
-               className="text-left text-green-400">Vehicle Dashboard</button>
+               className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition">Vehicle Dashboard</button>
 
                <button
                onClick={()=>{
                navigate("/flightdashboard");
                setOpen(false);
               }}
-              className="text-left text-green-400">Flight Dashboard</button>
+              className="px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition">Flight Dashboard</button>
 
              <button
              onClick={()=>{
              navigate("/fighterdashboard");
              setOpen(false);
              }}
-            className="text-left text-green-400">Fighter Jet Dashboard</button>
+            className="px-4 py-3  bg-white/[0.03] rounded-xl border border-white/5 text-sm text-green-400 text-left hover:bg-green-500/10 transition">Fighter Jet Dashboard</button>
            </div>
           </>
          )}
