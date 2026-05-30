@@ -134,8 +134,8 @@ useEffect(()=>{
                 duration: 0.7,
               }}
               className="relative">
-            <div className="relative z-[100] rounded-xl border border-white/10 bg-[#0B0B0B] p-1 sm:p-2 md:p-4 overflow-hidden">
-                <div className="absolute top-0 right-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
+            <div className="relative z-10 rounded-xl border border-white/10 bg-[#0B0B0B] p-1 sm:p-2 md:p-4">
+                <div className="absolute top-0 right-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full pointer-events-none" />
                 {/* AI ASSISTANT */}
                 <AIAssistant />
               </div>

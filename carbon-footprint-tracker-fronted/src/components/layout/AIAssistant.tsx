@@ -29,7 +29,8 @@ export default function AIAssistant(){
           <textarea
             placeholder="How can I reduce flight emissions?"
             value={question}
-            onChange={(e) => setQuestion(e.target.value)}
+            onChange={(e)=>setQuestion(e.target.value)}
+            onTouchStart={()=>{}}
             autoComplete="off"
             spellCheck={false}
             style={{
