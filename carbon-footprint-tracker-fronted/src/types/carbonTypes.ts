@@ -181,3 +181,14 @@ export interface ApiData {
   totalFlights?: number;
   missions?: number;
 }
+
+export interface NavbarProps {
+  variant?: string;
+};
+
+export interface DropdownItemProps {
+  icon:React.ReactNode;
+  text:string;
+  danger?:boolean;
+  onClick?:()=>void;
+};
