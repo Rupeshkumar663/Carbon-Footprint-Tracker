@@ -20,19 +20,24 @@ export default function AIAssistant(){
   };
 
   return (
-    <section className="text-white">
+    <section className="relative z-[9999] text-white">
     <div className="w-full max-w-[280px] sm:max-w-md md:max-w-xl mx-auto text-center px-2">
         <div className="inline-flex px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[11px] mb-3">🤖 AI Sustainability Assistant</div>
        <h2 className="text-lg sm:text-2xl md:text-3xl font-bold tracking-tight leading-tight">Ask Carbon AI</h2>
         <p className="mt-3 text-gray-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">Carbon intelligence, powered by AI.</p>
         <div className="mt-6 sm:mt-8 rounded-xl border border-white/10 bg-[#0B0B0B] p-3 sm:p-4 md:p-6">
           <textarea
-          
             placeholder="How can I reduce flight emissions?"
             value={question}
-            onChange={(e)=>setQuestion(e.target.value)}
-         className="w-full h-12 sm:h-16 md:h-20 overflow-y-auto bg-black border border-white/10 rounded-lg p-2 text-xs sm:text-sm outline-none text-white resize-none placeholder:text-gray-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition"
-          />
+            onChange={(e) => setQuestion(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
+            style={{
+            touchAction:"manipulation",
+            WebkitUserSelect:"text",
+           }}
+           className="relative z-[9999] w-full h-12 sm:h-16 md:h-20 bg-black border border-white/10 rounded-lg p-2 text-xs sm:text-sm outline-none text-white resize-none placeholder:text-gray-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition"
+         />
            {!response && !loading && (
            <p className="mt-4 text-sm text-gray-500 leading-relaxed">Ask about emissions, sustainability, flights, vehicles, or carbon reduction.</p>
           )}
