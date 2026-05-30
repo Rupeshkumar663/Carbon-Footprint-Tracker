@@ -57,13 +57,13 @@ useEffect(()=>{
     },
     {
       title:"Flight Analytics",
-      description:"Advanced aviation emission analytics powered by live sustainability intelligence.",
+      description:"Advanced flight carbon emission tracking and sustainability analytics for commercial aviation.",
       icon:<Plane size={22} />,
       color:"from-cyan-400 to-blue-500",
     },
     {
-      title:"Defense AI",
-      description:"Military-grade fighter jet environmental intelligence and mission sustainability analysis.",
+      title:"Fighter Jet Emissions",
+      description:"Carbon emission monitoring and environmental impact analysis for fighter jet operations.",
       icon:<Shield size={22} />,
       color:"from-orange-400 to-red-500",
     },
