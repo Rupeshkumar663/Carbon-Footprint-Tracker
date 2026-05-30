@@ -38,9 +38,9 @@ const Navbar=()=>{
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#050505]/90 backdrop-blur-2xl">
-      <div className="max-w-7xl mx-auto h-[74px] px-4 sm:px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto h-[64px] px-4 sm:px-6 flex items-center justify-between">
         <div onClick={()=>navigate("/")} className="flex items-center gap-3 cursor-pointer">
-          <div className=" w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-black text-sm font-bold shadow-[0_10px_30px_rgba(34,197,94,0.18)]">🌍</div>
+          <div className=" w-8 h-8 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-black text-sm font-bold shadow-[0_10px_30px_rgba(34,197,94,0.18)]">🌍</div>
         <div>
            <h1 className="text-[17px] sm:text-[20px] font-semibold tracking-[-0.5px] text-white leading-none">Carbon<span className="text-green-400"> Track</span></h1>
             <p className="hidden sm:block text-[10px] uppercase tracking-[2px] text-green-300 mt-1">AI Sustainability</p>
@@ -159,8 +159,8 @@ const Navbar=()=>{
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-[#050505]/95 backdrop-blur-2xl min-h-[calc(100vh-74px)] overflow-y-auto" >
-          <div className="flex flex-col px-5 py-7 gap-4"> 
+        <div className="lg:hidden border-t border-white/10 bg-[#050505]/98 backdrop-blur-xl max-h-[80vh] overflow-y-auto">
+          <div className="flex flex-col px-4 py-4 gap-2"> 
             {userData && (
              <div className="w-full border border-white/10 rounded-2xl p-4 bg-white/[0.02]">
              <div className="flex items-center gap-3 mb-4">
@@ -191,9 +191,9 @@ const Navbar=()=>{
             {/* LOGIN / SIGNUP */}
             {!userData && (<div className="flex flex-col gap-3 pt-4 border-t border-white/10">
             <button onClick={()=>{ navigate("/login"); setOpen(false);}}
-           className="w-full h-12 rounded-2xl border border-white/10 bg-white/[0.03] text-white font-medium hover:bg-green-300 hover:text-black transition-all duration-300">Login</button>
+           className="w-full h-10 rounded-xl text-sm border border-white/10 bg-white/[0.03] text-white font-medium hover:bg-green-300 hover:text-black transition-all duration-300">Login</button>
            <button onClick={()=>{ navigate("/signup"); setOpen(false);}}
-           className="w-full h-12 rounded-2xl bg-gradient-to-r from-green-400 via-emerald-500 to-green-500 text-black font-semibold shadow-[0_10px_25px_rgba(34,197,94,0.25)] hover:scale-[1.02] transition-all duration-300">Get Started</button>
+           className="w-full h-10 rounded-xl text-sm bg-gradient-to-r from-green-400 via-emerald-500 to-green-500 text-black font-semibold shadow-[0_10px_25px_rgba(34,197,94,0.25)] hover:scale-[1.02] transition-all duration-300">Get Started</button>
            </div>
           )}
             {/* DASHBOARD */}

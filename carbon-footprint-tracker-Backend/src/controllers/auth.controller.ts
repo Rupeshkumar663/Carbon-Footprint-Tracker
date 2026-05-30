@@ -139,6 +139,7 @@ export const updateProfile = async (req: Request, res: Response) => {
     if(description) updateData.description=description;
     if(req.file){
       const uploadedUrl=await uploadOnCloudinary(req.file.path);
+       console.log("Cloudinary URL:", uploadedUrl);
       if(uploadedUrl){
         updateData.photoUrl=uploadedUrl;
       }
