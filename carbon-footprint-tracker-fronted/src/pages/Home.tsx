@@ -72,11 +72,11 @@ useEffect(()=>{
     <MainLayout>
   
       <div className="bg-black text-white overflow-x-hidden">
-        <section className="relative min-h-[80vh] md:min-h-screen flex items-center px-4 sm:px-6 overflow-x-hidden">
+       <section className="relative min-h-auto md:min-h-screen flex items-center px-3 sm:px-6 overflow-x-hidden">
           <div className="absolute top-0 left-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-green-500/10 blur-[120px] rounded-full" />
 
         <div className="absolute bottom-0 right-0 w-[220px] md:w-[450px] h-[220px] md:h-[450px] bg-cyan-500/10 blur-[120px] rounded-full" />
-          <div className="relative max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+          <div className="relative max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-10 items-center">
             <motion.div
               initial={{
                 opacity:0,
@@ -110,7 +110,7 @@ useEffect(()=>{
                 </button>
               </div>
 
-           <div className="grid grid-cols-2 gap-4 mt-8">
+           <div className="grid grid-cols-2 gap-3 mt-5">
             <div>
                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
              {Math.round( stats.totalCO2).toLocaleString()} kg</h3>
@@ -134,7 +134,7 @@ useEffect(()=>{
                 duration: 0.7,
               }}
               className="relative">
-            <div className="relative rounded-xl border border-white/10 bg-[#0B0B0B] p-2 sm:p-3 md:p-4 overflow-hidden">
+            <div className="relative rounded-xl border border-white/10 bg-[#0B0B0B] p-1 sm:p-2 md:p-4 overflow-hidden">
                 <div className="absolute top-0 right-0 w-72 h-72 bg-green-500/10 blur-[100px] rounded-full" />
                 {/* AI ASSISTANT */}
                 <AIAssistant />
