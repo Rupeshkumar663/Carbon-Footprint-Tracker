@@ -70,19 +70,19 @@ export default function SystemStatus(){
   },[]);
 
   return (
-    <section className="relative bg-[#050505] py-20 md:py-24 px-4 sm:px-6 text-white overflow-hidden">
-      <div className="absolute top-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-green-500/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-0 right-0 w-[220px] md:w-[350px] h-[220px] md:h-[350px] bg-cyan-500/10 blur-[120px] rounded-full" />
+    <section className="relative bg-[#050505] py-12 sm:py-16 md:py-24 px-3 sm:px-6 text-white">
+      <div className="absolute top-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-green-500/10 blur-[120px] rounded-full pointer-events-none" />
+     <div className="absolute bottom-0 right-0 w-[220px] md:w-[350px] h-[220px] md:h-[350px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-sm mb-6"> Platform Infrastructure
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight"> Enterprise Sustainability System</h2>
-          <p className="mt-6 text-gray-400 text-lg max-w-3xl mx-auto leading-relaxed">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight leading-tight">Enterprise Sustainability System</h2>
+          <p className="mt-4 text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Real-time monitoring of vehicle emissions, commercial flight analytics, fighter jet operations, and AI-powered sustainability infrastructure.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mt-10 md:mt-16">
           {loading
             ? Array(4)
                 .fill(0)
@@ -100,15 +100,15 @@ export default function SystemStatus(){
                 (system,index)=>(
                   <div
                     key={index}
-                    className="group rounded-3xl border border-white/10 bg-[#0B0B0B] p-8 hover:border-green-500/20  hover:-translate-y-2 transition-all duration-500 ease-out"
+                    className="group rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 md:p-8 hover:border-green-500/20 transition-all duration-500 ease-out"
                   >
                     <div className="flex items-center justify-between">
                       <Activity className="text-green-400" size={28} />
                       <div className={`w-3 h-3 rounded-full ${system.color} animate-pulse`} />
                     </div>
-                    <h3 className="mt-8 text-xl font-semibold leading-tight">{system.name}</h3>
+                    <h3 className="mt-4 text-base sm:text-lg md:text-xl font-semibold leading-tight">{system.name}</h3>
                     <p className="mt-4 text-sm text-gray-400 uppercase tracking-wider">{system.status}</p>
-                    <div className="mt-6 text-xl md:text-2xl font-bold text-white">{system.metric}</div>
+                    <div className="mt-4 text-lg sm:text-xl md:text-2xl font-bold text-white">{system.metric}</div>
                   </div>
                 )
               )}

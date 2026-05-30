@@ -10,6 +10,16 @@ const Navbar=()=>{
   const dispatch=useDispatch<AppDispatch>();
   const { userData }=useSelector((state:RootState)=>state.auth);
   const [open,setOpen]=useState(false);
+  useEffect(()=>{
+  if(open){
+    document.body.style.overflow="hidden";
+  } else{
+    document.body.style.overflow="auto";
+  }
+  return ()=>{
+    document.body.style.overflow="auto";
+  };
+ },[open]);
   const [show,setShow]=useState(false);
   const [dashboardOpen,setDashboardOpen]=useState(false);
   const profileRef=useRef<HTMLDivElement>(null);
@@ -158,9 +168,9 @@ const Navbar=()=>{
       </div>
 
       {/* MOBILE MENU */}
-      {open && (
-        <div className="lg:hidden border-t border-white/10 bg-[#050505]/98 backdrop-blur-xl max-h-[70vh] overflow-y-auto">
-        <div className="flex flex-col px-3 py-3 gap-2"> 
+     {open && (
+       <div className="lg:hidden fixed top-[64px] left-0 w-full h-[calc(100vh-64px)] border-t border-white/10 bg-[#050505] backdrop-blur-xl overflow-y-auto z-[9999]">
+        <div className="flex flex-col px-4 py-4 gap-3 pb-20">
             {userData && (
              <div className="w-full border border-white/10 rounded-2xl p-4 bg-white/[0.02]">
              <div className="flex items-center gap-3 mb-4">

@@ -99,7 +99,7 @@ useEffect(()=>{
               </h1>
 
               {/* DESCRIPTION */}
-              <p className="mt-5 text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed max-w-2xl">Real-time carbon analytics for transportation,aviation, and defense systems.</p>
+              <p className="mt-5 text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed max-w-2xl">Real-time carbon analytics for vehicles, flights, and fighter jet operations.</p>
 
               {/* BUTTONS */}
            <div className="flex flex-col sm:flex-row gap-3 mt-8">
