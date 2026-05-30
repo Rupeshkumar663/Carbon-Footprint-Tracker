@@ -54,9 +54,8 @@ export default function OverviewDashboard(){
     );
   }
 
-    const maxValue=Math.max(...combinedWeekly);
-    const normalizedData=combinedWeekly.map(value=>maxValue === 0?25:Math.max((value/maxValue)*100,25));
-
+    const maxValue=Math.max(...combinedWeekly,1);
+    const normalizedData=combinedWeekly.map(value=>Math.max((value/maxValue)*100,15));
     setWeeklyData(normalizedData);
         setOverviewData({
           totalCO2:globalCO2,
@@ -87,7 +86,7 @@ export default function OverviewDashboard(){
       color:"from-cyan-400 to-blue-500",
     },
     {
-      title:"Defense Missions",
+      title:"Fighter Missions",
       value:overviewData.missions.toLocaleString(),
       icon:<Shield size={26} />,
       color:"from-orange-400 to-red-500",
@@ -102,8 +101,8 @@ export default function OverviewDashboard(){
 
   const insights=[
     `Combined emissions reached ${Math.round(overviewData.totalCO2).toLocaleString()} kg CO₂.`,
-    `${overviewData.flights} commercial flights tracked in aviation analytics.`,
-    `${overviewData.missions} fighter missions analyzed in defense AI system.`,
+    `${overviewData.flights} commercial flights tracked in flight analytics.`,
+    `${overviewData.missions} fighter jet missions analyzed for emission tracking.`,
     `Current global EcoScore stabilized at ${overviewData.ecoScore}/100.`,
   ];
 
@@ -125,29 +124,29 @@ export default function OverviewDashboard(){
               <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-sm">Live Intelligence</div>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[-1px] sm:tracking-[-2px] leading-tight max-w-2xl">Unified Carbon
+            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold tracking-[-1px] sm:tracking-[-2px] leading-tight max-w-2xl">Unified Carbon
               <span className="text-green-400">{" "}Intelligence{" "}</span>Dashboard
             </h1>
 
-            <p className="text-gray-400 mt-5 max-w-2xl text-lg leading-relaxed">
-              AI-powered sustainability analytics across mobility, aviation, and defense ecosystems.
+            <p className="text-gray-400 mt-5 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed">
+              AI-powered sustainability analytics across vehicles, flights, and fighter jet operations
             </p>
           </div>
 
-          <div className="hidden lg:flex items-center justify-center w-[180px] h-[180px] rounded-full border border-green-500/20 bg-green-500/5 shadow-[0_0_40px_rgba(34,197,94,0.08)]">
+          <div className="hidden lg:flex items-center justify-center w-[150px] h-[150px] rounded-full border border-green-500/20 bg-green-500/5 shadow-[0_0_40px_rgba(34,197,94,0.08)]">
             <Radar size={70} className="text-green-400 animate-pulse"/>
           </div>
         </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-5">
           {stats.map((item,index)=>(
-            <div key={index} className="rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 hover:border-green-500/20 transition-all duration-300 group" >
+            <div key={index} className="rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 hover:border-green-500/20 transition-all duration-300 group" >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-3"> {item.title}</p>
-                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{item.value}</h2>
+                  <h2 className="text-xl sm:text-3xl font-bold tracking-tight">{item.value}</h2>
                 </div>
               <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-black shadow-lg group-hover:scale-105 transition-all duration-300`}>{item.icon}</div>
               </div>
@@ -159,7 +158,7 @@ export default function OverviewDashboard(){
       {/* ANALYTICS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 min-h-[380px]">
+          <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 min-h-[320px]">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-xl font-semibold"> Weekly Emission Analytics</h2>
@@ -171,11 +170,11 @@ export default function OverviewDashboard(){
             </div>
 
             {/* GRAPH */}
-            <div className="h-[280px] rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent border border-white/5 flex items-end gap-2 sm:gap-4 px-3 sm:px-5 pb-5 overflow-hidden">
+            <div className="h-[200px] sm:h-[280px] rounded-2xl bg-gradient-to-b from-green-500/10 to-transparent border border-white/5 flex items-end gap-1 sm:gap-3 px-3 sm:px-5 pb-5 overflow-hidden">
               {weeklyData.map((height,i)=>(
                   <div
                     key={i}
-                    className="flex-1 rounded-t-xl bg-gradient-to-t from-green-500 to-emerald-400 hover:opacity-80 transition-all"
+                    className="flex-1 rounded-t-md bg-gradient-to-t from-green-500 to-emerald-400 hover:brightness-110 transition-all duration-300 hover:opacity-80 transition-all"
                     style={{
                       height:`${height}%`,
                     }}
@@ -186,7 +185,7 @@ export default function OverviewDashboard(){
           </div>
 
           {/* AI INSIGHTS */}
-          <div className="rounded-3xl border border-white/10 bg-[#0B0B0B] p-6">
+          <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-11 h-11 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400">
                 <Sparkles size={22} />
@@ -216,11 +215,11 @@ export default function OverviewDashboard(){
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* VEHICLE */}
-          <div className="rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 hover:border-green-500/20 transition-all duration-300 group">
+          <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 hover:border-green-500/20 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-black shadow-lg mb-6 group-hover:scale-105 transition-all duration-300">
               <Car size={26} />
             </div>
-            <h2 className="text-2xl font-semibold mb-3">Vehicle Intelligence</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3">Vehicle Intelligence</h2>
             <p className="text-gray-400 leading-relaxed mb-6">
               Analyze fuel efficiency, mileage,
               emissions, and sustainability metrics.
@@ -228,33 +227,33 @@ export default function OverviewDashboard(){
 
             <button
               onClick={() => navigate("/dashboard")}
-              className="w-full py-3 rounded-2xl bg-green-500 text-black font-semibold hover:bg-green-400 transition-all duration-300">
+              className="w-full py-2.5 rounded-xl bg-green-500 text-black font-semibold hover:bg-green-400 transition-all duration-300">
               Open Vehicle Dashboard
             </button>
           </div>
 
           {/* FLIGHT */}
-          <div className="rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 hover:border-cyan-500/20 transition-all duration-300 group">
+          <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 hover:border-cyan-500/20 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-black shadow-lg mb-6 group-hover:scale-105 transition-all duration-300">
               <Plane size={26} />
             </div>
-            <h2 className="text-2xl font-semibold mb-3">Aviation Analytics</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-2">flight Analytics</h2>
             <p className="text-gray-400 leading-relaxed mb-6">
               Track commercial flight emissions,
               fuel burn, and eco-efficiency insights.
             </p>
             <button
               onClick={() => navigate("/flightdashboard")}
-              className="w-full py-3 rounded-2xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-all duration-300">Open Flight Dashboard
+              className="w-full py-2.5 rounded-xl bg-cyan-500 text-black font-semibold hover:bg-cyan-400 transition-all duration-300">Open Flight Dashboard
             </button>
           </div>
 
           {/* DEFENSE */}
-          <div className="rounded-3xl border border-white/10 bg-[#0B0B0B] p-6 hover:border-orange-500/20 transition-all duration-300 group">
+          <div className="rounded-2xl border border-white/10 bg-[#0B0B0B] p-4 sm:p-6 hover:border-orange-500/20 transition-all duration-300 group">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-black shadow-lg mb-6 group-hover:scale-105 transition-all duration-300">
               <Shield size={26} />
             </div>
-            <h2 className="text-2xl font-semibold mb-3">Defense AI System</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-2">Fighter Jet Analytics</h2>
             <p className="text-gray-400 leading-relaxed mb-6">
               Advanced fighter jet analytics,
               mission fuel intelligence,
@@ -263,7 +262,7 @@ export default function OverviewDashboard(){
 
             <button
               onClick={() => navigate("/fighterdashboard")}
-              className="w-full py-3 rounded-2xl bg-orange-500 text-black font-semibold hover:bg-orange-400 transition-all duration-300">Open Defense Dashboard
+              className="w-full py-2.5 rounded-xl bg-orange-500 text-black font-semibold hover:bg-orange-400 transition-all duration-300">Open Fighter Dashboard
             </button>
           </div>
         </div>
