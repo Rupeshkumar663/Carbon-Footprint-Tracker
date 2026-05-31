@@ -38,27 +38,42 @@ green_score:number
 }
 
 export interface CarbonResult {
- route:{
-  distance:number
- }
+  route:{
+    distance:number;
+  };
 
- carbon:{
-  carbonEmission:number
-  greenScore:number
- }
+  carbon:{
+    carbonEmission:number;
+    greenScore:number;
+  };
 
- vehicle:{
-  vehicle_name:string
-  mileage:number
-  fuel_type:string
-  passengers:number
-  engine_cc:number
-  vehicle_age:number
- }
+  vehicle:{
+    vehicle_name:string;
+    mileage:number;
+    fuel_type:string;
+    passengers:number;
+    engine_cc:number;
+    vehicle_age:number;
+  };
 
- environment:{
-  temperature:number
- }
+  environment:{
+    temperature:number;
+  };
+
+  bestRoute?:{
+    distance:number;
+    duration:number;
+  };
+
+  fastestRoute?:{
+    distance:number;
+    duration:number;
+  };
+
+  end?:{
+    lat:number;
+    lon:number;
+  };
 }
 
 export interface monthChartData {
