@@ -35,11 +35,11 @@ const TodayCarbonCard:React.FC=()=>{
     return value.toString();
   };
   return (
-    <div className="relative px-4 sm:px-8 py-6 sm:py-10 rounded-2xl text-center bg-black backdrop-blur-2xl border border-green-500/20 overflow-hidden">
-      <div className="absolute top-0 left-[-50%] w-[200%] h-[100%] bg-gradient-to-r from-transparent to-transparent rotate-12 blur-xl pointer-events-none"></div>
+    <div className="relative w-full px-4 sm:px-8 py-6 sm:py-10 rounded-2xl text-center bg-black backdrop-blur-2xl border border-green-500/20 overflow-hidden shadow-lg">
+      <div className="absolute top-0 left-[-50%] w-[200%] h-full bg-gradient-to-r from-transparent via-green-500/5 to-transparent rotate-12 blur-xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-full h-6 bg-green-400/25 blur-2xl opacity-80"></div>
-      <p className="text-green-400 font-bold text-1xl mb-3 tracking-wide">Today Carbon</p>
-      <h2 className="text-green-300 text-2xl sm:text-3xl font-bold tracking-wide">{formatCarbon(todayCarbon)} kg CO₂</h2>
+      <p className="text-green-400 font-bold text-sm sm:text-base mb-3 tracking-wide">Today Carbon</p>
+      <h2 className="text-green-300 text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide break-words">{formatCarbon(todayCarbon)} kg CO₂</h2>
     </div>
   );
 };
