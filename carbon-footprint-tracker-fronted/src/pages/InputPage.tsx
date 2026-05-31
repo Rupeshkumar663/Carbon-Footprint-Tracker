@@ -44,7 +44,7 @@ export default function InputPage(){
  };
 return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col items-center justify-center relative overflow-hidden px-3">
-    <div className="w-full fixed top-0 left-0 z-50 bg-black/80 backdrop-blur-md">
+    <div className="w-full fixed top-0 left-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
      <Navbar variant="inputpage"/>
   </div>
    
@@ -52,39 +52,39 @@ return (
      <Canvas dpr={[1,1.5]} camera={{ position:[0,0,5] }} performance={{ min:0.5 }}>
       <ambientLight intensity={0.7}/>
       <directionalLight position={[2,5,2]}/>
-      <Stars radius={50} depth={40} count={1000} factor={3}/>
-      <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4}/>
+      <Stars radius={50} depth={40} count={500} factor={2}/>
+      <OrbitControls enableZoom={false} enablePan={false} enableRotate={false}/>
     </Canvas>
   </div>
   <motion.div
     initial={{opacity:0,y:50}}
     animate={{opacity:1,y:0}}
     transition={{duration:0.8}}
-    className="relative backdrop-blur-xl bg-green-800/10 border border-white/20 rounded-2xl p-5 sm:p-8 md:p-10 w-[95%] max-w-xl shadow-none mt-28 md:mt-35 mb-10"
+    className="relative backdrop-blur-xl bg-green-800/10 border border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-xl shadow-none mt-24 md:mt-32 mb-10"
   >
-   <h1 className="text-2xl sm:text-3xl font-semibold mb-2 text-center text-green-300">Plan Your Carbon Emission</h1>
-   <p className=" text-center mb-8 text-green-300">Let's calculate the most eco-friendly Journey</p>
-   <form onSubmit={handleSubmit} className="space-y-4">
-      <input name="start" placeholder="Starting Location"className="w-full p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-      <input name="end" placeholder="Destination"className="w-full p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <input name="vehicle_name" placeholder="Vehicle Name" className="p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-      <input name="mileage" placeholder="Mileage km/l" className="p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-      <select name="fuel_type" className="p-3 rounded-lg bg-green-200/20 border border-green-400">
+   <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2 text-center text-green-300">Plan Your Carbon Emission</h1>
+   <p className="text-center mb-6 text-sm sm:text-base text-green-300">Let's calculate the most eco-friendly Journey</p>
+   <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+      <input name="start" placeholder="Starting Location"className="w-full py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <input name="end" placeholder="Destination"className="w-full py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+      <input name="vehicle_name" placeholder="Vehicle Name" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <input type="number" min="1" name="mileage" placeholder="Mileage km/l" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <select name="fuel_type" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400">
        <option value="">Fuel Type</option>
        <option value="petrol">Petrol</option>
        <option value="diesel">Diesel</option>
        <option value="electric">Electric</option>
        <option value="cng">CNG</option>
       </select>
-      <input name="engine_cc" placeholder="Engine CC" className="p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-      <input name="vehicle_age" placeholder="Vehicle Age" className="p-3 rounded-lg bg-green-200/20 border border-green-400"/>
-      <input name="passengers" placeholder="Passengers" className="p-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <input type="number" min="50" name="engine_cc" placeholder="Engine CC" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <input type="number" min="0" name="vehicle_age" placeholder="Vehicle Age" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
+      <input type="number" min="1" name="passengers" placeholder="Passengers" className="py-2.5 px-3 rounded-lg bg-green-200/20 border border-green-400"/>
      </div>
-     <button type="submit" className="w-full py-2 border bg-green-300 border-green-400 text-green-950 rounded-lg font-medium hover:bg-green-400 hover:text-black transition" disabled={loading}>{loading ? "Calculating...":"Carbon Emission"}</button>
+     <button type="submit" className="w-full py-2.5 border bg-green-300 border-green-400 text-green-950 rounded-xl font-medium hover:bg-green-400 hover:text-black disabled:opacity-60 disabled:cursor-not-allowed transition" disabled={loading}>{loading ? "Calculating...":"Carbon Emission"}</button>
     </form>
   </motion.div>
-      <div className="relative z-10 w-full mt-auto">
+      <div className="relative z-10 w-full mt-6">
       <Footer />
     </div>
   </div>
