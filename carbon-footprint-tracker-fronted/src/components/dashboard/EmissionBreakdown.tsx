@@ -29,24 +29,24 @@ export default function EmissionBreakdown({ total }:{ total:number }){
   },
 ];
   return (
-    <div className="bg-black p-4 sm:p-6 rounded-2xl border border-white/10 w-full h-full">
-      <h3 className="text-green-400 font-semibold mb-4 text-center sm:text-left">Emission Breakdown</h3>
-      <div className="relative w-full h-[250px] sm:h-[260px]">
+    <div className="bg-black p-3 sm:p-6 rounded-2xl border border-white/10 w-full min-h-[320px]">
+     <h3 className="text-green-400 font-semibold text-sm sm:text-base mb-3 sm:mb-4 text-center sm:text-left">Emission Breakdown</h3>
+      <div className="relative w-full h-[220px] sm:h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               dataKey="value"
               nameKey="name"
-              outerRadius="80%"
-              innerRadius="55%"
-              paddingAngle={4}
+              outerRadius="75%"
+              innerRadius="50%"
+              paddingAngle={3}
             >
               {data.map((_,i)=>(<Cell key={i} fill={COLORS[i % COLORS.length]} />))}
             </Pie>
 
             <Tooltip
-              formatter={(value:number)=>`${value} kg`}
+              formatter={(value)=>[`${Number(value)} kg`,"Emission"]}
               contentStyle={{
                 background:"#1e293b",
                 border:"none",
@@ -58,12 +58,12 @@ export default function EmissionBreakdown({ total }:{ total:number }){
             <Legend
               verticalAlign="bottom"
               iconType="circle"
-              wrapperStyle={{ color:"#90EE90",fontSize:"12px" }}
+              wrapperStyle={{ color:"#90EE90",fontSize:"10px", paddingTop:"10px"}}
             />
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <p className="text-green-300 text-sm sm:text-base font-semibold">{Math.round(safeTotal).toLocaleString()} kg</p>
+          <p className="text-green-300 text-xs sm:text-base font-semibold">{Math.round(safeTotal).toLocaleString()} kg</p>
         </div>
       </div>
     </div>

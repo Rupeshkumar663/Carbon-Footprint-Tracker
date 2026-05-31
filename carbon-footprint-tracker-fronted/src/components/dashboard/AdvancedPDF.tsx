@@ -24,7 +24,10 @@ const AdvancedPDF:React.FC=()=>{
   };
 
   useEffect(()=>{
-    fetchData();
+    const loadData=async()=>{
+     await fetchData();
+   };
+   loadData();
   },[]);
 
   const getBadge=()=>{
@@ -66,7 +69,7 @@ const AdvancedPDF:React.FC=()=>{
       <motion.div
         initial={{ opacity:0,y:10 }}
         animate={{ opacity:1,y:0 }}
-        className="w-full max-w-3xl mx-auto p-6 sm:p-25 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
+      className="w-full max-w-3xl mx-auto p-4 sm:p-6 md:p-8 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
         <p className="text-green-400 font-semibold mb-4">Generate Carbon Report</p>
         <button onClick={downloadPDF} className="px-6 py-2 rounded-lg bg-green-400 hover:bg-green-500 text-black font-semibold">Download PDF</button>
       </motion.div>

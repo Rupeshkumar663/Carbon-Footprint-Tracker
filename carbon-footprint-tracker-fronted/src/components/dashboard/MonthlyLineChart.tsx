@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,} from "recharts";
 import api from "../../api/axios";
 import { DotProps } from "recharts";
+import { MonthlyData } from "../../types/carbonTypes";
 
 const CustomDot:React.FC<DotProps>=(props)=>{
   const { cx, cy }=props;
@@ -13,7 +14,7 @@ const CustomDot:React.FC<DotProps>=(props)=>{
       <circle
         cx={cx}
         cy={cy}
-        r={4}
+        r={3}
         fill="#bbf7d0"
         stroke="#22c55e"
         strokeWidth={2}
@@ -23,7 +24,7 @@ const CustomDot:React.FC<DotProps>=(props)=>{
 };
 
 const MonthlyLineChart:React.FC=()=>{
-  const [data,setData]=useState<any[]>([]);
+  const [data,setData]=useState<MonthlyData[]>([]);
   useEffect(()=>{
     const fetchData=async()=>{
       try {
@@ -34,7 +35,7 @@ const MonthlyLineChart:React.FC=()=>{
           "Jul","Aug","Sep","Oct","Nov","Dec"
         ];
         const finalData=months.map((month, index) => {
-          const found=records.find((item:any)=>item._id.month === index + 1);
+          const found=records.find((item:{_id:{month:number};total:number})=>item._id.month === index + 1);
           return {month,emission:found ? Math.round(found.total):0};
         });
         setData(finalData);
@@ -47,9 +48,9 @@ const MonthlyLineChart:React.FC=()=>{
 
   const maxValue=Math.max(...data.map((d)=>d.emission),0);
   return (
-    <div className="w-full h-[250px] sm:h-[300px] p-4 rounded-2xl bg-black border border-white/10 shadow-lg">
-      <p className="text-green-400 font-semibold text-sm sm:text-base mb-2">Monthly Carbon Emissions</p>
-      <ResponsiveContainer width="100%" height="85%">
+    <div className="w-full h-[260px] sm:h-[300px] md:h-[320px] p-3 sm:p-4 rounded-2xl bg-black border border-white/10 shadow-lg overflow-hidden">
+      <p className="text-green-400 font-semibold text-sm sm:text-base mb-3">Monthly Carbon Emissions</p>
+      <ResponsiveContainer width="100%" height="88%">
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorEmission" x1="0" y1="0" x2="0" y2="1">
@@ -61,7 +62,7 @@ const MonthlyLineChart:React.FC=()=>{
           <XAxis
             dataKey="month"
             stroke="#90EE90"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
           />
           <YAxis
             domain={[0,maxValue*1.2]}
@@ -74,7 +75,7 @@ const MonthlyLineChart:React.FC=()=>{
             }}
           />
           <Tooltip
-            formatter={(value:number)=>[`${Math.round(value)} kg`,"Emission"]}
+            formatter={(value)=>[`${Math.round(Number(value))} kg`,"Emission"]}
             contentStyle={{
               background:"#1e293b",
               border:"none",
@@ -89,7 +90,7 @@ const MonthlyLineChart:React.FC=()=>{
             strokeWidth={2}
             fill="url(#colorEmission)"
             dot={<CustomDot />}
-            activeDot={{ r:6 }}
+            activeDot={{ r:5 }}
           />
         </AreaChart>
       </ResponsiveContainer>

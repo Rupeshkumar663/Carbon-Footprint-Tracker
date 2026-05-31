@@ -252,3 +252,13 @@ export interface VehicleState {
   status:"idle" | "loading" | "succeeded" | "failed";
   error:string | null;
 }
+
+export interface WeeklyData {
+  week:string;
+  emission:number;
+};
+
+export interface MonthlyData {
+  month:string;
+  emission:number
+}

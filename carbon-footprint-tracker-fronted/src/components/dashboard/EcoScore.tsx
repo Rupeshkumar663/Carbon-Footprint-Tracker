@@ -16,8 +16,8 @@ export default function EcoScore({ score }:{ score:number }){
   };
   const label=getLabel();
   return (
-    <div className="flex flex-col items-center justify-center relative">
-      <svg width="180" height="180">
+    <div className="flex flex-col items-center justify-center relative py-2">
+      <svg  width="160" height="160" className="sm:w-[180px] sm:h-[180px]">
         <defs>
           <linearGradient id="ecoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#22c55e" />
@@ -28,16 +28,16 @@ export default function EcoScore({ score }:{ score:number }){
 
         {/* Background */}
         <circle
-          cx="90"
-          cy="90"
+          cx="80"
+          cy="80"
           r={radius}
           stroke="#1f2937"
           strokeWidth={stroke}
           fill="transparent"
         />
         <motion.circle
-          cx="90"
-          cy="90"
+          cx="80"
+          cy="80"
           r={radius}
           stroke="url(#ecoGradient)"
           strokeWidth={stroke}
@@ -45,7 +45,7 @@ export default function EcoScore({ score }:{ score:number }){
           strokeDasharray={circumference}
           strokeDashoffset={circumference}
           strokeLinecap="round"
-          transform="rotate(-90 90 90)"
+          transform="rotate(-90 80 80)"
           initial={{ strokeDashoffset:circumference }}
           animate={{ strokeDashoffset:offset }}
           transition={{ duration:1.2,ease:"easeInOut" }}
@@ -54,8 +54,8 @@ export default function EcoScore({ score }:{ score:number }){
       </svg>
       {/* Center */}
       <div className="absolute flex flex-col items-center">
-        <h2 className="text-4xl font-bold text-green-400">{normalized}</h2>
-        <p className="text-xs text-gray-400">{label}</p>
+        <h2 className="text-3xl sm:text-4xl font-bold text-green-400">{normalized}</h2>
+        <p className="text-[11px] sm:text-xs text-gray-400">{label}</p>
       </div>
     </div>
   );

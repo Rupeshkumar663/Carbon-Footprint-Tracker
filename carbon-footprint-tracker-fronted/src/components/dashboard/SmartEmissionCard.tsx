@@ -26,10 +26,18 @@ const SmartEmissionCard:React.FC=()=>{
     fetchData();
   },[]);
 
-  if(loading) 
-    return <p className="text-gray-400">Loading...</p>;
-  if(!data) 
-    return <p className="text-red-400">No data</p>;
+  if(loading)
+  return (
+    <div className="bg-black/90 p-4 sm:p-6 rounded-2xl border border-white/10">
+      <p className="text-gray-400 text-sm">Loading...</p>
+    </div>
+  );
+  if(!data)
+  return (
+    <div className="bg-black/90 p-4 sm:p-6 rounded-2xl border border-white/10">
+      <p className="text-red-400 text-sm">No data available</p>
+    </div>
+  );
   const isBad=data.trend>0;
   const isStable=data.trend===0;
   const trendValue=Math.abs(data.trend);
@@ -44,12 +52,12 @@ const SmartEmissionCard:React.FC=()=>{
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-black/90 p-6 rounded-2xl border border-white/10 shadow-lg w-full">
+      className="bg-black/90 p-4 sm:p-6 rounded-2xl border border-white/10 shadow-lg w-full overflow-hidden">
       <p className="text-green-400 text-sm mb-2">Total Emission</p>
-      <h2 className="text-4xl md:text-2xl text-green-300 font-bold">{Math.round(data?.totalCO2).toLocaleString()} kg CO₂</h2>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl text-green-300 font-bold break-words">{Math.round(data?.totalCO2).toLocaleString()} kg CO₂</h2>
       <div className="mt-3">
-        <div className="flex items-center justify-between">
-          <p className={`text-sm font-semibold ${isStable ? "text-amber-300":isBad? "text-red-400": "text-green-400"}`}>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+          <p className={`text-xs sm:text-sm font-semibold ${isStable ? "text-amber-300":isBad? "text-red-400": "text-green-400"}`}>
             {isStable? "→":isBad?"↑":"↓"} {trendValue}% this week</p>
           <span className="text-xs text-gray-400">{getLabel()}</span>
         </div>
@@ -61,10 +69,10 @@ const SmartEmissionCard:React.FC=()=>{
         </div>
       </div>
 
-      <p className="text-gray-400 text-sm mt-3">🌳 {data.trees} Trees equivalent</p>
-      <div className="mt-4 p-3 rounded-lg bg-white/5 border border-white/10">
+      <p className="text-gray-400 text-xs sm:text-sm mt-3 break-words">🌳 {data.trees} Trees equivalent</p>
+      <div className="mt-4 p-3 sm:p-4 rounded-lg bg-white/5 border border-white/10">
         <p className="text-xs text-gray-400">💡 AI Insight</p>
-        <p className="text-sm text-green-300 mt-1">{data.insight}</p>
+        <p className="text-xs sm:text-sm text-green-300 mt-1 leading-relaxed break-words">{data.insight}</p>
       </div>
     </motion.div>
   );
