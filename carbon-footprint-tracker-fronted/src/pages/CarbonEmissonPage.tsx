@@ -5,7 +5,7 @@ import { CarbonResult } from "../types/carbonTypes";
 import Navbar from "../components/carbon/Navbar";
 import Footer from "../components/layout/Footer";
 
-export default function CarbonEmissionPage():JSX.Element {
+export default function CarbonEmissionPage(){
   const location=useLocation();
   const result=location.state as CarbonResult | null;
 
@@ -16,8 +16,8 @@ export default function CarbonEmissionPage():JSX.Element {
   const fastestRoute=result.fastestRoute;
   const carbonEmission=result.carbon?.carbonEmission ?? 0;
   const greenScore=result.carbon?.greenScore ?? 0;
-  const vehicle=result.vehicle;
-  const environment=result.environment;
+   const vehicle=result.vehicle ?? {};
+  const environment=result.environment ?? {};
   const ecoStatus=greenScore>70?"Eco Friendly 🌱":"Not Eco Friendly";
 
   const openNavigation=():void=>{
@@ -63,7 +63,9 @@ export default function CarbonEmissionPage():JSX.Element {
         <Card title="Engine CC" value={`${vehicle.engine_cc}`} />
         <Card title="Vehicle Age" value={`${vehicle.vehicle_age} yrs`} />
       </div>
-        <Footer/>
+        <div className="mt-10">
+         <Footer />
+        </div>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-
 export interface CarbonFormData {
   start:string;
   end:string;
@@ -170,20 +169,20 @@ export interface Props {
 }
 
 export interface SystemItem {
-  name: string;
-  status: string;
-  metric: string;
-  color: string;
+  name:string;
+  status:string;
+  metric:string;
+  color:string;
 }
 
 export interface ApiData {
-  totalCO2?: number;
-  totalFlights?: number;
-  missions?: number;
+  totalCO2?:number;
+  totalFlights?:number;
+  missions?:number;
 }
 
 export interface NavbarProps {
-  variant?: string;
+  variant?:string;
 };
 
 export interface DropdownItemProps {
@@ -192,3 +191,49 @@ export interface DropdownItemProps {
   danger?:boolean;
   onClick?:()=>void;
 };
+
+export interface CarbonInput {
+  start:string;
+  end:string;
+  vehicle_name:string;
+  mileage:number;
+  fuel_type:string;
+  engine_cc:number;
+  vehicle_age:number;
+  passengers:number;
+}
+
+export interface CarbonState {
+  status:"idle" | "loading" | "succeeded" | "failed";
+  result:CarbonResult | null;
+  error:string | null;
+}
+
+export interface Impact {
+  trees:number;
+  jetFuel:number;
+  flightHours:number;
+  earthTrips:number;
+}
+
+export interface FlightDashboardState {
+  totalCO2:number;
+  ecoScore:number;
+  todayCO2:number;
+  impact:Impact;
+}
+
+export interface Vehicle {
+  _id:string;
+  vehicle_name:string;
+  fuel_type:string;
+  mileage:number;
+  engine_cc:number;
+  vehicle_age:number;
+}
+
+export interface VehicleState {
+  list:Vehicle[];
+  status:"idle" | "loading" | "succeeded" | "failed";
+  error:string | null;
+}

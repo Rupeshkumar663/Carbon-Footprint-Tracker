@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../api/axios";
 import type {CarbonInput,CarbonResult,CarbonState} from "../types/carbonTypes";
+import axios from "axios";
 
 const initialState:CarbonState={
   status:"idle",
@@ -13,12 +14,14 @@ export const createCarbonRecord=createAsyncThunk<CarbonResult,CarbonInput,{ reje
     try{
       const response=await api.post("/routes",data);
       return response.data.data;
-    } catch(error:any){
-      return rejectWithValue(error.response?.data?.message ||"Failed to create carbon record"
-      );
+    } catch(error:unknown){
+      if(axios.isAxiosError(error)){
+        return rejectWithValue(error.response?.data?.message || "Failed to create carbon record");
+      }
+      return rejectWithValue("Failed to create carbon record");
     }
-  }
-);
+   }
+ );
 
 const carbonSlice=createSlice({
   name:"carbon",
