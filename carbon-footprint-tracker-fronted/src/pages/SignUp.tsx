@@ -11,6 +11,7 @@ import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
 import { FcGoogle } from "react-icons/fc";
 import api from "../api/axios";
+import axios from "axios";
 function SignUp() {
   const [show, setShow]=useState(false);
   const [name, setName]=useState("");
@@ -20,7 +21,7 @@ function SignUp() {
   const navigate=useNavigate();
   const dispatch=useDispatch<AppDispatch>();
 
-  const handleSignup=async(e:any)=>{
+  const handleSignup=async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault(); 
     if(!name || !email || !password){
       toast.error("All fields are required");
@@ -34,12 +35,17 @@ function SignUp() {
       dispatch(setUserData({token:result.data.token,user:result.data.user}));
       toast.success("Signup successful");
       navigate("/");
-    } catch(error:any){
-      toast.error(error?.response?.data?.message || "Signup failed");
-     } finally{
-       setLoading(false);
-      }
-    };
+    }catch(error:unknown){
+      if(axios.isAxiosError?.(error)){
+        toast.error(error?.response?.data?.message || "signUp failed");
+     } else{
+        toast.error("Login failed");
+     }
+    }
+    finally{
+     setLoading(false);
+    }
+  };
 
   const googleSignUp=async()=>{
     try{
@@ -50,26 +56,33 @@ function SignUp() {
       dispatch(setUserData({token:result.data.token,user:result.data.user,}));
       toast.success("Signup successful");
       navigate("/");
-    } catch(error:any){
-       toast.error(error?.response?.data?.message || "Google signup failed");
-       }
+    } catch(error:unknown){
+     if(axios.isAxiosError?.(error)){
+        toast.error(error?.response?.data?.message || "Login failed");
+      } else{
+        toast.error("Login failed");
+      }
+     }
+    finally{
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-3 sm:p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-[95%] max-w-[900px] min-h-[560px] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden"
+        className="w-full max-w-[900px] min-h-[520px] sm:min-h-[560px] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden"
       >
         {/* LEFT SIDE */}
-        <form onSubmit={handleSignup} className="w-full md:w-[50%] bg-black text-white flex flex-col justify-center px-6 md:px-12 py-8 gap-4"
+        <form onSubmit={handleSignup} className="w-full md:w-[50%] bg-black text-white flex flex-col justify-center px-5 sm:px-6 md:px-12 py-6 sm:py-8 gap-3 sm:gap-4"
         >
-          <h1 className="font-semibold text-center text-2xl text-green-300">let's get started</h1>
-          <h2 className="text-center text-xl font-semibold text-green-300">Create your account</h2>
+          <h1 className="font-semibold text-center text-xl sm:text-2xl text-green-300">let's get started</h1>
+          <h2 className="text-center text-lg sm:text-xl font-semibold text-green-300">Create your account</h2>
    
-          <div onClick={googleSignUp} className="flex items-center justify-center gap-2 border border-green-700 h-[40px] rounded-md cursor-pointer hover:bg-green-900 transition"
+          <div onClick={googleSignUp} className="flex items-center justify-center gap-2 border border-green-700 h-[42px] rounded-md cursor-pointer hover:bg-green-900 transition"
           >
             <FcGoogle className="w-[22px] h-[22px]"/>
             <span className="text-sm">Continue with Google</span>
@@ -82,7 +95,7 @@ function SignUp() {
               value={name}
               onChange={(e)=>setName(e.target.value)}
               placeholder="Your name"
-              className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
+              className="h-[42px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
             />
           </div>
 
@@ -106,7 +119,7 @@ function SignUp() {
               className="h-[40px] rounded-md px-3 bg-[#1a1a1a] border border-green-700 outline-none focus:border-green-500 text-green-300"
             />
             {!show ? (
-              <IoEyeOutline className="absolute right-3 top-[36px] cursor-pointer text-green-500"
+              <IoEyeOutline className="absolute right-3 top-[38px] cursor-pointer text-green-500"
                 onClick={() => setShow(true)}
               />
             ) : (
@@ -117,20 +130,20 @@ function SignUp() {
             )}
           </div>
 
-          <button type="submit" disabled={loading} className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60"
+          <button type="submit" disabled={loading} className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? (<ClipLoader size={18} color="white" />
             ):("Sign Up")}
           </button>
 
-          <div className="text-center text-sm text-green-200">
+          <div className="text-center text-xs sm:text-sm text-green-200">
             Already have an account?
             <span className="ml-2 text-green-400 cursor-pointer hover:text-white" onClick={()=>navigate("/login")}>Login</span>
           </div>
         </form>
 
-        <div className="w-full md:w-[50%] bg-gradient-to-b bg-green-400 to-[#ffffff] flex items-center justify-center py-10">
-         <h1 className="text-2xl md:text-4xl font-bold text-black text-center">Carbon Tracker</h1>
+        <div className="hidden md:flex md:w-[50%] bg-gradient-to-b bg-green-400 to-[#ffffff] items-center justify-center py-10">
+         <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-black text-center">Carbon Tracker</h1>
         </div>
       </motion.div>
     </div>
