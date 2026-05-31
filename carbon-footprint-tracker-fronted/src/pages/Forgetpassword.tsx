@@ -70,8 +70,8 @@ function Forgetpassword() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       {step === 1 && (
-        <div className="bg-white shadow-md rounded-xl p-8 max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center text-green-800">Forget Your Password</h2>
+        <div className="bg-white shadow-md rounded-2xl p-5 sm:p-8 max-w-md w-full">
+          <h2 className="text-xl sm:text-2xl font-bold mb-5 text-center text-green-800">Forget Your Password</h2>
           <form onSubmit={(e:FormEvent<HTMLFormElement>)=>e.preventDefault()}>
             <input
               type="text"
@@ -79,37 +79,37 @@ function Forgetpassword() {
               placeholder="you@example.com"
               value={email}
               onChange={(e: ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}
-               className="w-full px-4 py-2 border rounded-md text-sm bg-gray-100 text-green-700"
+               className="w-full px-4 py-2 border rounded-lg text-sm bg-gray-100 text-green-700"
             />
             <button
               type="button"
               disabled={loading}
               onClick={sendOtp}
          
-              className="w-full py-2 border mt-4 border-green-400 text-green-400 rounded-lg font-medium hover:bg-green-400 hover:text-black transition"
+              className="w-full py-2.5 border mt-4 border-green-400 text-green-400 rounded-xl font-medium hover:bg-green-400 hover:text-black disabled:opacity-60 disabled:cursor-not-allowed transition"
               >
                 
-              {loading ? <ClipLoader size={25} color="white" /> : "Send OTP"}
+              {loading ?<ClipLoader size={25} color="white"/>:"Send OTP"}
             </button>
           </form>
         </div>
       )}
       {step===2 && (
-        <div className="bg-white shadow-md rounded-xl p-8 max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center text-green-700">Enter OTP</h2>
+        <div className="bg-white shadow-md rounded-2xl p-5 sm:p-8 max-w-md w-full">
+          <h2 className="text-xl sm:text-2xl font-bold mb-5 text-center text-green-700">Enter OTP</h2>
           <form onSubmit={(e:FormEvent<HTMLFormElement>)=>e.preventDefault()}>
             <input
               type="text"
               required
-              placeholder="* * * *"
+              placeholder="Enter OTP"
               value={otp}
               onChange={(e:ChangeEvent<HTMLInputElement>)=>setOtp(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border border-green-400 rounded-md"/>
+              className="mt-1 w-full px-4 py-2 border border-green-400 rounded-lg text-center tracking-[4px]"/>
             <button
               type="button"
               disabled={loading}
               onClick={verifyOTP}
-             className="w-full py-2 border border-green-400 text-green-400 rounded-lg font-medium hover:bg-green-400 hover:text-black transition">
+             className="w-full py-2.5 border mt-4 border-green-400 text-green-400 rounded-xl font-medium hover:bg-green-400 hover:text-black disabled:opacity-60 disabled:cursor-not-allowed transition">
               {loading ? <ClipLoader size={25} color="white" /> : "Verify OTP"}
             </button>
           </form>
@@ -117,8 +117,8 @@ function Forgetpassword() {
       )}
 
       {step===3 && (
-        <div className="bg-white shadow-md rounded-xl p-8 max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center text-green-700">Reset your Password</h2>
+        <div className="bg-white shadow-md rounded-2xl p-5 sm:p-8 max-w-md w-full">
+          <h2 className="text-xl sm:text-2xl font-bold mb-5 text-center text-green-700">Reset your Password</h2>
           <form onSubmit={(e:FormEvent<HTMLFormElement>)=>e.preventDefault()}>
             <input
               type="password"
@@ -126,14 +126,14 @@ function Forgetpassword() {
               placeholder="New Password"
               value={newPassword}
               onChange={(e:ChangeEvent<HTMLInputElement>)=>setNewPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border text-green-500 border-green-400 rounded-md"/>
+              className="mt-1 w-full px-4 py-2 border text-green-500 border-green-400 rounded-lg"/>
             <input
               type="password"
               required
               placeholder="Confirm Password"
               value={conPassword}
               onChange={(e:ChangeEvent<HTMLInputElement>)=>setConPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-2 text-green-500 border border-green-400 rounded-md mt-4"/>
+              className="mt-1 w-full px-4 py-2 text-green-500 border border-green-400 rounded-lg mt-4"/>
             <button
               type="button"
               disabled={loading}
