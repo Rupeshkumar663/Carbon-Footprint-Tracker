@@ -4,14 +4,14 @@ import { useRef } from "react"
 import { Mesh } from "three"
 import { MovingShapeProps } from "../../types/carbonTypes"
 export default function MovingShape({position,type}:MovingShapeProps){
-const ref=useRef<Mesh>(null!)
+const ref=useRef<Mesh | null>(null)
 useFrame((state)=>{
  if(!ref.current) 
     return
-   ref.current.rotation.x +=0.002
-   ref.current.rotation.y +=0.002
-   ref.current.position.x=position[0]+state.mouse.x * 1.5
-   ref.current.position.y=position[1]+state.mouse.y * 1.5
+   ref.current.rotation.x +=0.0015
+   ref.current.rotation.y +=0.0015
+   ref.current.position.x=position[0]+state.mouse.x * 0.8
+   ref.current.position.y=position[1]+state.mouse.y * 0.8
  })
 
 let geometry
@@ -19,13 +19,13 @@ let geometry
    geometry=<boxGeometry args={[0.6,0.6,0.6]} />
   }
  else if(type==="torus"){
-   geometry=<torusGeometry args={[0.5,0.15,16,100]} />
+   geometry=<torusGeometry args={[0.5,0.15,12,50]} />
  }
  else{
-  geometry=<sphereGeometry args={[0.5,32,32]} />
+  geometry=<sphereGeometry args={[0.5,24,24]} />
  }
 return(
-  <Float speed={1.5} rotationIntensity={1} floatIntensity={2}>
+  <Float speed={1.2} rotationIntensity={0.8} floatIntensity={1.5}>
    <mesh ref={ref} position={position}>
     {geometry}
     <meshStandardMaterial color="#22c55e" emissive="#22c55e"/>
