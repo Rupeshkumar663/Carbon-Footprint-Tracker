@@ -11,6 +11,7 @@ import { auth, provider } from "../utils/firebase";
 import type { AppDispatch } from "../redux/store";
 import { FcGoogle } from "react-icons/fc";
 import api from "../api/axios";
+import axios from "axios";
 function Login() {
  const [show,setShow]=useState(false);
  const [email,setEmail]=useState("");
@@ -18,7 +19,7 @@ function Login() {
  const [loading,setLoading]=useState(false);
  const navigate=useNavigate();
  const dispatch=useDispatch<AppDispatch>();
- const handleLogin=async(e:any)=>{
+ const handleLogin=async(e:React.FormEvent<HTMLFormElement>)=>{
    e.preventDefault();
    if(!email || !password){
    toast.error("Email and password required");
@@ -30,8 +31,12 @@ function Login() {
  dispatch(setUserData({token:result.data.token,user:result.data.user}));
  toast.success("Login successful");
  navigate("/");
-} catch(error:any){
-  toast.error(error?.response?.data?.message || "Login failed");
+} catch(error:unknown){
+  if(axios.isAxiosError?.(error)){
+    toast.error(error?.response?.data?.message || "Login failed");
+   } else{
+    toast.error("Login failed");
+   }
   }
  finally{
   setLoading(false);
@@ -47,17 +52,21 @@ const googleLogin=async()=>{
    toast.success("Login successfully");
    navigate("/");
   }
-  catch(error:any){
-   toast.error(error?.response?.data?.message || "Google login failed");
+  catch(error:unknown){
+    if(axios.isAxiosError(error)){
+      toast.error(error.response?.data?.message || "Google login failed");
+   } else{
+    toast.error("Google login failed");
    }
+  }
  };
-return (
-  <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-4">
+ return (
+  <div className="min-h-screen w-full flex items-center justify-center bg-gray-200 p-3 sm:p-4">
   <motion.div
    initial={{opacity:0,scale:0.95}}
    animate={{opacity:1,scale:1}}
    transition={{duration:0.5}}
-   className="w-[95%] max-w-[900px] min-h-[560px] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden"
+   className="w-full max-w-[900px] min-h-[520px] sm:min-h-[560px] bg-white rounded-xl shadow-2xl flex flex-col md:flex-row overflow-hidden"
   >
  {/* LEFT SIDE */}
   <form onSubmit={handleLogin} className="w-full md:w-[50%] bg-black text-white flex flex-col justify-center px-6 md:px-12 py-8 gap-4">
@@ -100,7 +109,7 @@ return (
   <button
    type="submit"
    disabled={loading}
-   className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60"
+   className="h-[40px] bg-green-600 text-black rounded-md hover:bg-green-300 hover:text-black transition flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
   >
   {loading ?<ClipLoader size={18} color="white"/> :"Login"}
    </button>
@@ -110,7 +119,7 @@ return (
   </form>
 
   {/* RIGHT SIDE */}
-  <div className="w-full md:w-[50%] bg-gradient-to-b bg-green-400 to-[#ffffff] flex items-center justify-center py-10">
+  <div className="hidden md:flex md:w-[50%] bg-gradient-to-b bg-green-400 to-[#ffffff] items-center justify-center py-10">
    <h1 className="text-2xl md:text-4xl font-bold text-black text-center">Carbon Tracker</h1>
   </div>
  </motion.div>
