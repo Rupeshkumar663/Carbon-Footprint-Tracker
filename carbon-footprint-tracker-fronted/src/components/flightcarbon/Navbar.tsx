@@ -8,8 +8,9 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { LayoutDashboard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
+import { DropdownItemProps, NavbarProps } from "../../types/carbonTypes";
 
-export default function Navbar({ variant }:any){
+export default function Navbar({ variant }:NavbarProps){
   const [open,setOpen]=useState(false);
   const [menuOpen,setMenuOpen]=useState(false); 
   const ref=useRef<HTMLDivElement>(null);
@@ -17,8 +18,8 @@ export default function Navbar({ variant }:any){
   const dispatch=useDispatch();
   const navigate=useNavigate();
   useEffect(()=>{
-    const handleClick=(e:any)=>{
-      if(ref.current && !ref.current.contains(e.target)){
+    const handleClick=(e:MouseEvent)=>{
+      if(ref.current && !ref.current.contains(e.target as Node)){
         setOpen(false);
       }
     };
@@ -32,40 +33,40 @@ export default function Navbar({ variant }:any){
   };
 
   return (
-    <nav className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-5 bg-black/80 shadow-sm relative z-50">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
+    <nav className="flex justify-between items-center px-3 sm:px-5 lg:px-8 h-16 bg-black/80 backdrop-blur-xl border-b border-white/10 relative z-50">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
         Carbon<span className="text-green-400">Track</span>
       </h1>
 
-      <div className="hidden md:flex items-center gap-10">
-        <span onClick={()=>navigate("/")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Home</span>
+      <div className="hidden md:flex items-center gap-6">
+        <span onClick={()=>navigate("/")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">Home</span>
        
 
         {(variant==="fighterdashboard"||variant==="flightdashboard") &&
-          <span onClick={()=>navigate("/fighter-jet")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FighterjetInput</span>
+          <span onClick={()=>navigate("/fighter-jet")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">FighterjetInput</span>
         }
          
-        {(variant==="fighterdashboard"||variant==="flightdashboard") &&<span onClick={()=>navigate("/flighthome")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FlightInput</span>}
+        {(variant==="fighterdashboard"||variant==="flightdashboard") &&<span onClick={()=>navigate("/flighthome")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">FlightInput</span>}
 
-        {variant==="fighterjet" &&<span onClick={()=>navigate("/fighterdashboard")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Fighterdashboard</span>}
+        {variant==="fighterjet" &&<span onClick={()=>navigate("/fighterdashboard")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">Fighterdashboard</span>}
 
-        {variant==="fighterjet" &&<span onClick={()=>navigate("/flighthome")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FlightInput</span>}
+        {variant==="fighterjet" &&<span onClick={()=>navigate("/flighthome")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">FlightInput</span>}
 
-        {(variant==="flightHome" ||variant==="flightresult")&&<span onClick={()=>navigate("/flightdashboard")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Flightdashboard</span>}
+        {(variant==="flightHome" ||variant==="flightresult")&&<span onClick={()=>navigate("/flightdashboard")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">Flightdashboard</span>}
         
         {variant==="flightresult" &&
-          <span onClick={()=>navigate("/flighthome")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">FlightInput</span>
+          <span onClick={()=>navigate("/flighthome")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">FlightInput</span>
         }
         {variant==="fighterresult" &&
-          <span onClick={()=>navigate("/fighterdashboard")} className="text-green-400 text-xl font-bold hover:text-green-300 cursor-pointer">Fighterdashboard</span>
+          <span onClick={()=>navigate("/fighterdashboard")} className="text-gray-300 text-sm font-medium hover:text-green-400 cursor-pointer transition-colors">Fighterdashboard</span>
         }
       </div>
       <div className="flex items-center gap-4">
         {/* mobile menu */}
-        <button className="md:hidden text-green-400 text-2xl"onClick={()=>setMenuOpen(!menuOpen)}>☰</button>
+        <button type="button" className="md:hidden text-green-400 text-xl p-2 rounded-lg hover:bg-white/5" onClick={()=>setMenuOpen(!menuOpen)}>☰</button>
         {/* profile */}
         <div className="relative" ref={ref}>
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold cursor-pointer" onClick={()=>setOpen(!open)}>
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold cursor-pointer" onClick={()=>setOpen(!open)}>
             {userData?.photoUrl ? (
               <img src={userData.photoUrl} className="w-full h-full object-cover rounded-full"/>
             ):(
@@ -77,10 +78,10 @@ export default function Navbar({ variant }:any){
           <AnimatePresence>
             {open && (
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
+               initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="absolute right-0 mt-3 w-40 bg-gray-900 border rounded-xl shadow-xl text-base font-bold">
+                className="absolute right-0 mt-3 w-52 bg-[#0B0B0B] border border-white/10 rounded-2xl shadow-xl text-sm">
                                 <DropdownItem icon={<LayoutDashboard size={18} className="font-semibold text-green-600" onClick={()=>navigate("/overviewdashboard")}/>} text="Overview" />
 
                                 <DropdownItem  icon={<User size={18} className="font-semibold text-green-600" onClick={()=>navigate("/profile")}/>} text="My Profile" />
@@ -109,25 +110,25 @@ export default function Navbar({ variant }:any){
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 w-full bg-black border-t border-white/10 md:hidden">
-            <div className="flex flex-col items-center gap-5 py-5 text-green-400 font-bold text-lg">
-            <span onClick={()=>{ navigate("/overviewdashboard"); setMenuOpen(false); }}className="cursor-pointer hover:text-green-300"> Overview</span>
+            className="fixed top-16 left-0 w-full h-[calc(100vh-64px)] bg-[#050505] backdrop-blur-xl border-t border-white/10 md:hidden z-[9999]">
+           <div className="flex flex-col gap-2 p-4 text-sm overflow-y-auto h-full">
+            <span onClick={()=>{ navigate("/overviewdashboard"); setMenuOpen(false); }}className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> Overview</span>
             
-            <span onClick={()=>{ navigate("/profile"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300">Profile</span>
+            <span onClick={()=>{ navigate("/profile"); setMenuOpen(false); }} className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all">Profile</span>
 
-            <span onClick={()=>{ navigate("/"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300"> Home</span>
+            <span onClick={()=>{ navigate("/"); setMenuOpen(false);}}className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> Home</span>
 
-            <span onClick={()=>{ navigate("/dashboard"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">VehicleDash</span>
+            <span onClick={()=>{ navigate("/dashboard"); setMenuOpen(false);}}className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all">VehicleDash</span>
 
-           {variant !== "inputpage" && (<span onClick={()=>{ navigate("/inputpage"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300"> CarbonInput</span>)}
+           {variant !== "inputpage" && (<span onClick={()=>{ navigate("/inputpage"); setMenuOpen(false); }} className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> CarbonInput</span>)}
 
-           {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/fighter-jet"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300"> FighterjetInput</span>)}
+           {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/fighter-jet"); setMenuOpen(false);}}className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> FighterjetInput</span>)}
 
-          {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/flighthome"); setMenuOpen(false);}} className="cursor-pointer hover:text-green-300"> FlightInput</span>)}
+          {(variant==="fighterdashboard" || variant==="flightdashboard") && (<span onClick={()=>{ navigate("/flighthome"); setMenuOpen(false);}} className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> FlightInput</span>)}
 
-         {(variant==="flightdashboard" || variant==="flightHome") && (<span onClick={()=>{ navigate("/fighterdashboard"); setMenuOpen(false);}}className="cursor-pointer hover:text-green-300">FighterDash</span>)}
+         {(variant==="flightdashboard" || variant==="flightHome") && (<span onClick={()=>{ navigate("/fighterdashboard"); setMenuOpen(false);}}className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all">FighterDash</span>)}
 
-         {(variant==="fighterdashboard" || variant==="fighterjet") && (<span onClick={()=>{ navigate("/flightdashboard"); setMenuOpen(false); }} className="cursor-pointer hover:text-green-300"> FlightDash</span>)}
+         {(variant==="fighterdashboard" || variant==="fighterjet") && (<span onClick={()=>{ navigate("/flightdashboard"); setMenuOpen(false); }} className="w-full text-center py-3 rounded-lg bg-white/[0.02] border border-white/5 text-gray-300 hover:text-green-400 hover:border-green-500/20 active:scale-[0.98] transition-all"> FlightDash</span>)}
 
          <span onClick={handleLogout} className="cursor-pointer text-red-500 hover:text-red-400"> Logout</span>
 
@@ -139,9 +140,9 @@ export default function Navbar({ variant }:any){
   );
 }
 
-function DropdownItem({icon,text,danger,onClick }:any){
+function DropdownItem({icon,text,danger,onClick }:DropdownItemProps){
   return (
-    <div onClick={onClick} className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition ${danger ? "text-red-500 hover:bg-red-50" : "text-gray-400 hover:bg-gray-800"}`}>{icon} <span>{text}</span>
+    <div onClick={onClick} className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition ${danger ? "text-red-500 hover:bg-red-50" : "text-gray-300 hover:bg-white/5"}`}>{icon} <span>{text}</span>
     </div>
   );
 }

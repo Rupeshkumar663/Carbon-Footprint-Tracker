@@ -174,9 +174,12 @@ export interface FighterData {
   speed:number;
   altitude:number;
   payload:number;
-  carbon:number;
+
+  totalCO2:number;
   ecoScore:number;
-  label:string;
+  aiAdvice:string[];
+
+  label?:string;
 }
 
 export interface Props {

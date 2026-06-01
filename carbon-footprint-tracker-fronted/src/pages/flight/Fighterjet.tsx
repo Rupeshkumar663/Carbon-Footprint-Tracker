@@ -69,25 +69,27 @@ export default function FighterJetPage(){
       }
     );
     const data=result.data;
-    toast.success("fighterjet CarbonCalculate Successfully")
+    toast.success("Carbon Emission Calculated Successfully");
     navigate("/fighterjetresult",{state:data.data});
   } catch(error){
-     toast.success("Server error")
+     toast.error("Server error")
     console.error("Error:",error);
    }
 };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
       <Navbar variant="fighterjet" />
-      <div className="flex flex-col items-center px-4 py-10">
-        <div className="w-full max-w-2xl bg-[#0a0a0a] border border-green-900 rounded-2xl p-8 space-y-6 shadow-[0_0_30px_rgba(34,197,94,0.15)]">
-          <h1 className="text-5xl font-bold text-green-400 mb-10 text-center">Fighter Jet Input</h1>
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-green-500/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-cyan-500/10 blur-[120px] rounded-full" />
+      <div className="relative z-10 flex flex-col items-center px-4 py-8 sm:py-12">
+        <div className="w-full max-w-2xl bg-[#0B0B0B] border border-green-500/20 rounded-3xl p-5 sm:p-8 space-y-6 backdrop-blur-xl shadow-[0_0_40px_rgba(34,197,94,0.12)]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-400 mb-8 text-center">Fighter Jet Input</h1>
           <select
             name="jetModel"
             value={form.jetModel}
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+            className="w-full p-4 bg-black border border-green-500/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300">
             <option value="">Select Fighter Jet</option>
             {fighterJets.map((jet)=>(<option  key={jet} value={jet}>{jet}</option>))}
           </select>
@@ -98,13 +100,13 @@ export default function FighterJetPage(){
             value={form.hours}
             placeholder="Flight Hours (e.g. 1.5)"
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
+            className="w-full p-4 bg-black border border-green-500/20 transition-all duration-300 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
           <select
             name="mission"
             value={form.mission}
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+            className="w-full p-4 bg-black border border-green-500/20 transition-all duration-300 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500">
             <option value="">Mission Type</option>
             {missionTypes.map((m)=>(<option key={m} value={m}>{m}</option>))}
           </select>
@@ -115,7 +117,7 @@ export default function FighterJetPage(){
             value={form.payload}
             placeholder="Payload Weight (kg)"
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
+            className="w-full p-4 bg-black border border-green-500/20 transition-all duration-300 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
           <input
             type="number"
@@ -123,7 +125,7 @@ export default function FighterJetPage(){
             value={form.altitude}
             placeholder="Flight Altitude (feet)"
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-4 bg-black border border-green-500/20 transition-all duration-300 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <input
@@ -132,13 +134,12 @@ export default function FighterJetPage(){
             value={form.speed}
             placeholder="Average Speed (km/h)"
             onChange={handleChange}
-            className="w-full p-4 bg-black border border-green-900 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-4 bg-black border border-green-500/20 transition-all duration-300 rounded-xl text-white placeholder-green-100 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <button
             onClick={handleSubmit}
-            className="w-full bg-green-500 text-black font-semibold py-4 rounded-xl hover:bg-green-300 transition-all duration-300 shadow-[0_0_20px_rgba(34,197,94,0.4)]">
-            Calculate Fighter jet Carbon
+            className="w-full bg-green-500 text-black font-semibold py-4 rounded-xl hover:bg-green-400 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-[0_10px_30px_rgba(34,197,94,0.25)]">Calculate Fighter jet Carbon
           </button>
         </div>
       </div>
