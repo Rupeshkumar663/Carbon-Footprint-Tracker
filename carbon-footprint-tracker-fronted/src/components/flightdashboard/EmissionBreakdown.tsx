@@ -6,7 +6,7 @@ export default function EmissionBreakdown({ total }:{ total:number }){
 
   if(safeTotal === 0){
     return (
-      <div className="bg-black p-6 rounded-2xl text-center border border-white/10">
+      <div className="bg-black p-4 sm:p-6 rounded-2xl text-center border border-white/10">
         <h3 className="text-green-400 font-semibold mb-2">Emission Breakdown</h3>
         <p className="text-gray-400 text-sm">No emission data</p>
       </div>
@@ -21,7 +21,7 @@ export default function EmissionBreakdown({ total }:{ total:number }){
   return (
     <div className="bg-black p-4 sm:p-6 rounded-2xl border border-white/10 w-full h-full">
       <h3 className="text-green-400 font-semibold mb-4 text-center sm:text-left">Emission Breakdown</h3>
-      <div className="relative w-full h-[250px] sm:h-[260px]">
+      <div className="relative w-full h-[280px] sm:h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -36,7 +36,7 @@ export default function EmissionBreakdown({ total }:{ total:number }){
             </Pie>
 
             <Tooltip
-              formatter={(value:any)=>`${value} kg`}
+             formatter={(value)=>`${Number(value).toLocaleString()} kg`}
               contentStyle={{
                 background:"#1e293b",
                 border:"none",
@@ -48,12 +48,12 @@ export default function EmissionBreakdown({ total }:{ total:number }){
             <Legend
               verticalAlign="bottom"
               iconType="circle"
-              wrapperStyle={{ color:"#90EE90",fontSize:"12px" }}
+              wrapperStyle={{color:"#90EE90",fontSize:"11px",paddingTop:"10px"}}
             />
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <p className="text-green-300 text-sm sm:text-base font-semibold">{Math.round(safeTotal).toLocaleString()} kg</p>
+          <p className="text-green-300 text-xs sm:text-base font-semibold text-center px-2">{Math.round(safeTotal).toLocaleString()} kg</p>
         </div>
       </div>
     </div>

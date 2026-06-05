@@ -61,9 +61,9 @@ const SmartEmissionCard:React.FC=()=>{
         </div>
       </div>
 
-      <p className="text-gray-400 text-sm mt-3">🌳 {data.trees} Trees equivalent</p>
+      <p className="text-gray-400 text-sm mt-3">Equivalent to {data.trees.toLocaleString()} trees</p>
       <div className="mt-4 p-3 rounded-lg bg-white/5 border border-white/10">
-        <p className="text-xs text-gray-400">💡 AI Insight</p>
+        <p className="text-xs text-gray-400">AI Insight</p>
         <p className="text-sm text-green-300 mt-1">{data.insight}</p>
       </div>
     </motion.div>

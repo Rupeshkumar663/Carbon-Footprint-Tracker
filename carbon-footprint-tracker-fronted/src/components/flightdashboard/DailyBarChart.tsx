@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {ResponsiveContainer,Bar,BarChart,CartesianGrid,Tooltip,XAxis,YAxis,} from "recharts";
 import api from "../../api/axios";
+import { WeeklyData, WeeklyRecord } from "../../types/carbonTypes";
 
 const DailyBarChart: React.FC=()=>{
-  const [data,setData]=useState<any[]>([]);
+  const [data,setData]=useState<WeeklyData[]>([]);
 
   useEffect(()=>{
     const fetchData=async()=>{
       try {
         const res=await api.get("/api/flight/getdailychart");
-        const records=res.data?.data || [];
-        const finalData=records.map((item:any)=>({week:item.day,emission:item.total}));
+        const records:WeeklyRecord[]=res.data?.data || [];
+        const finalData:WeeklyData[]=records.map((item)=>({week:item.day,emission:item.total}));
         setData(finalData);
       } catch(error){
         console.log("graph error",error);
@@ -23,7 +24,7 @@ const DailyBarChart: React.FC=()=>{
   const maxValue=data.length>0? Math.max(...data.map(d=>d.emission)):0;
 
   return (
-    <div className="w-full h-[240px] sm:h-[280px] md:h-[300px] p-3 sm:p-4 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg">
+    <div className="w-full h-[260px] sm:h-[300px] md:h-[320px] p-3 sm:p-4 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg">
       <p className="text-green-400 font-semibold text-sm sm:text-base mb-2">Weekly Carbon Emissions</p>
       <ResponsiveContainer width="100%" height="85%">
         <BarChart data={data}>
@@ -36,11 +37,11 @@ const DailyBarChart: React.FC=()=>{
           <XAxis
             dataKey="week"
             stroke="#90EE90"
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 10 }}
           />
 
           <YAxis
-            domain={[0, maxValue * 1.2]}
+            domain={[0, maxValue * 1.2 || 100]}
             allowDecimals={false}
             stroke="#90EE90"
             tickFormatter={(value)=>
@@ -49,7 +50,7 @@ const DailyBarChart: React.FC=()=>{
           />
 
           <Tooltip
-            formatter={(value:any)=>[`${Math.round(value)} kg`,"Emission"]}
+            formatter={(value)=>[`${Math.round(Number(value))} kg`,"Emission"]}
             contentStyle={{
               background:"#1e293b",
               border:"none",

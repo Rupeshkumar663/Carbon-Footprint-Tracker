@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/flightcarbon/Navbar";
 import { serverUrl } from "../../App";
@@ -35,15 +35,15 @@ export default function FlightInputPage() {
       },
     );
     const data=result.data;
-    toast.success("Flight CarbonCalculate Successfully")
+    toast.success("Flight emissions calculated successfully")
     navigate("/flightresult",{state:data.data});
   } catch(error){
-     toast.error("Server error")
+    toast.error("Unable to calculate emissions")
     console.error("Error:",error);
    }
 };
 
-  const handleAircraftChange=(e)=>{
+  const handleAircraftChange=(e:React.ChangeEvent<HTMLSelectElement>)=>{
     const value=e.target.value;
     if(value==="fighterjet") {
       navigate("/fighter-jet");
@@ -51,19 +51,19 @@ export default function FlightInputPage() {
     }
     setForm({...form,aircraftType:value,aircraftModel:""});
   };
-  const handleChange=(e)=>{setForm({ ...form,[e.target.name]:e.target.value })};
+  const handleChange=(e:React.ChangeEvent<HTMLInputElement |HTMLSelectElement>)=>{setForm({...form,[e.target.name]:e.target.value})};
   return (
     <div className="min-h-screen bg-gradient-to-br bg-gray-900 text-white flex flex-col">
       <Navbar variant="flightHome" />
-      <div className="w-full max-w-5xl bg-[#0d0d0d] border border-green-500/10 rounded-3xl mt-5 shadow-[0_0_40px_rgba(34,197,94,0.15)] p-10  mx-auto">
-        <h1 className="text-4xl font-bold text-center text-green-400 mb-8 tracking-wider"> Carbon  Footprint Tracker</h1>
+      <div className="w-full max-w-5xl bg-[#0d0d0d] border border-green-500/10 rounded-3xl mt-5 shadow-[0_0_40px_rgba(34,197,94,0.15)] p-5 sm:p-10  mx-auto">
+        <h1 className="text-2xl sm:text-4xl font-bold text-center text-green-400 mb-8 tracking-wider">Flight Emissions Calculator</h1>
         {/* Trip Type */}
         <div className="flex justify-center gap-4 mb-10">
           {["oneway","roundtrip"].map((type)=>(
             <button
               key={type}
               onClick={()=>setForm({ ...form,tripType:type})}
-              className={`px-6 py-2 rounded-full border transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2 rounded-full border transition-all duration-300 ${
                 form.tripType===type
                   ? "bg-green-500 text-black shadow-lg"
                   : "border-green-500/20 hover:bg-green-500/10"
@@ -94,7 +94,7 @@ export default function FlightInputPage() {
               <label className="text-sm text-green-300">Aircraft Model</label>
               <select name="aircraftModel" value={form.aircraftModel} onChange={handleChange} className="input text-green-100">
                 <option value="">Select Model</option>
-                {aircraftOptions[form.aircraftType]?.map((m)=>(<option key={m}>{m}</option>))}
+                {aircraftOptions[form.aircraftType as keyof typeof aircraftOptions]?.map((m) =>(<option key={m} value={m}>{m}</option>))}
               </select>
             </div>
           )}
@@ -111,12 +111,12 @@ export default function FlightInputPage() {
             <option>First Class</option>
           </select>
           <div className="flex items-center border py-2 border-green-400/20 rounded-xl overflow-hidden">
-            <button onClick={()=>setForm({ ...form,passengers:Math.max(1,form.passengers- 1)})}className="px-4 text-green-400">-</button>
+            <button onClick={()=>setForm({ ...form,passengers:Math.max(1,form.passengers- 1)})}className="px-5 text-green-400 text-xl font-semibold">-</button>
             <div className="flex-1 text-center">{form.passengers} </div>
-            <button onClick={()=>setForm({ ...form, passengers: form.passengers + 1})}className="px-4 text-green-400">+</button>
+            <button onClick={()=>setForm({ ...form, passengers: form.passengers + 1})}className="px-5 text-green-400 text-xl font-semibold">+</button>
           </div>
         </div>
-        <button className="w-full mt-10 bg-green-400 text-black py-3 rounded-xl font-semibold hover:bg-green-300" onClick={handleSubmit}>
+        <button className="w-full mt-8 bg-green-400 text-black py-4 rounded-xl font-semibold hover:bg-green-300 transition-all duration-300" onClick={handleSubmit}>
           Calculate flight Carbon</button>
       </div>
       <style>{`.input {width: 100%; margin-top: 8px; padding: 12px; background: black; border: 1px solid rgba(34,197,94,0.2); border-radius: 12px;}`}</style>

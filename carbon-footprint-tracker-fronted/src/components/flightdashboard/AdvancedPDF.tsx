@@ -23,18 +23,21 @@ const AdvancedPDF:React.FC=()=>{
     }
   };
 
-  useEffect(()=>{
-    fetchData();
-  },[]);
+   useEffect(()=>{
+     const loadData=async()=>{
+      await fetchData();
+    };
+    loadData();
+   },[]);
 
   const getBadge=()=>{
     if(score>=85) 
-      return "🌍 Green Hero";
+      return " Green Hero";
     if(score>=60) 
-      return "🌱 Eco Friendly";
+      return " Eco Friendly";
     if(score>=40) 
-      return "⚠️ Moderate";
-    return "🚫 High Impact";
+      return " Moderate";
+    return " High Impact";
   };
 
   const getSuggestion=()=>{
@@ -66,9 +69,9 @@ const AdvancedPDF:React.FC=()=>{
       <motion.div
         initial={{ opacity:0,y:10 }}
         animate={{ opacity:1,y:0 }}
-        className="w-full max-w-3xl mx-auto p-6 sm:p-25 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
-        <p className="text-green-400 font-semibold mb-4">Generate Carbon Report</p>
-        <button onClick={downloadPDF} className="px-6 py-2 rounded-lg bg-green-400 hover:bg-green-500 text-black font-semibold">Download PDF</button>
+        className="w-full max-w-3xl mx-auto px-4 py-4 sm:p-6 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
+       <p className="text-green-400 font-semibold text-sm sm:text-base mb-4">Generate Carbon Report</p>
+        <button  onClick={downloadPDF} className="w-full sm:w-auto min-h-[48px] px-6 py-3 rounded-lg bg-green-400 hover:bg-green-500 text-black font-semibold text-sm sm:text-base">Download PDF</button>
       </motion.div>
       <div
         ref={pdfRef}
@@ -84,7 +87,7 @@ const AdvancedPDF:React.FC=()=>{
         }}
       >
         <div style={{ textAlign:"center",marginBottom:"20px" }}>
-          <h1 style={{ fontSize:"24px" }}>🌍 Carbon Emission Report</h1>
+          <h1 style={{ fontSize:"24px" }}> Carbon Emission Report</h1>
           <p style={{ fontSize:"12px",color:"gray" }}>Generated on {new Date().toLocaleDateString()}</p>
         </div>
 

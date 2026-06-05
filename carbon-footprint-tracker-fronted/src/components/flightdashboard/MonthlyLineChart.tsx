@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,} from "recharts";
 import api from "../../api/axios";
 import { DotProps } from "recharts";
+import { MonthlyData, MonthlyRecord } from "../../types/carbonTypes";
 
 const CustomDot:React.FC<DotProps>=(props)=>{
   const { cx, cy }=props;
@@ -23,18 +24,18 @@ const CustomDot:React.FC<DotProps>=(props)=>{
 };
 
 const MonthlyLineChart:React.FC=()=>{
-  const [data,setData]=useState<any[]>([]);
+  const [data,setData]=useState<MonthlyData[]>([]);
   useEffect(()=>{
     const fetchData=async()=>{
       try {
         const res=await api.get("/api/flight/getmonthlychart");
-        const records=res.data?.data || [];
+        const records: MonthlyRecord[] = res.data?.data || [];
         const months=[
           "Jan","Feb","Mar","Apr","May","Jun",
           "Jul","Aug","Sep","Oct","Nov","Dec"
         ];
-        const finalData=months.map((month, index) => {
-          const found=records.find((item:any)=>item._id.month === index + 1);
+        const finalData:MonthlyData[]=months.map((month, index) => {
+          const found=records.find((item)=>item._id.month === index + 1);
           return {month,emission:found ? Math.round(found.total):0};
         });
         setData(finalData);
@@ -47,7 +48,7 @@ const MonthlyLineChart:React.FC=()=>{
 
   const maxValue=Math.max(...data.map((d)=>d.emission),0);
   return (
-    <div className="w-full h-[250px] sm:h-[300px] p-4 rounded-2xl bg-black border border-white/10 shadow-lg">
+    <div className="w-full h-[280px] sm:h-[320px] p-4 rounded-2xl bg-black border border-white/10 shadow-lg">
       <p className="text-green-400 font-semibold text-sm sm:text-base mb-2">Monthly Carbon Emissions</p>
       <ResponsiveContainer width="100%" height="85%">
         <AreaChart data={data}>
@@ -61,7 +62,7 @@ const MonthlyLineChart:React.FC=()=>{
           <XAxis
             dataKey="month"
             stroke="#90EE90"
-            tick={{ fontSize: 12 }}
+           tick={{ fontSize: 10 }}
           />
           <YAxis
             domain={[0,maxValue*1.2]}
@@ -74,7 +75,7 @@ const MonthlyLineChart:React.FC=()=>{
             }}
           />
           <Tooltip
-            formatter={(value:any)=>[`${Math.round(value)} kg`,"Emission"]}
+            formatter={(value)=>[`${Math.round(Number(value))} kg`,"Emission",]}
             contentStyle={{
               background:"#1e293b",
               border:"none",

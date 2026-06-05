@@ -27,7 +27,7 @@ const CarbonHistory:React.FC=()=>{
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full h-[300px] sm:h-[280px] md:h-[380px] p-3 sm:p-4 rounded-xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg flex flex-col">
+      className="w-full h-[280px] sm:h-[320px] md:h-[380px] p-3 sm:p-4 rounded-xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg flex flex-col">
       <p className="text-green-400 text-sm sm:text-base font-semibold mb-2">Carbon History</p>
       <div className="flex-1 overflow-y-auto space-y-2 pr-1">
         {loading && (
@@ -46,12 +46,12 @@ const CarbonHistory:React.FC=()=>{
             return (
               <div
                 key={item._id}
-                className="flex justify-between items-center px-2 py-2 rounded-md bg-white/5 hover:bg-white/10 transition">
+                className="flex justify-between items-center gap-2 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 transition">
                 <div>
-                  <p className="text-green-300 text-xs sm:text-sm font-medium">{item.from} → {item.to}</p>
+                  <p className="text-green-300 text-xs sm:text-sm font-medium break-words">{item.from} → {item.to}</p>
                   <p className="text-gray-400 text-[10px] sm:text-xs">{date} • {time}</p>
                 </div>
-                <p className="text-green-400 text-xs sm:text-sm font-semibold"> {Math.round(item.totalCO2 || 0)} kg</p>
+                <p className="text-green-400 text-xs sm:text-sm font-semibold shrink-0"> {Math.round(item.totalCarbon || 0)} kg</p>
               </div>
             );
           })}

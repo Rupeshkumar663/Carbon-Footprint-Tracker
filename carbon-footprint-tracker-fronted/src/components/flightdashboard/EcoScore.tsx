@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 export default function EcoScore({ score }:{ score:number }){
-    console.log("EcoScore prop:", score);
   const radius=70;
   const stroke=10;
   const normalized=Math.max(0,Math.min(100,score));
@@ -17,8 +16,8 @@ export default function EcoScore({ score }:{ score:number }){
   };
   const label=getLabel();
   return (
-    <div className="flex flex-col items-center justify-center relative">
-      <svg width="180" height="180">
+    <div className="flex flex-col items-center justify-center relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] mx-auto">
+      <svg width="100%" height="100%" viewBox="0 0 180 180" className="w-full h-full">
         <defs>
           <linearGradient id="ecoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#22c55e" />
@@ -55,8 +54,8 @@ export default function EcoScore({ score }:{ score:number }){
       </svg>
       {/* Center */}
       <div className="absolute flex flex-col items-center">
-        <h2 className="text-4xl font-bold text-green-400">{normalized}</h2>
-        <p className="text-xs text-gray-400">{label}</p>
+        <h2 className="text-3xl sm:text-4xl font-bold text-green-400">{normalized}</h2>
+        <p className="text-[10px] sm:text-xs text-gray-400">{label}</p>
       </div>
     </div>
   );
