@@ -65,7 +65,7 @@ export default function EmissionBreakdown({ total }:{ total:number }){
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
          <div className="text-center">
           <p className="text-green-300 text-sm sm:text-lg font-bold">{Math.round(safeTotal).toLocaleString()}</p>
-          <p className="text-[10px] sm:text-xs text-gray-400">kg CO₂</p>
+          <p className="text-[10px] sm:text-xs text-green-400">kg CO₂</p>
          </div>
         </div>
       </div>

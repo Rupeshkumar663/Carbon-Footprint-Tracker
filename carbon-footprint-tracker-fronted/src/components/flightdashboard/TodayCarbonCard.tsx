@@ -4,7 +4,7 @@ export default function TodayCarbonCard({ total }: { total: number }) {
       <p className="text-green-400 text-sm sm:text-base font-semibold mt-7">Today Emission</p>
       <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold text-green-300 break-words">{total}<span className="text-5xl  text-green-300"> kg CO₂</span></h2>
       {total===0 && (
-        <p className="text-xs text-gray-500 mt-2">No emissions today</p>
+        <p className="text-xs text-green-400 mt-2">No emissions today</p>
       )}
     </div>
   );

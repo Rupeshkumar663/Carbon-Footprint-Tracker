@@ -47,6 +47,8 @@ export default function FlightDashboard() {
      }
     };
     fetchData();
+    const interval=setInterval(fetchData,1000);
+    return ()=>clearInterval(interval);
   },[]);
 
   if(loading){
@@ -58,10 +60,7 @@ export default function FlightDashboard() {
   return (
    <div className="min-h-screen bg-gray-900 text-white w-full">
       <Navbar variant="flightdashboard" />
-      <div className="px-4 sm:px-6 lg:px-8 mt-6">
-      <h1 className="text-3xl sm:text-4xl font-bold">Flight Analytics Dashboard</h1>
-      <p className="text-gray-400 mt-2">Monitor emissions, sustainability metrics and environmental impact.</p>
-   </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-5">
         <div className="bg-black p-4 sm:p-6 rounded-2xl text-center">
           <p className="text-green-400 text-sm sm:text-base font-semibold"> Total CO₂</p>

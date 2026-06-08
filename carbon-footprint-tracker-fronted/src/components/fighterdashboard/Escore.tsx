@@ -31,8 +31,8 @@ export default function EcoScore({ score }:{ score:number }) {
   const label=getLabel();
 
   return (
-    <div className="flex flex-col items-center justify-center relative w-full max-w-[180px] mx-auto">
-      <svg viewBox="0 0 180 180" className="w-full h-auto">
+   <div className="relative flex items-center justify-center w-full max-w-[180px] mx-auto overflow-hidden">
+      <svg viewBox="0 0 180 180" className="w-[150px] h-[150px] sm:w-[180px] sm:h-[180px]">
         <defs>
           <linearGradient id={`ecoGradient-${normalized}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor={color} />
@@ -72,7 +72,7 @@ export default function EcoScore({ score }:{ score:number }) {
       </svg>
 
       {/* Center */}
-      <div className="absolute flex flex-col items-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         <h2 className="text-3xl sm:text-4xl font-bold" style={{ color }}>
           {normalized}
         </h2>

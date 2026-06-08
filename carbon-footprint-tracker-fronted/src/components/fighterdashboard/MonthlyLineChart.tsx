@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {CartesianGrid,Area,AreaChart,ResponsiveContainer,Tooltip,XAxis,YAxis,} from "recharts";
 import api from "../../api/axios";
 import { DotProps } from "recharts";
+import { MonthlyData, MonthlyRecord } from "../../types/carbonTypes";
 
 const CustomDot:React.FC<DotProps>=(props)=>{
   const { cx, cy }=props;
@@ -23,7 +24,7 @@ const CustomDot:React.FC<DotProps>=(props)=>{
 };
 
 const MonthlyLineChart:React.FC=()=>{
-  const [data,setData]=useState<any[]>([]);
+  const [data,setData]=useState<MonthlyData[]>([]);
   useEffect(()=>{
     const fetchData=async()=>{
       try {
@@ -34,7 +35,7 @@ const MonthlyLineChart:React.FC=()=>{
           "Jul","Aug","Sep","Oct","Nov","Dec"
         ];
         const finalData=months.map((month, index) => {
-          const found=records.find((item:any)=>item._id.month === index + 1);
+          const found=records.find((item:MonthlyRecord)=>item._id.month === index + 1);
           return {month,emission:found ? Math.round(found.total):0};
         });
         setData(finalData);
@@ -74,7 +75,7 @@ const MonthlyLineChart:React.FC=()=>{
             }}
           />
           <Tooltip
-            formatter={(value:any)=>[`${Math.round(value)} kg`,"Emission"]}
+            formatter={(value)=>[`${Math.round(Number(value))} kg`,"Emission",]}
             contentStyle={{
               background:"#1e293b",
               border:"none",

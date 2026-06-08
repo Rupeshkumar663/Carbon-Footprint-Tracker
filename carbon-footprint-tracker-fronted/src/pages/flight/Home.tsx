@@ -19,9 +19,51 @@ export default function FlightInputPage() {
     passengers:1,
   });
 
-  const aircraftOptions={
-    aeroplane:["Boeing 737","Airbus A320","Boeing 777"],
-    helicopter:["Robinson R44","Bell 206","Airbus H125"],
+   const aircraftOptions={
+    aeroplane:[
+    "Boeing 737",
+    "Boeing 737 MAX",
+    "Boeing 747",
+    "Boeing 757",
+    "Boeing 767",
+    "Boeing 777",
+    "Boeing 777X",
+    "Boeing 787 Dreamliner",
+    "Airbus A220",
+    "Airbus A319",
+    "Airbus A320",
+    "Airbus A321",
+    "Airbus A330",
+    "Airbus A340",
+    "Airbus A350",
+    "Airbus A380",
+    "ATR 42",
+    "ATR 72",
+    "Embraer E170",
+    "Embraer E175",
+    "Embraer E190",
+    "Embraer E195",
+    "Bombardier CRJ200",
+    "Bombardier CRJ700",
+    "Bombardier CRJ900",
+    "Bombardier CRJ1000",
+    "Dash 8 Q400"
+  ],
+  helicopter:[
+    "Robinson R22",
+    "Robinson R44",
+    "Robinson R66",
+    "Bell 206",
+    "Bell 407",
+    "Bell 429",
+    "Airbus H125",
+    "Airbus H130",
+    "Airbus H145",
+    "Airbus H160",
+    "Sikorsky S-76",
+    "Leonardo AW109",
+    "Leonardo AW139"
+   ]
   };
 
   const handleSubmit=async()=>{

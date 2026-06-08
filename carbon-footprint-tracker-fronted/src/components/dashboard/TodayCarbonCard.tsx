@@ -40,7 +40,7 @@ const TodayCarbonCard:React.FC=()=>{
       <div className="absolute bottom-0 left-0 w-full h-6 bg-green-400/25 blur-2xl opacity-80"></div>
       <p className="text-green-400 font-bold text-sm sm:text-base mb-3 tracking-wide">Today Carbon</p>
       <h2 className="text-green-300 text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide break-words">{formatCarbon(todayCarbon)} kg CO₂</h2>
-      {todayCarbon===0 && (<p className="text-xs text-gray-500 mt-2">No emissions recorded today</p>)}
+      {todayCarbon===0 && (<p className="text-xs text-green-400 mt-2">No emissions recorded today</p>)}
     </div>
   );
 };

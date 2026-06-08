@@ -22,6 +22,7 @@ export default function GlobalImpact({total,impact,}:{
     <div className="w-full bg-black backdrop-blur-xl border border-white/10 rounded-3xl p-4 sm:p-6 shadow-lg overflow-hidden">
       <div className="mb-5">
         <h3 className="text-green-400 font-semibold text-sm sm:text-base">Global Impact</h3>
+         <p className="text-green-300 text-xs sm:text-sm">Your Contribution</p>
         <p className=" text-green-300 text-xs mt-1 ">Your vehicle emission footprint</p>
       </div>
     
@@ -31,16 +32,16 @@ export default function GlobalImpact({total,impact,}:{
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
         <div className=" bg-white/5 p-4 rounded-xl border border-white/5">
-          <div className="text-green-300 text-base sm:text-lg font-semibold break-words">{safeImpact.trees.toLocaleString()}</div>
-          <div className=" text-green-200 text-xs mt-1 ">Trees Offset</div>
+          <div className="text-green-200 text-base sm:text-lg font-semibold break-words">{safeImpact.trees.toLocaleString()}</div>
+          <div className=" text-green-400 text-xs mt-1 ">Trees</div>
         </div>
-        <div className=" bg-white/5 p-4 rounded-xl border border-white/5">
-          <div className=" text-green-300 text-lg font-semibold">{Number((safeImpact.vehicleDuration / 60).toFixed(1))}</div>
-          <div className=" text-green-200 text-xs mt-1"> Drive Duration (hours)</div>
+        <div className=" bg-white/5 p-4 rounded-xl border border-white/5 text-green-200">
+          <div className=" text-green-200 text-lg font-semibold">{Number((safeImpact.vehicleDuration / 60).toFixed(1))}</div>
+          <div className=" text-green-400 text-xs mt-1"> Drive Duration (hours)</div>
         </div>
         <div className="bg-white/5 p-4 rounded-2xl border border-white/5 sm:col-span-2">
-          <div className=" text-green-300 text-lg font-semibold ">{safeImpact.earthTrips.toLocaleString()}</div>
-          <div className=" text-gray-400 text-xs mt-1"> Earth Distance Ratio</div>
+          <div className=" text-green-200 text-lg font-semibold ">{safeImpact.earthTrips.toLocaleString()}</div>
+          <div className=" text-green-400 text-xs mt-1"> Earth Distance Ratio</div>
         </div>
       </div>
     </div>

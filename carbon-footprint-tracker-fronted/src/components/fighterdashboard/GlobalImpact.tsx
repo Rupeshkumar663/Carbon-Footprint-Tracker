@@ -23,29 +23,29 @@ export default function GlobalImpact({ total,impact,}:{
   return (
     <div className="w-full bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 text-center shadow-lg">
       <h3 className="text-green-400 font-semibold mb-1">Global Impact</h3>
-      <p className="text-gray-400 text-sm">Your Contribution</p>
+      <p className="text-green-300 text-sm">Your Contribution</p>
       <h2 className="text-3xl text-green-400 font-bold mt-2">{formattedPercent}</h2>
-      <p className="text-gray-500 text-xs mb-4">of global daily emissions</p>
+      <p className="text-green-300 text-xs mb-4">of global daily emissions</p>
       <div className="grid grid-cols-2 gap-3 mt-3">
         
-        <div className="bg-white/5 p-3 rounded-xl">
-         🌳 {safeImpact.trees.toLocaleString()}
-          <div className="text-gray-400 text-xs">Trees</div>
+        <div className="bg-white/5 p-3 rounded-xl text-green-200">
+          {safeImpact.trees.toLocaleString()}
+          <div className="text-green-400 text-xs">Trees</div>
         </div>
 
-        <div className="bg-white/5 p-3 rounded-xl">
-          ⛽ {safeImpact.jetFuel.toLocaleString()}
-          <div className="text-gray-400 text-xs">Fuel (L)</div>
+        <div className="bg-white/5 p-3 rounded-xl text-green-200">
+          {safeImpact.jetFuel.toLocaleString()}
+          <div className="text-green-400 text-xs">Fuel (L)</div>
         </div>
 
-        <div className="bg-white/5 p-3 rounded-xl">
-          ✈️ {safeImpact.fighterHours.toLocaleString()}
-          <div className="text-gray-400 text-xs">Fighter Hours</div>
+        <div className="bg-white/5 p-3 rounded-xl text-green-200">
+          {safeImpact.fighterHours.toLocaleString()}
+          <div className="text-green-400 text-xs">Fighter Hours</div>
         </div>
 
-        <div className="bg-white/5 p-3 rounded-xl">
-          🌍 {safeImpact.earthTrips.toLocaleString()}
-          <div className="text-gray-400 text-xs">Earth Trips</div>
+        <div className="bg-white/5 p-3 rounded-xl text-green-200">
+          {safeImpact.earthTrips.toLocaleString()}
+          <div className="text-green-400 text-xs">Earth Trips</div>
         </div>
 
       </div>

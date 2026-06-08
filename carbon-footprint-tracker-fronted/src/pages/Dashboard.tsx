@@ -43,6 +43,8 @@ export default function CarbonDashboard(){
       }
     };
     fetchData();
+    const interval=setInterval(fetchData,3000);
+    return ()=>clearInterval(interval);
   },[]);
 
   return (

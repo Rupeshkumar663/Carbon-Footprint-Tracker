@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 export default function EcoScore({ score }:{ score:number }){
   const radius=65;
   const stroke=10;
-  const normalized=Math.max(0,Math.min(100,score));
+  const normalized=Math.max(0,Math.min(100,Math.round(score)));
   const circumference=2*Math.PI*radius;
   const offset=circumference-(normalized/100)*circumference;
   const getLabel=()=>{
@@ -16,8 +16,8 @@ export default function EcoScore({ score }:{ score:number }){
   };
   const label=getLabel();
   return (
-    <div className="flex flex-col items-center justify-center relative py-2 overflow-hidden">
-      <svg width="160" height="160" className="w-[150px] h-[150px] sm:w-[180px] sm:h-[180px]">
+    <div className="relative flex items-center justify-center w-full py-2 overflow-hidden">
+     <svg viewBox="0 0 160 160" className="w-[150px] h-[150px] sm:w-[180px] sm:h-[180px]">
         <defs>
           <linearGradient id="ecoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#22c55e" />
@@ -53,7 +53,7 @@ export default function EcoScore({ score }:{ score:number }){
         />
       </svg>
       {/* Center */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
         <h2 className="text-3xl sm:text-4xl font-bold text-green-400">{Math.round(normalized)}</h2>
         <p className="text-[11px] sm:text-xs text-gray-400">{label}</p>
       </div>

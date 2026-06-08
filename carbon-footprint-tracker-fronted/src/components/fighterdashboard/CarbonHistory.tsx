@@ -41,7 +41,7 @@ const [loading,setLoading]=useState(true);
       initial={{ opacity:0, y:15 }}
       animate={{ opacity:1, y:0 }}
      className="w-full h-[320px] sm:h-[380px] p-4 rounded-2xl bg-black/90 border border-white/10 shadow-xl flex flex-col">
-      <h2 className="text-green-400 font-semibold text-base mb-3 flex items-center gap-2">✈️ Fighter Mission History</h2>
+      <h2 className="text-green-400 font-semibold text-base mb-3 flex items-center gap-2">Fighter Mission History</h2>
       <div className="flex-1 overflow-y-auto space-y-3 pr-1">
         {loading && (
           <p className="text-gray-400 text-sm">Loading missions...</p>

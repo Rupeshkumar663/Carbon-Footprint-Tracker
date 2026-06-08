@@ -51,7 +51,7 @@ const SmartEmissionCard:React.FC=()=>{
         <div className="flex items-center justify-between">
           <p className={`text-sm font-semibold ${isStable ? "text-amber-300":isBad? "text-red-400": "text-green-400"}`}>
             {isBad ? "↑":"↓"} {trendValue}% this week</p>
-          <span className="text-xs text-gray-400">{getLabel()}</span>
+          <span className="text-xs text-green-400">{getLabel()}</span>
         </div>
         <div className="w-full h-2 bg-gray-800 rounded mt-2 overflow-hidden">
           <div
@@ -61,9 +61,9 @@ const SmartEmissionCard:React.FC=()=>{
         </div>
       </div>
 
-      <p className="text-gray-400 text-sm mt-3">Equivalent to {data.trees.toLocaleString()} trees</p>
+      <p className="text-green-400 text-sm mt-3">Equivalent to {data.trees.toLocaleString()} trees</p>
       <div className="mt-4 p-3 rounded-lg bg-white/5 border border-white/10">
-        <p className="text-xs text-gray-400">AI Insight</p>
+        <p className="text-xs text-green-400">AI Insight</p>
         <p className="text-sm text-green-300 mt-1">{data.insight}</p>
       </div>
     </motion.div>

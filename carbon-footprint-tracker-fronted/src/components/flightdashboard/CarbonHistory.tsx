@@ -49,9 +49,9 @@ const CarbonHistory:React.FC=()=>{
                 className="flex justify-between items-center gap-2 px-3 py-2 rounded-md bg-white/5 hover:bg-white/10 transition">
                 <div>
                   <p className="text-green-300 text-xs sm:text-sm font-medium break-words">{item.from} → {item.to}</p>
-                  <p className="text-gray-400 text-[10px] sm:text-xs">{date} • {time}</p>
+                  <p className="text-green-200 text-[10px] sm:text-xs">{date} • {time}</p>
                 </div>
-                <p className="text-green-400 text-xs sm:text-sm font-semibold shrink-0"> {Math.round(item.totalCarbon || 0)} kg</p>
+                <p className="text-green-400 text-xs sm:text-sm font-semibold shrink-0"> {Math.round(item.totalCO2 || 0)} kg</p>
               </div>
             );
           })}

@@ -162,7 +162,7 @@ export interface FlightRecord{
   _id:string;
   from:string;
   to:string;
-  totalCarbon:number;
+  totalCO2:number;
   createdAt:string;
 }
 
