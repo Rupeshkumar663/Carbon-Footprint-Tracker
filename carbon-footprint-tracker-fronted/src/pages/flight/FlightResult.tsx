@@ -22,36 +22,36 @@ export default function FlightResult(){
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       <Navbar variant="flightresult"/>
-      <div className="flex-1 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-3xl bg-[#0d0d0d]/80 backdrop-blur-xl border border-green-500/20 rounded-3xl p-5 sm:p-8 shadow-[0_0_80px_rgba(34,197,94,0.25)] transition-all duration-500">
+      <div className="flex-1 flex items-center justify-center px-3 sm:px-4 py-6 sm:py-10">
+        <div className="w-full max-w-4xl bg-[#0d0d0d]/80 backdrop-blur-xl border border-green-500/20 rounded-3xl p-3 sm:p-8 shadow-[0_0_80px_rgba(34,197,94,0.25)]">
           <h1 className="text-2xl sm:text-3xl text-center text-green-400 font-semibold mb-8">Flight Emissions Report</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-black/40 p-6 rounded-2xl border border-green-500/10">
-            <div>
+          <div className="grid grid-cols-2 gap-x-3 sm:gap-x-6 gap-y-5 sm:gap-y-8 bg-black/40 p-3 sm:p-6 rounded-2xl border border-green-500/10">
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">From</p>
-              <p className="text-lg text-green-100 font-semibold">{state?.from}</p>
+              <p className="text-sm sm:text-lg text-green-100 font-semibold break-words">{state?.from}</p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">To</p>
-              <p className="text-lg text-green-100 font-semibold">{state.to}</p>
+              <p className="text-sm sm:text-lg text-green-100 font-semibold break-words">{state.to}</p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">Distance</p>
               <p className="text-green-100">{Number(state.distance).toLocaleString()} km</p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">Passengers</p>
               <p  className="text-green-100">{passengers}</p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">Seat Class</p>
               <p  className="text-green-100">{seatClass}</p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-green-300 text-sm leading-relaxed">Per Passenger</p>
               <p  className="text-green-100">{Number(state.perPassenger).toLocaleString()} kg CO₂</p>
             </div>
@@ -60,7 +60,7 @@ export default function FlightResult(){
 
           <div className="text-center mt-8">
             <p className="text-green-300 text-sm leading-relaxed">Total Emission</p>
-            <h2 className="text-3xl sm:text-5xl text-green-500 font-bold mt-2 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">{Number(state.totalCO2).toLocaleString()} kg CO₂</h2>
+            <h2 className="text-xl sm:text-5xl text-green-500 font-bold mt-2 break-words leading-tight drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]">{Number(state.totalCO2).toLocaleString()} kg CO₂</h2>
           </div>
 
           <div className="mt-10">
@@ -82,7 +82,7 @@ export default function FlightResult(){
               <span>100</span>
             </div>
           </div>
-          <div className="mt-8 bg-black/40 border border-green-500/10 p-6 rounded-xl">
+          <div className="mt-8 bg-black/40 border border-green-500/10 p-4 sm:p-6 rounded-xl">
             <p className="text-green-300 font-semibold mb-4 text-lg">AI Sustainability Insights</p>
             <div className="space-y-3">
               {state.aiAdvice.map((tip,i)=>(
