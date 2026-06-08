@@ -24,7 +24,7 @@ const DailyBarChart: React.FC=()=>{
   const maxValue=data.length>0? Math.max(...data.map(d=>d.emission)):0;
 
   return (
-    <div className="w-full h-[260px] sm:h-[280px] md:h-[300px] p-3 sm:p-4 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg">
+    <div className="w-full h-[280px] sm:h-[320px] p-4 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-lg">
       <p className="text-green-400 font-semibold text-sm sm:text-base mb-2">Weekly Carbon Emissions</p>
       <ResponsiveContainer width="100%" height="85%">
         <BarChart data={data}>
@@ -37,10 +37,12 @@ const DailyBarChart: React.FC=()=>{
           <XAxis
             dataKey="week"
             stroke="#90EE90"
-            tick={{ fontSize:10}}
+            tick={{ fontSize: 11 }}
+            interval={0}
           />
 
           <YAxis
+            width={45}
             domain={[0, maxValue * 1.2]}
             allowDecimals={false}
             stroke="#90EE90"
@@ -60,9 +62,9 @@ const DailyBarChart: React.FC=()=>{
           />
 
           <Bar
-            dataKey="emission"
-            fill="#3b82f6"
-            radius={[8,8,0,0]}
+           dataKey="emission"
+           fill="#3b82f6"
+           radius={[10, 10, 0, 0]}
           />
         </BarChart>
       </ResponsiveContainer>

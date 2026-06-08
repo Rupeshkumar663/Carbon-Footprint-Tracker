@@ -49,27 +49,32 @@ export default function FighterDashboard() {
   return (
     <div className="min-h-screen bg-gray-900 text-white w-full">
       <Navbar variant="fighterdashboard" />
+      <div className="px-4 sm:px-6 lg:px-8 mt-6">
+        <h1 className="text-2xl sm:text-4xl font-bold">Fighter Jet Analytics Dashboard</h1>
+        <p className="text-gray-400 mt-2 max-w-2xl">Monitor fighter jet emissions, environmental impact and sustainability metrics.</p>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-5">
-        <div className="bg-black p-4 sm:p-6 rounded-2xl text-center">
+        <div className="bg-black border border-white/10 p-5 sm:p-6 rounded-3xl text-center shadow-lg hover:border-green-500/20 transition-all duration-300">
           <p className="text-green-400 text-sm sm:text-base font-semibold"> Total CO₂</p>
-          <h2 className="mt-3 text-3xl sm:text-5xl lg:text-6xl text-green-200 font-bold break-words">{Math.round(totalCO2).toLocaleString()} kg</h2>
+          <h2 className="mt-3 text-3xl sm:text-5xl lg:text-6xl text-green-200 font-bold break-words">{Math.round(totalCO2).toLocaleString()}</h2>
+         <p className="text-gray-400 mt-2">kg CO₂</p>
         </div>
-        <div className="bg-black p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center">
-          <p className="text-green-400 font-semibold mb-4 text-sm sm:text-base">EcoScore</p>
+        <div className="bg-black border border-white/10 p-5 sm:p-6 rounded-3xl flex flex-col items-center justify-center shadow-lg hover:border-green-500/20 transition-all duration-300">
+          <p className="text-green-400 font-semibold mb-4 text-sm sm:text-base">Eco Score</p>
           <EcoScore score={ecoScore} />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6">
         <TodayCarbonCard total={todayCO2} />
         <SmartEmissionCard />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6">
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6">
         <MonthlyLineChart />
         <DailyBarChart />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="bg-black p-4 rounded-xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6 pb-16">
+        <div className="bg-black border border-white/10 p-5 rounded-3xl shadow-lg">
           <EmissionBreakdown total={totalCO2} />
         </div>
         <div className="w-full" >
@@ -77,7 +82,7 @@ export default function FighterDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6 pb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-6 pb-16">
         <GlobalImpact total={totalCO2} impact={impact} />
         <AdvancedPDF />
       </div>

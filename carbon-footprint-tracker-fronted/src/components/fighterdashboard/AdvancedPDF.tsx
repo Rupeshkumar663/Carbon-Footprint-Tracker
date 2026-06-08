@@ -23,9 +23,12 @@ const AdvancedPDF:React.FC=()=>{
     }
   };
 
-  useEffect(()=>{
-    fetchData();
-  },[]);
+    useEffect(()=>{
+      const loadData=async()=>{
+       await fetchData();
+    };
+     loadData();
+    },[]);
 
   const getBadge=()=>{
     if(score>=85) 
@@ -37,15 +40,15 @@ const AdvancedPDF:React.FC=()=>{
     return "High Impact";
   };
 
-  const getSuggestion=()=>{
-    if(score>=85)
-       return "Excellent performance. Maintain eco-friendly habits.";
-    if(score>=60) 
-      return "Good performance. Try reducing premium class fighter jets.";
-    if(score>=40) 
-      return "Moderate emissions. Consider fewer or direct fighter jets.";
-    return "High emissions. Consider alternatives like trains or offsets.";
-  };
+   const getSuggestion=()=>{
+   if(score>=85)
+     return "Excellent efficiency. Current fighter jet operations show optimized carbon performance.";
+   if(score>=60)
+     return "Good efficiency. Consider reducing mission duration and optimizing fuel usage.";
+   if(score>=40)
+    return "Moderate emissions detected. Review mission planning and operational efficiency.";
+   return "High carbon impact detected. Consider fuel optimization and mission efficiency improvements.";
+ };
 
   const downloadPDF=async()=>{
     try {
@@ -57,7 +60,7 @@ const AdvancedPDF:React.FC=()=>{
       const imgWidth=190;
       const imgHeight=(canvas.height*imgWidth)/canvas.width;
       pdf.addImage(imgData,"PNG",10,10,imgWidth,imgHeight);
-      pdf.save("carbon-report.pdf");
+      pdf.save("fighter-jet-carbon-report.pdf");
     } catch(error){
       console.log("PDF error:",error);
     }
@@ -68,9 +71,9 @@ const AdvancedPDF:React.FC=()=>{
       <motion.div
         initial={{ opacity:0,y:10 }}
         animate={{ opacity:1,y:0 }}
-        className="w-full max-w-3xl mx-auto p-6 sm:p-25 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
+        className="w-full max-w-3xl mx-auto p-6 sm:p-10 rounded-2xl bg-black border border-white/10 text-center shadow-lg">
         <p className="text-green-400 font-semibold mb-4">Generate Carbon Report</p>
-        <button onClick={downloadPDF} className="px-6 py-2 rounded-lg bg-green-400 hover:bg-green-500 text-black font-semibold">Download PDF</button>
+        <button onClick={downloadPDF} className="px-6 py-3 rounded-xl bg-green-400 hover:bg-green-500 text-black font-semibold transition-all duration-300 hover:scale-105">Download PDF</button>
       </motion.div>
       <div
         ref={pdfRef}
@@ -86,13 +89,14 @@ const AdvancedPDF:React.FC=()=>{
         }}
       >
         <div style={{ textAlign:"center",marginBottom:"20px" }}>
-          <h1 style={{ fontSize:"24px" }}>🌍 Carbon Emission Report</h1>
+          <h1 style={{ fontSize:"24px" }}>Fighter Jet Carbon Emission Report</h1>
           <p style={{ fontSize:"12px",color:"gray" }}>Generated on {new Date().toLocaleDateString()}</p>
         </div>
 
         <div style={{ marginBottom:"20px" }}>
           <h3>User Information</h3>
           <p><strong>Name:</strong> {userData?.name || "User"}</p>
+          <p><strong>Report Type:</strong> Fighter Jet Sustainability Report</p>
         </div>
         <div style={{ marginBottom:"20px"}}>
           <h3>Emission Summary</h3>
