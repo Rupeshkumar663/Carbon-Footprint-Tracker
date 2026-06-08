@@ -50,8 +50,8 @@ export default function FighterDashboard() {
     <div className="min-h-screen bg-gray-900 text-white w-full">
       <Navbar variant="fighterdashboard" />
       <div className="px-4 sm:px-6 lg:px-8 mt-6">
-        <h1 className="text-2xl sm:text-4xl font-bold">Fighter Jet Analytics Dashboard</h1>
-        <p className="text-gray-400 mt-2 max-w-2xl">Monitor fighter jet emissions, environmental impact and sustainability metrics.</p>
+        <h1 className="text-2xl text-green-400 sm:text-4xl font-bold">Fighter Jet Analytics Dashboard</h1>
+        <p className="text-green-200 mt-2 max-w-2xl">Monitor fighter jet emissions, environmental impact and sustainability metrics.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8 mt-5">
         <div className="bg-black border border-white/10 p-5 sm:p-6 rounded-3xl text-center shadow-lg hover:border-green-500/20 transition-all duration-300">
