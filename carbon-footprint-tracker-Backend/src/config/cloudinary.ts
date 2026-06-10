@@ -13,7 +13,9 @@ const uploadOnCloudinary=async(filePath:string):Promise<string | null>=>{
     const uploadResult=await cloudinary.uploader.upload(filePath,{
       resource_type:"image",
     });
-   
+    console.log("UPLOAD RESULT:", uploadResult);
+    console.log("PUBLIC ID:", uploadResult.public_id);
+    console.log("SECURE URL:", uploadResult.secure_url);
     if(fs.existsSync(filePath)){
       fs.unlinkSync(filePath);
     }
